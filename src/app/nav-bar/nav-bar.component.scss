@@ -1,9 +1,5 @@
 .main-nav-list {
   list-style: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
 
   .logo-container {
     display: flex;
@@ -15,16 +11,14 @@
     flex-direction: row;
     align-items: center;
     gap: 2em;
-    margin-right: 3em;
   }
 }
 
 .logo-img {
-  background-image: url(./logo.svg);
+  background-image: url(./logotwo.svg);
   width: 85px;
   height: 85px;
-  margin-left: 4em;
-  // margin-top: 0.5em;
+  cursor: pointer;
 }
 
 ul {
@@ -71,4 +65,30 @@ a {
 }
 button:hover {
   transform: scale(1);
+}
+
+@media screen and (max-width: 760px) {
+  .main-nav-list {
+    margin-left: 2em;
+    display: flex;
+    gap: 35em;
+  }
+  .about-menu,
+  .login-menu,
+  .logo-name {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 760px) {
+  .main-nav-list {
+    margin-left: 3em;
+    margin-right: 3em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .burger-menu {
+    display: none;
+  }
 }

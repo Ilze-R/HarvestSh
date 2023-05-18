@@ -1,31 +1,61 @@
-<div class="container">
-  <nav class="main-nav">
-    <ul class="main-nav-list">
-      <div class="logo-container">
-        <div>
-          <li>
-            <img src="./logo.svg" alt="" class="logo-img" />
-          </li>
-        </div>
-        <div>
-          <li>
-            <a class="logo" href="#">Harvest Share</a>
-          </li>
-        </div>
+<nav class="main-nav">
+  <ul class="main-nav-list">
+    <div class="logo-container">
+      <div>
+        <li>
+          <img
+            [routerLink]="['/home']"
+            routerLinkActive="active-link"
+            alt=""
+            src="./logotwo.svg"
+            class="logo-img"
+          />
+        </li>
       </div>
-      <div class="about-login-container">
-        <div>
-          <li class="li-rote">
-            <!-- <a [routerLink]="['/about']" routerLinkActive="active-link">About</a> -->
-            <a href="#">About</a>
-          </li>
-        </div>
-        <div>
-          <li class="li-rote">
-            <button class="btn-login">Login</button>
-          </li>
-        </div>
+      <div class="logo-name">
+        <li>
+          <a
+            [routerLink]="['/home']"
+            routerLinkActive="active-link"
+            class="logo"
+            >Harvest Share</a
+          >
+        </li>
       </div>
-    </ul>
-  </nav>
-</div>
+    </div>
+    <div class="about-login-container">
+      <div class="about-menu">
+        <li class="li-rote">
+          <!-- <a [routerLink]="['/about']" routerLinkActive="active-link">About</a> -->
+          <a [routerLink]="['/about']" routerLinkActive="active-link">About</a>
+        </li>
+      </div>
+      <div class="login-menu">
+        <li class="li-rote">
+          <button
+            [routerLink]="['/login']"
+            routerLinkActive="active-link"
+            class="btn-login"
+          >
+            Login
+          </button>
+        </li>
+      </div>
+      <div class="burger-menu">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="25"
+          height="25"
+          fill="currentColor"
+          class="bi bi-list"
+          viewBox="0 0 16 16"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+          />
+        </svg>
+      </div>
+    </div>
+  </ul>
+</nav>
