@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  // text-align: center;
+  color: black;
+}
+
+.img {
+  margin-top: 3em;
+  margin-left: 3em;
+}
+.center-one {
+  position: absolute;
+  top: 36%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  font-size: 30px;
+}
+.center-two {
+  position: absolute;
+  top: 50%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+  text-transform: uppercase;
+  font-size: 30px;
+  padding-bottom: 2em;
+}
+
+.about-container {
+  margin-top: 3em;
+}
