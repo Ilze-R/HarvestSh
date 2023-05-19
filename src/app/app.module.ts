@@ -9,6 +9,8 @@ import { AboutComponent } from './about/about.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
+import { GiveComponent } from './give/give.component';
+import { GetComponent } from './get/get.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { RouterModule } from '@angular/router';
     NavBarComponent,
     AboutComponent,
     LoginComponent,
+    GiveComponent,
+    GetComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, RouterModule, NgbModule],
   providers: [],

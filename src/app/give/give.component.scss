@@ -1,0 +1,29 @@
+h3 {
+  text-align: center;
+  font-weight: 400;
+  font-size: 20px;
+}
+#subtitle {
+  padding-top: 1em;
+  font-size: 15px;
+}
+
+.info-container {
+  padding-top: 5em;
+  // display: flex;
+  // gap: 3em;
+  // justify-content: center;
+  .creat-account-wrap {
+    display: flex;
+    gap: 3em;
+    justify-content: center;
+    align-items: center;
+    img {
+      background-image: url();
+      width: 30em;
+      height: 20em;
+      filter: saturate(1);
+      border-radius: 20px;
+    }
+  }
+}

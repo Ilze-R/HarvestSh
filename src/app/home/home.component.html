@@ -1,20 +1,50 @@
 <app-nav-bar></app-nav-bar>
 <div class="container">
-  <img
-    class="img"
-    src="https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8N3xHSzBSdkdMZlJnY3x8ZW58MHx8fHx8&auto=format&fit=crop&w=700&q=60"
-    alt=""
-  />
-  <p class="center-one">2023 Harvest Share</p>
-  <p class="center-two">
-    Let's come together and make a difference through the 2023 harvest share.
-    Your contributions will not only feed those in need but also promote
-    sustainability and a more mindful approach to our food consumption.
-  </p>
+  <div>
+    <img
+      class="img"
+      src="https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8N3xHSzBSdkdMZlJnY3x8ZW58MHx8fHx8&auto=format&fit=crop&w=700&q=60"
+      alt=""
+    />
+  </div>
+  <div class="home-text-container">
+    <div>
+      <p class="title"><span class="title-span">2023</span> Harvest Share</p>
+      <p class="description">
+        Let's come together and make a difference through the 2023 harvest
+        share. Your contributions will not only
+        <span class="key-words">feed</span> those in need but also promote
+        <span class="key-words">sustainability</span> and a more mindful
+        approach to our food <span class="key-words">consumption</span>.
+      </p>
+    </div>
+    <div class="give-get">
+      <button
+        class="give"
+        [routerLink]="['/give']"
+        routerLinkActive="active-link"
+      >
+        Give
+      </button>
+      <button
+        class="get"
+        [routerLink]="['/get']"
+        routerLinkActive="active-link"
+      >
+        Get
+      </button>
+    </div>
+  </div>
 </div>
-<div class="info-container">
-  <p>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum eos ducimus
-    voluptatum quos aliquid, nulla culpa dolorem repellendus. Fuga, suscipit.
-  </p>
+<div class="info-container"></div>
+<div class="circle">
+  <span>2</span>
+  <span>0</span>
+  <span>2</span>
+  <span>3</span>
+  <span>*</span>
+  <span>2</span>
+  <span>0</span>
+  <span>2</span>
+  <span>3</span>
 </div>
