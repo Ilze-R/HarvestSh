@@ -1,29 +1,117 @@
-h3 {
-  text-align: center;
-  font-weight: 400;
-  font-size: 20px;
+.container {
+  margin-top: 4em;
+  h3,
+  .register-link {
+    text-align: left;
+    margin-left: 5em;
+    font-weight: 400;
+    font-size: 18px;
+  }
+  .register-link {
+    color: #a45399;
+  }
 }
 #subtitle {
-  padding-top: 1em;
-  font-size: 15px;
+  font-weight: 500;
 }
 
-.info-container {
-  padding-top: 5em;
-  // display: flex;
-  // gap: 3em;
-  // justify-content: center;
-  .creat-account-wrap {
-    display: flex;
-    gap: 3em;
-    justify-content: center;
-    align-items: center;
-    img {
-      background-image: url();
-      width: 30em;
-      height: 20em;
-      filter: saturate(1);
-      border-radius: 20px;
-    }
+.location-info {
+  width: 5em;
+}
+
+ul {
+  margin-top: 6em;
+  list-style-type: none;
+}
+
+ul li div {
+  width: 50%;
+  float: left;
+  text-align: center;
+  background: #fff;
+}
+
+ul li .first {
+  border-right: 0.5px solid #000;
+  height: 13.5em;
+  position: relative;
+}
+
+.first {
+  padding: 0 !important;
+}
+ul li .first::after {
+  position: absolute;
+  bottom: 12em;
+  right: -19.5px;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  border: 0.5px solid #000;
+  background: inherit;
+  padding-top: 0.5em;
+}
+.one::after {
+  content: "1";
+}
+.two::after {
+  content: "2";
+}
+.three::after {
+  content: "3";
+}
+.three {
+  border-right: none !important;
+}
+
+.info-text {
+  position: relative;
+  bottom: 3.5em;
+}
+.title {
+  font-weight: 600;
+}
+
+.description {
+  font-weight: 300;
+  font-size: 14px;
+}
+.second {
+  text-align: left !important;
+  padding: 3.2em;
+}
+.img {
+  margin-top: 0.5em;
+  width: 18em;
+  height: 10em;
+  border-radius: 5px;
+  // filter: brightness(1.3) saturate(90%);
+  // filter: grayscale(100%);
+  // -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  // filter: grayscale(100%);
+  // filter: brightness(3);
+  // filter: contrast(10%);
+  // filter: saturate(0.1);
+}
+
+@media screen and (max-width: 1200px) {
+  ul li .first {
+    height: 14.5em;
+  }
+  ul li .first::after {
+    bottom: 13em;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  ul li .first {
+    height: 17.5em;
+  }
+  ul li .first::after {
+    bottom: 15.5em;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .first {
   }
 }
