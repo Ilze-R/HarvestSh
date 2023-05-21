@@ -7,10 +7,11 @@ import { HomeComponent } from './home/home.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { AboutComponent } from './about/about.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './log-reg/login/login.component';
 import { RouterModule } from '@angular/router';
-import { GiveComponent } from './give/give.component';
-import { GetComponent } from './get/get.component';
+import { GiveComponent } from './give-get/give/give.component';
+import { GetComponent } from './give-get/get/get.component';
+import { RegisterComponent } from './log-reg/register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { GetComponent } from './get/get.component';
     LoginComponent,
     GiveComponent,
     GetComponent,
+    RegisterComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, RouterModule, NgbModule],
   providers: [],

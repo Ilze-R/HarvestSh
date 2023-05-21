@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 20em;
+  margin-top: 3em;
+  .close {
+    align-self: flex-end;
+    color: #005d96;
+  }
+  .input-wrap {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+  }
+  label {
+    font-size: 14px;
+    color: #394b41;
+    margin: 0;
+  }
+  input {
+    padding: 0.5em;
+    border: 0.8px solid #1e5e43;
+    border-radius: 5px;
+  }
+}

@@ -1,0 +1,122 @@
+.container {
+  margin-top: 3em;
+  h3,
+  .register-link {
+    text-align: left;
+    margin-left: 5em;
+    font-weight: 400;
+    font-size: 18px;
+  }
+  .register-link {
+    color: #a45399;
+  }
+}
+#subtitle {
+  font-weight: 500;
+}
+
+.location-info {
+  width: 1em;
+}
+
+ul {
+  margin-top: 3.5em;
+  list-style-type: none;
+}
+
+ul li div {
+  width: 50%;
+  float: left;
+  text-align: center;
+  background: #fff;
+}
+
+ul li .first {
+  border-right: 0.5px solid #000;
+  height: 13.5em;
+  position: relative;
+  text-align: right;
+  padding-right: 4em;
+}
+
+// .first {
+//   // padding: 0 !important;
+// }
+
+ul li .first::after {
+  position: absolute;
+  bottom: 12em;
+  right: -19.5px;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 50%;
+  border: 0.5px solid #000;
+  background: inherit;
+  padding-top: 0.5em;
+  padding-right: 0.9em;
+}
+.one::after {
+  content: "1";
+  padding-right: 1em !important;
+}
+.two::after {
+  content: "2";
+}
+.three::after {
+  content: "3";
+}
+.three {
+  border-right: none !important;
+}
+
+.info-text {
+  position: relative;
+  bottom: 3.5em;
+}
+.title {
+  font-weight: 600;
+}
+
+.description {
+  font-weight: 300;
+  font-size: 14px;
+}
+.second {
+  text-align: left !important;
+  padding: 3.2em;
+}
+.img {
+  margin-top: 0.2em;
+  width: 18em;
+  height: 10em;
+  border-radius: 5px;
+  box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px,
+    rgba(17, 17, 26, 0.1) 0px 24px 80px;
+  // filter: brightness(1.3) saturate(90%);
+  // filter: grayscale(100%);
+  // -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  // filter: grayscale(100%);
+  // filter: brightness(3);
+  // filter: contrast(10%);
+  // filter: saturate(0.1);
+}
+
+@media screen and (max-width: 1200px) {
+  ul li .first {
+    height: 14.5em;
+  }
+  ul li .first::after {
+    bottom: 13em;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  ul li .first {
+    height: 17.5em;
+  }
+  ul li .first::after {
+    bottom: 15.5em;
+  }
+}
+@media screen and (min-width: 1200px) {
+}

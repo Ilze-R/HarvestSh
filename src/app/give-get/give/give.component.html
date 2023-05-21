@@ -1,6 +1,11 @@
 <app-nav-bar></app-nav-bar>
 <div class="container">
-  <a class="register-link" href="#">REGISTER</a>
+  <a
+    class="register-link"
+    [routerLink]="['/register']"
+    routerLinkActive="active-link"
+    >REGISTER</a
+  >
   <!-- <h3>How can i give harvest?</h3> -->
   <!-- <h3 id="subtitle">
     Do you have homegrown fruits and/or vegetables to share?
@@ -14,11 +19,6 @@
           src="https://images.unsplash.com/photo-1609843025783-6a66a8f45e0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHNwcm91dHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
           alt=""
         />
-        <!-- <img
-          class="img"
-          src="https://images.unsplash.com/photo-1649058799638-e841b3ad7ae1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTY0fHxzZWVkbGluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
-          alt=""
-        /> -->
       </div>
       <div class="second">
         <p class="info-text title">Create an account</p>
