@@ -21,6 +21,7 @@ import { UnauthorizedComponent } from './error-pages/unauthorized/unauthorized.c
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
