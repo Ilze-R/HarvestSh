@@ -5,10 +5,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { User } from '../_models/user.model';
-import { HomeComponent } from '../home/home.component';
 import { SharedService } from '../_services/shared.service';
 
 @Component({
@@ -21,26 +19,20 @@ export class NavBarComponent implements OnInit {
   user: User = new User();
 
   constructor(
-    private router: Router,
     private authService: AuthenticationService,
     private sharedService: SharedService
   ) {}
 
   ngOnInit(): void {
-    this.authService.loggedUser.subscribe((res) => {
-      if (res) {
-        this.isLoggedIn = true;
-      } else {
-        this.isLoggedIn = false;
-      }
+    this.authService.currentUser$.subscribe((user) => {
+      this.isLoggedIn = !!user;
+      this.sharedService.showLoginComponent = false;
     });
   }
 
   logout() {
     this.authService.logout();
-    // this.router.navigate(['']);
     this.isLoggedIn = false;
-    // location.reload();
   }
 
   showLogin() {
