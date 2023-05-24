@@ -12,6 +12,15 @@ import { RouterModule } from '@angular/router';
 import { GiveComponent } from './give-get/give/give.component';
 import { GetComponent } from './give-get/get/get.component';
 import { RegisterComponent } from './log-reg/register/register.component';
+import { FooterComponent } from './footer/footer.component';
+import { IncrementCounterComponent } from './increment-counter/increment-counter.component';
+import { GetDashboardComponent } from './get-dashboard/get-dashboard.component';
+import { GiveDashboardComponent } from './give-dashboard/give-dashboard.component';
+import { NotFoundComponent } from './error-pages/not-found/not-found.component';
+import { UnauthorizedComponent } from './error-pages/unauthorized/unauthorized.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,8 +32,23 @@ import { RegisterComponent } from './log-reg/register/register.component';
     GiveComponent,
     GetComponent,
     RegisterComponent,
+    FooterComponent,
+    IncrementCounterComponent,
+    GetDashboardComponent,
+    GiveDashboardComponent,
+    NotFoundComponent,
+    UnauthorizedComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, RouterModule, NgbModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    RouterModule,
+    NgbModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

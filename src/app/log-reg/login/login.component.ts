@@ -1,15 +1,60 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { User } from 'src/app/_models/user.model';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { SharedService } from 'src/app/_services/shared.service';
+
+const fb = new FormBuilder();
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+  user: User = new User();
+  errorMessage: string = '';
 
-  constructor() { }
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router,
+    public sharedService: SharedService
+  ) {}
+
+  loginForm = fb.group({
+    username: ['', Validators.required],
+    password: ['', Validators.required],
+  });
 
   ngOnInit(): void {
+    if (this.authService.currentUserValue?.id) {
+      this.router.navigate(['/give-dashboard']);
+      // location.reload();
+    }
   }
 
+  exit() {
+    this.sharedService.showLoginComponent = false;
+  }
+
+  login() {
+    if (this.loginForm.valid) {
+      const username = this.loginForm.get('username')?.value;
+      const password = this.loginForm.get('password')?.value;
+      this.user.username = username;
+      this.user.password = password;
+      this.authService.login(this.user).subscribe(
+        (data) => {
+          this.router.navigate(['/give-dashboard']);
+          // location.reload();
+        },
+        (err) => {
+          this.errorMessage = 'Username or password is incorrect.';
+          console.log(err);
+        }
+      );
+    }
+  }
 }

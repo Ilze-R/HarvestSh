@@ -1,11 +1,26 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  width: 20em;
-  margin-top: 3em;
+  position: absolute;
+  width: 30em;
+  margin-top: 7em;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  border: solid 0.5px #1e5e43;
+  background-color: white;
+  padding: 3em 8em 6em 8em;
+  justify-content: center;
   .close {
-    align-self: flex-end;
     color: #005d96;
+    top: 0;
+    right: 0;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    padding: 0.7em;
+  }
+  form {
+    text-align: center;
   }
   .input-wrap {
     display: flex;
@@ -16,10 +31,33 @@
     font-size: 14px;
     color: #394b41;
     margin: 0;
+    text-align: left;
   }
   input {
     padding: 0.5em;
     border: 0.8px solid #1e5e43;
     border-radius: 5px;
   }
+  .btn-signin {
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.8em;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 35px;
+    transition: all 0.4s ease-in-out;
+    color: #4e4b93;
+    background-color: #fff;
+    border: 0.8px solid #4e4b93;
+    margin-top: 1em;
+  }
+  .btn-signin:hover {
+    background-color: #4e4b93;
+    color: white;
+  }
+}
+
+input {
+  width: 15em;
 }

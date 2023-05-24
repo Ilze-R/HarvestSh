@@ -1,11 +1,20 @@
-<app-nav-bar></app-nav-bar>
+<!-- <app-nav-bar></app-nav-bar> -->
 <div class="container">
-  <form action="submit"></form>
-  <span [routerLink]="['/']" href="#" class="close"
+  <span
+    [routerLink]="
+      sharedService.fromGiveComponent
+        ? ['/give']
+        : sharedService.fromHomeComponent
+        ? ['']
+        : ['/get']
+    "
+    href="#"
+    class="close"
+    (click)="exit()"
     ><svg
       xmlns="http://www.w3.org/2000/svg"
-      width="25"
-      height="25"
+      width="35"
+      height="35"
       fill="currentColor"
       class="bi bi-x"
       viewBox="0 0 16 16"
@@ -14,12 +23,42 @@
         d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
       /></svg
   ></span>
-  <div class="input-wrap">
-    <label for="username">Username</label>
-    <input type="text" />
-  </div>
-  <div class="input-wrap">
-    <label for="password">Password</label>
-    <input type="text" name="" id="" />
-  </div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="input-wrap">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" formControlName="username" />
+    </div>
+    <div class="input-wrap">
+      <label for="password">Password</label>
+      <input type="password" formControlName="password" class="form-control" />
+    </div>
+    <button class="btn-signin" type="submit">Sign In</button>
+  </form>
+  <!-- <form #f="ngForm" (ngSubmit)="f.form.valid && login()">
+    <div class="input-wrap">
+      <label for="username">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="user.username"
+        #username="ngModel"
+        class="form-control"
+        required
+      />
+    </div>
+    <div class="input-wrap">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        [(ngModel)]="user.password"
+        #password="ngModel"
+        class="form-control"
+        required
+      />
+    </div>
+    <button class="btn-signin" type="submit">Sign In</button>
+  </form> -->
 </div>
