@@ -29,14 +29,25 @@
           <a [routerLink]="['/about']" routerLinkActive="active-link">About</a>
         </li>
       </div>
-      <div class="login-menu">
+      <div class="dashboard-menu" *ngIf="isLoggedIn">
         <li class="li-rote">
+          <a [routerLink]="['/give-dashboard']" routerLinkActive="active-link"
+            >Profile</a
+          >
+        </li>
+      </div>
+      <div class="login-menu">
+        <li class="li-rote" *ngIf="!isLoggedIn">
+          <button class="btn-login" (click)="showLogin()">Login</button>
+        </li>
+        <li class="li-rote" *ngIf="isLoggedIn">
           <button
-            [routerLink]="['/login']"
+            [routerLink]="['/home']"
             routerLinkActive="active-link"
             class="btn-login"
+            (click)="logout()"
           >
-            Login
+            Logout
           </button>
         </li>
       </div>

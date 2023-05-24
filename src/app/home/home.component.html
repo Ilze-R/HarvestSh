@@ -1,39 +1,70 @@
-<app-nav-bar></app-nav-bar>
-<div class="container">
-  <div>
-    <img
-      class="img"
-      src="https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8N3xHSzBSdkdMZlJnY3x8ZW58MHx8fHx8&auto=format&fit=crop&w=700&q=60"
-      alt=""
-    />
-  </div>
-  <div class="home-text-container">
-    <div>
-      <p class="title"><span class="title-span">2023</span> Harvest Share</p>
-      <p class="description">
-        Let's come together and make a difference through the 2023 harvest
-        share. Your contributions will not only
-        <span class="key-words">feed</span> those in need but also promote
-        <span class="key-words">sustainability</span> and a more mindful
-        approach to our food <span class="key-words">consumption</span>.
+<div>
+  <app-nav-bar [class.blur]="sharedService.showLoginComponent"></app-nav-bar>
+  <app-login *ngIf="sharedService.showLoginComponent"></app-login>
+  <div class="footer-wrap" [class.blur]="sharedService.showLoginComponent">
+    <div class="background-container">
+      <div class="container">
+        <div>
+          <img
+            class="img"
+            src="https://images.unsplash.com/photo-1516253593875-bd7ba052fbc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8N3xHSzBSdkdMZlJnY3x8ZW58MHx8fHx8&auto=format&fit=crop&w=700&q=60"
+            alt=""
+          />
+        </div>
+        <div class="home-text-container">
+          <div>
+            <p class="title">
+              <span class="title-span">2023</span> Harvest Share
+            </p>
+            <p class="description">
+              Let's come together and make a difference through the 2023 harvest
+              share. Your contributions will not only
+              <span class="key-words">feed</span> those in need but also promote
+              <span class="key-words">sustainability</span> and a more mindful
+              approach to our food <span class="key-words">consumption</span>.
+            </p>
+          </div>
+          <div class="give-get">
+            <button
+              class="give"
+              [routerLink]="['/give']"
+              routerLinkActive="active-link"
+            >
+              Give
+            </button>
+            <button
+              class="get"
+              [routerLink]="['/get']"
+              routerLinkActive="active-link"
+            >
+              Get
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="info-container">
+      <p>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure explicabo
+        fugit dolor. Quo, non aut exercitationem perferendis quidem, aliquid
+        repudiandae dignissimos, quis officia nemo adipisci omnis repellendus
+        consectetur ipsum modi iure sapiente ad numquam qui tempore. Praesentium
+        consectetur possimus nisi nobis omnis natus, odio at nemo eos velit?
+        Neque, at? Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+        Debitis corrupti adipisci vel nobis perferendis asperiores, quos in
+        distinctio aspernatur ratione numquam molestias ipsa illo qui aperiam
+        officiis accusamus veritatis hic commodi ipsum rerum nihil maxime?
+        Cumque totam corporis repellat quis iusto officia porro necessitatibus
+        vitae consectetur molestiae! Natus cumque autem doloremque minus
+        repudiandae odio nisi ducimus est voluptas eos, in, quis similique
+        expedita eligendi voluptates deleniti accusantium maiores fugiat non
+        debitis tempora culpa asperiores! Dolor et aspernatur repellat.
+        Voluptatibus neque modi distinctio saepe minima quis nam fuga adipisci
+        vitae impedit vel dolorem quibusdam voluptate, id excepturi officiis
+        reiciendis dicta non.
       </p>
+      <app-increment-counter></app-increment-counter>
     </div>
-    <div class="give-get">
-      <button
-        class="give"
-        [routerLink]="['/give']"
-        routerLinkActive="active-link"
-      >
-        Give
-      </button>
-      <button
-        class="get"
-        [routerLink]="['/get']"
-        routerLinkActive="active-link"
-      >
-        Get
-      </button>
-    </div>
+    <app-footer></app-footer>
   </div>
 </div>
-<div class="info-container"></div>
