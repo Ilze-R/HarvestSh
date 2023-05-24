@@ -1,5 +1,6 @@
 .container {
   margin-top: 3em;
+  position: relative;
   h3,
   .register-link {
     text-align: left;
@@ -111,6 +112,10 @@ ul li .first::after {
   -webkit-box-shadow: 77px -58px 87px -48px rgba(255, 214, 136, 1);
   -moz-box-shadow: 77px -58px 87px -48px rgba(255, 214, 136, 1);
   box-shadow: 77px -58px 87px -48px rgba(255, 214, 136, 1);
+}
+
+.blur {
+  filter: blur(2px) opacity(0.2);
 }
 
 @media screen and (max-width: 1200px) {

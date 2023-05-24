@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { User } from '../_models/user.model';
+import { HomeComponent } from '../home/home.component';
+import { SharedService } from '../_services/shared.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,7 +17,33 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent implements OnInit {
-  constructor(private router: Router) {}
+  isLoggedIn = false;
+  user: User = new User();
 
-  ngOnInit(): void {}
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService,
+    private sharedService: SharedService
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.loggedUser.subscribe((res) => {
+      if (res) {
+        this.isLoggedIn = true;
+      } else {
+        this.isLoggedIn = false;
+      }
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+    // this.router.navigate(['']);
+    this.isLoggedIn = false;
+    // location.reload();
+  }
+
+  showLogin() {
+    this.sharedService.showLoginComponent = true;
+  }
 }

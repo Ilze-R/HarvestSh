@@ -1,15 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { SharedService } from 'src/app/_services/shared.service';
 
 @Component({
   selector: 'app-give',
   templateUrl: './give.component.html',
-  styleUrls: ['./give.component.scss']
+  styleUrls: ['./give.component.scss'],
 })
 export class GiveComponent implements OnInit {
-
-  constructor() { }
+  constructor(public sharedService: SharedService) {}
 
   ngOnInit(): void {
+    this.sharedService.fromHomeComponent = false;
   }
 
+  showRegister() {
+    this.sharedService.showRegisterComponent = true;
+    this.sharedService.fromGiveComponent = true;
+    this.sharedService.fromHomeComponent = false;
+  }
 }
