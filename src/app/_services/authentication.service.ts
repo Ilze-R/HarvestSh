@@ -12,23 +12,23 @@ const API_URL = environment.BASE_URL + '/api/authentication';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  public currentUser: Observable<User>;
-  private currentUserSubject: BehaviorSubject<User>;
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser$: Observable<User | null>;
   private isLoggedIn = new BehaviorSubject<boolean>(this.userIsLoggedIn());
   public loggedUser = this.isLoggedIn.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
-    let storageUser;
+    let storageUser: User | null = null;
     const storageUserAsStr = localStorage.getItem('currentUser');
     if (storageUserAsStr) {
       storageUser = JSON.parse(storageUserAsStr);
     }
-    this.currentUserSubject = new BehaviorSubject<User>(storageUser);
-    this.currentUser = this.currentUserSubject.asObservable();
+    this.currentUserSubject = new BehaviorSubject<User | null>(storageUser);
+    this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue(): User {
-    return this.currentUserSubject.value;
+    return this.currentUserSubject.value!;
   }
 
   setSessionUser(user: User) {
@@ -38,9 +38,10 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(new User());
+    this.currentUserSubject.next(null);
+    console.log('shbdhsbsAAAAA');
     this.router.navigate(['/']);
-    // this.currentUserSubject.next(null);
+    console.log('loggin out');
   }
 
   login(user: User): Observable<any> {
