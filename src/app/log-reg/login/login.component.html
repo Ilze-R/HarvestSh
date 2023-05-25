@@ -31,7 +31,16 @@
     <div class="input-wrap">
       <label for="password">Password</label>
       <input type="password" formControlName="password" class="form-control" />
+      <mat-error *ngIf="loginForm.hasError('wrongCredentials')">
+        Incorrect username or password.
+      </mat-error>
     </div>
     <button class="btn-signin" type="submit">Sign In</button>
   </form>
+  <div class="link-container">
+    <a href="#">Forgot password?</a>
+    <a [routerLink]="['/register']" routerLinkActive="active-link"
+      >Create an account</a
+    >
+  </div>
 </div>
