@@ -20,6 +20,11 @@
     <div class="input-wrap">
       <label for="username">Username</label>
       <input type="text" class="form-control" formControlName="username" />
+      <mat-error
+        *ngIf="registerForm.get('username')?.hasError('usernameExists')"
+      >
+        Username already exists
+      </mat-error>
     </div>
     <div class="input-wrap">
       <label for="email">Email</label>
@@ -38,6 +43,9 @@
         "
         >Invalid email address
       </mat-error>
+      <mat-error *ngIf="registerForm.get('email')?.hasError('emailExists')">
+        Email already exists
+      </mat-error>
     </div>
     <div class="input-wrap">
       <label for="password">Password</label>
@@ -45,43 +53,9 @@
     </div>
     <button class="btn-signup" type="submit">Sign up</button>
   </form>
-  <!-- <form #f="ngForm" (ngSubmit)="f.form.valid && register()">
-    <div class="input-wrap">
-      <label for="username">Username</label>
-      <input
-        type="text"
-        id="username"
-        class="form-control"
-        name="username"
-        [(ngModel)]="user.username"
-        #username="ngModel"
-        required
-      />
-    </div>
-    <div class="input-wrap">
-      <label for="email">Email</label>
-      <input
-        type="text"
-        id="email"
-        class="form-control"
-        name="email"
-        [(ngModel)]="user.email"
-        #email="ngModel"
-        required
-      />
-    </div>
-    <div class="input-wrap">
-      <label for="password">Password</label>
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        name="password"
-        [(ngModel)]="user.password"
-        #password="ngModel"
-        required
-      />
-    </div>
-    <button class="btn-signup" type="submit">Sign up</button>
-  </form> -->
+  <div class="login-link">
+    <a [routerLink]="['/login']" routerLinkActive="active-link"
+      >Already have an account?</a
+    >
+  </div>
 </div>

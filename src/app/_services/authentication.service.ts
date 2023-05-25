@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user.model';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 const API_URL = environment.BASE_URL + '/api/authentication';
@@ -39,9 +39,7 @@ export class AuthenticationService {
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    console.log('shbdhsbsAAAAA');
     this.router.navigate(['/']);
-    console.log('loggin out');
   }
 
   login(user: User): Observable<any> {
@@ -60,13 +58,21 @@ export class AuthenticationService {
 
   register(user: User): Observable<any> {
     return this.http.post<User>(API_URL + '/sign-up', user).pipe(
-      map((res) => {
+      switchMap((res) => {
         if (res) {
           this.setSessionUser(res);
+          return of(res);
         } else {
-          return false;
+          return throwError('Registration failed');
         }
-        return res;
+      }),
+      catchError((error) => {
+        if (error instanceof HttpErrorResponse && error.status === 400) {
+          if (error.error && error.error.message) {
+            return throwError(error.error.message);
+          }
+        }
+        return throwError('Registration failed');
       })
     );
   }

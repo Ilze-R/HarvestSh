@@ -47,11 +47,16 @@ export class LoginComponent implements OnInit {
       this.user.password = password;
       this.authService.login(this.user).subscribe(
         (data) => {
+          console.log('sign in pushed');
           this.router.navigate(['/give-dashboard']);
           // location.reload();
         },
         (err) => {
-          this.errorMessage = 'Username or password is incorrect.';
+          if (err.status === 403) {
+            this.loginForm.setErrors({ wrongCredentials: true });
+          } else {
+            this.errorMessage = 'An error occurred during login.';
+          }
           console.log(err);
         }
       );

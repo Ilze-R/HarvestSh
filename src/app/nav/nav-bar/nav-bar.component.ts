@@ -5,9 +5,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { User } from 'src/app/_models/user.model';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
-import { User } from '../_models/user.model';
-import { SharedService } from '../_services/shared.service';
+import { SharedService } from 'src/app/_services/shared.service';
 
 @Component({
   selector: 'app-nav-bar',

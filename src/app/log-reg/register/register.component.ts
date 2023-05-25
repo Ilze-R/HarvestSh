@@ -54,6 +54,14 @@ export class RegisterComponent implements OnInit {
         (err) => {
           if (err?.status === 409) {
             this.errorMessage = 'Username already exist.';
+          }
+          if (err === 'Email already exists') {
+            this.registerForm.get('email')?.setErrors({ emailExists: true });
+          }
+          if (err === 'Username already exists') {
+            this.registerForm
+              .get('username')
+              ?.setErrors({ usernameExists: true });
           } else {
             this.errorMessage = 'Unexpected error occured.';
             console.log(err);
