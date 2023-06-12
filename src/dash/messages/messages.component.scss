@@ -1,0 +1,29 @@
+.container {
+  margin: 0;
+  .side-bar {
+    border: solid 0.8px black;
+    border-radius: 10px;
+    width: 10em;
+    height: 50em;
+    padding-left: 2em;
+    padding-top: 5em;
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    text-align: left;
+    li {
+      list-style-type: none;
+      font-size: 0.9em;
+      font-weight: 300;
+      a {
+        text-decoration: none;
+        color: black;
+      }
+      .bi {
+        padding-right: 10px;
+      }
+    }
+  }
+}

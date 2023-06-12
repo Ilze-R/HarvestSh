@@ -69,3 +69,11 @@
 input {
   width: 15em;
 }
+.btn-create-account {
+  border: none;
+  background-color: transparent;
+}
+.btn-create-account:hover {
+  text-decoration: underline;
+  color: #005d96;
+}

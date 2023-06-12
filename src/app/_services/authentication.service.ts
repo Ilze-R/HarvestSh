@@ -12,7 +12,7 @@ const API_URL = environment.BASE_URL + '/api/authentication';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
   private isLoggedIn = new BehaviorSubject<boolean>(this.userIsLoggedIn());
   public loggedUser = this.isLoggedIn.asObservable();

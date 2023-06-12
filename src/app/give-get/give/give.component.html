@@ -1,13 +1,19 @@
 <app-nav-bar
   [class.blur]="
-    sharedService.showRegisterComponent || sharedService.showLoginComponent
+    sharedService.showRegisterComponent ||
+    sharedService.showLoginComponent ||
+    sharedService.cretaAccount
   "
 ></app-nav-bar>
 <app-login *ngIf="sharedService.showLoginComponent"></app-login>
-<app-register *ngIf="sharedService.showRegisterComponent"></app-register>
+<app-register
+  *ngIf="sharedService.showRegisterComponent || sharedService.cretaAccount"
+></app-register>
 <div
   [class.blur]="
-    sharedService.showRegisterComponent || sharedService.showLoginComponent
+    sharedService.showRegisterComponent ||
+    sharedService.showLoginComponent ||
+    sharedService.cretaAccount
   "
 >
   <div class="container">

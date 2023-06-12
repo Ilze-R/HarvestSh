@@ -1,7 +1,17 @@
 <div>
-  <app-nav-bar [class.blur]="sharedService.showLoginComponent"></app-nav-bar>
+  <app-nav-bar
+    [class.blur]="
+      sharedService.showLoginComponent || sharedService.cretaAccount
+    "
+  ></app-nav-bar>
   <app-login *ngIf="sharedService.showLoginComponent"></app-login>
-  <div class="footer-wrap" [class.blur]="sharedService.showLoginComponent">
+  <app-register *ngIf="sharedService.cretaAccount"></app-register>
+  <div
+    class="footer-wrap"
+    [class.blur]="
+      sharedService.showLoginComponent || sharedService.cretaAccount
+    "
+  >
     <div class="background-container">
       <div class="container">
         <div>
@@ -18,22 +28,22 @@
             </p>
             <p class="description">
               Let's come together and make a difference through the 2023 harvest
-              share. Your contributions will not only
+              share. Your contributions will not only upgrade your karma,
               <span class="key-words">feed</span> those in need but also promote
               <span class="key-words">sustainability</span> and a more mindful
               approach to our food <span class="key-words">consumption</span>.
             </p>
           </div>
-          <div class="give-get">
+          <div class="button-container">
             <button
-              class="give"
+              class="button"
               [routerLink]="['/give']"
               routerLinkActive="active-link"
             >
               Give
             </button>
             <button
-              class="get"
+              class="button"
               [routerLink]="['/get']"
               routerLinkActive="active-link"
             >

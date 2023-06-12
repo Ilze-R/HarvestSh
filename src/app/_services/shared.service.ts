@@ -8,6 +8,7 @@ export class SharedService {
   showRegisterComponent = false;
   fromGiveComponent = false;
   fromHomeComponent = false;
+  cretaAccount: boolean = false;
 
   constructor() {}
 }

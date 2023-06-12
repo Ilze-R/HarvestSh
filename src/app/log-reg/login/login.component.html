@@ -39,8 +39,8 @@
   </form>
   <div class="link-container">
     <a href="#">Forgot password?</a>
-    <a [routerLink]="['/register']" routerLinkActive="active-link"
-      >Create an account</a
-    >
+    <button class="btn-create-account" (click)="createAnAccount()">
+      Create an account
+    </button>
   </div>
 </div>

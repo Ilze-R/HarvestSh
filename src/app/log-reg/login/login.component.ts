@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.authService.currentUserValue?.id) {
-      this.router.navigate(['/give-dashboard']);
+      this.router.navigate(['/dashboard']);
       // location.reload();
     }
   }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.user).subscribe(
         (data) => {
           console.log('sign in pushed');
-          this.router.navigate(['/give-dashboard']);
+          this.router.navigate(['/dashboard']);
           // location.reload();
         },
         (err) => {
@@ -61,5 +61,9 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+  }
+  createAnAccount() {
+    this.sharedService.cretaAccount = true;
+    this.sharedService.showLoginComponent = false;
   }
 }
