@@ -70,3 +70,12 @@
 input {
   width: 15em;
 }
+
+.btn-have-account {
+  border: none;
+  background-color: transparent;
+}
+.btn-have-account:hover {
+  text-decoration: underline;
+  color: #005d96;
+}

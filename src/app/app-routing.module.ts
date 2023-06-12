@@ -7,9 +7,12 @@ import { GetComponent } from './give-get/get/get.component';
 import { GiveComponent } from './give-get/give/give.component';
 import { RegisterComponent } from './log-reg/register/register.component';
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
-import { GiveDashboardComponent } from './give-dashboard/give-dashboard.component';
-import { GetDashboardComponent } from './get-dashboard/get-dashboard.component';
+import { DashboardComponent } from '../dash/dashboard-all/dashboard.component';
 import { UnauthorizedComponent } from './error-pages/unauthorized/unauthorized.component';
+import { DashHomeComponent } from '../dash/dash-home/dash-home.component';
+import { SettingsComponent } from '../dash/settings/settings.component';
+import { ActivityComponent } from '../dash/activity/activity.component';
+import { MessagesComponent } from '../dash/messages/messages.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,8 +21,12 @@ const routes: Routes = [
   { path: 'get', component: GetComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'give-dashboard', component: GiveDashboardComponent },
-  { path: 'get-dashboard', component: GetDashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'logged-home', component: DashHomeComponent },
+  { path: 'logged-settings', component: SettingsComponent },
+  { path: 'logged-activity', component: ActivityComponent },
+  { path: 'logged-messages', component: MessagesComponent },
+
   { path: '404', component: NotFoundComponent },
   { path: '401', component: UnauthorizedComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

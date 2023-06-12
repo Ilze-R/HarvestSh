@@ -54,8 +54,6 @@
     <button class="btn-signup" type="submit">Sign up</button>
   </form>
   <div class="login-link">
-    <a [routerLink]="['/login']" routerLinkActive="active-link"
-      >Already have an account?</a
-    >
+    <button class="btn-have-account" (click)="alreadyAccount()">Already have an account?</button>
   </div>
 </div>

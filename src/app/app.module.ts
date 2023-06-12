@@ -14,14 +14,17 @@ import { GetComponent } from './give-get/get/get.component';
 import { RegisterComponent } from './log-reg/register/register.component';
 import { FooterComponent } from './footer/footer.component';
 import { IncrementCounterComponent } from './increment-counter/increment-counter.component';
-import { GetDashboardComponent } from './get-dashboard/get-dashboard.component';
-import { GiveDashboardComponent } from './give-dashboard/give-dashboard.component';
+import { DashboardComponent } from '../dash/dashboard-all/dashboard.component';
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { UnauthorizedComponent } from './error-pages/unauthorized/unauthorized.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SettingsComponent } from '../dash/settings/settings.component';
+import { ActivityComponent } from '../dash/activity/activity.component';
+import { MessagesComponent } from '../dash/messages/messages.component';
+import { DashHomeComponent } from '../dash/dash-home/dash-home.component';
 
 @NgModule({
   declarations: [
@@ -35,10 +38,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     RegisterComponent,
     FooterComponent,
     IncrementCounterComponent,
-    GetDashboardComponent,
-    GiveDashboardComponent,
+    DashboardComponent,
     NotFoundComponent,
     UnauthorizedComponent,
+    SettingsComponent,
+    ActivityComponent,
+    MessagesComponent,
+    DashHomeComponent,
   ],
   imports: [
     BrowserModule,

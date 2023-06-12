@@ -70,4 +70,8 @@ export class RegisterComponent implements OnInit {
       );
     }
   }
+  alreadyAccount() {
+    this.sharedService.cretaAccount = false;
+    this.sharedService.showLoginComponent = true;
+  }
 }
