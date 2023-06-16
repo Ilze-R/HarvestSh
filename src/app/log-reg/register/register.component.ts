@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/_models/user.model';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { SharedService } from 'src/app/_services/shared.service';
 
-const fb = new FormBuilder();
+const fb = new UntypedFormBuilder();
 
 @Component({
   selector: 'app-register',
