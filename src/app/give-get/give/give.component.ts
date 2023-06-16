@@ -14,7 +14,9 @@ export class GiveComponent implements OnInit {
   }
 
   showRegister() {
+    this.sharedService.showLoginComponent = false;
     this.sharedService.showRegisterComponent = true;
+    // this.sharedService.cretaAccount = false;
     this.sharedService.fromGiveComponent = true;
     this.sharedService.fromHomeComponent = false;
   }
