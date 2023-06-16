@@ -37,6 +37,7 @@ export class RegisterComponent implements OnInit {
 
   exit() {
     this.sharedService.showRegisterComponent = false;
+    this.sharedService.cretaAccount = false;
   }
 
   register() {
@@ -71,7 +72,9 @@ export class RegisterComponent implements OnInit {
     }
   }
   alreadyAccount() {
+    // this.sharedService.cretaAccount = false;
+    // this.sharedService.showLoginComponent = true;
+    this.sharedService.showRegisterComponent = false;
     this.sharedService.cretaAccount = false;
-    this.sharedService.showLoginComponent = true;
   }
 }
