@@ -1,0 +1,82 @@
+<app-nav
+  [class.blur]="
+    sharedService.showRegisterComponent ||
+    sharedService.showLoginComponent ||
+    sharedService.cretaAccount
+  "
+></app-nav>
+<app-login *ngIf="sharedService.showLoginComponent"></app-login>
+
+<app-register
+  *ngIf="sharedService.showRegisterComponent || sharedService.cretaAccount"
+></app-register>
+<div
+  [class.blur]="
+    sharedService.showRegisterComponent ||
+    sharedService.showLoginComponent ||
+    sharedService.cretaAccount
+  "
+>
+  <div class="container">
+    <a class="register-link" (click)="showRegister()">SIGN UP</a>
+    <!-- <h3>How can i give harvest?</h3> -->
+    <!-- <h3 id="subtitle">
+    Do you have homegrown fruits and/or vegetables to share?
+  </h3> -->
+    <h3 id="subtitle">How we do it</h3>
+    <ul>
+      <li>
+        <div class="first one">
+          <img
+            class="img"
+            src="https://images.unsplash.com/photo-1609843025783-6a66a8f45e0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHNwcm91dHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
+            alt=""
+          />
+        </div>
+        <div class="second">
+          <p class="info-text title">Create an account</p>
+          <p class="info-text description">
+            Do you have homegrown fruits and/or vegetables to share? Create
+            account with very simple step and you will be able to control and
+            overview all your processes.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="first two">
+          <img
+            class="img"
+            src="https://images.unsplash.com/photo-1612143395997-dcf729eb7788?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGdhcmRlbiUyMGdhdGVzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
+            alt=""
+          />
+        </div>
+        <div class="second location-info">
+          <p class="info-text title">Mark your location</p>
+          <p class="info-text description">
+            You will be able to add your location to the map as an anonymous pin
+            in case you have something to share. You can remove your location
+            from the map at any time.
+          </p>
+        </div>
+      </li>
+      <li>
+        <div class="first three">
+          <img
+            class="img"
+            src="https://images.unsplash.com/photo-1566450882136-ae49345cbf6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGdhcmRlbiUyMGVudHJ5fGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
+            alt=""
+          />
+        </div>
+        <div class="second">
+          <p class="info-text title">Share your harvest</p>
+          <p class="info-text description">
+            Place your homegrown fruit or veggies in a box in front of your
+            house. Dont want in a box, dont want front of house? Or maybe you
+            even prefer to place them in hand - all this you will be avle to
+            midify in your profile.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

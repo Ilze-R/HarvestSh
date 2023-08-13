@@ -1,0 +1,15 @@
+<ng-container *ngIf="profileState$ | async as state">
+  <ng-container>
+    <app-nav [user]="state?.appData?.data?.user"></app-nav>
+  </ng-container>
+  <div class="container">
+    <ng-container *ngIf="giveState$ | async as give">
+      <p>{{ give?.appData?.data?.give?.type }}</p>
+      <p>
+        {{ give?.appData?.data?.give?.amount }}
+        {{ give?.appData?.data?.give?.amountType }}
+      </p>
+      <p>{{ give?.appData?.data?.give?.status }}</p>
+    </ng-container>
+  </div>
+</ng-container>

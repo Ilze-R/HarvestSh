@@ -1,0 +1,230 @@
+<ng-container *ngIf="profileState$ | async as state">
+  <ng-container>
+    <app-nav [user]="state?.appData?.data?.user"></app-nav>
+    <section>
+      <div class="container-fluid">
+        <div class="bg-white d-block d-sm-flex">
+          <div class="profile-tab-nav">
+            <div class="p-4">
+              <div class="img-circle text-center mb-3">
+                <span class="camera">
+                  <img
+                    [src]="state?.appData?.data?.user?.imageUrl"
+                    alt="username"
+                    class="shadow"
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-camera-fill right-position"
+                    viewBox="0 0 16 16"
+                    (click)="fileInput.click()"
+                  >
+                    <!-- (click)="fileInput.click()" -->
+                    <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+                    <path
+                      d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"
+                    />
+                  </svg>
+                  <i
+                    class="bi bi-camera-fill right-position"
+                    (click)="fileInput.click()"
+                  ></i>
+                </span>
+              </div>
+              <!-- <h4 class="text-center">
+                {{ state?.appData?.data?.user?.username }}
+              </h4> -->
+              <h4 class="text-center created-at-info">
+                Since
+                {{ state?.appData?.data?.user?.createdAt | date : "MMMM d, y" }}
+              </h4>
+            </div>
+            <div
+              class="nav flex-column nav-pills"
+              id="v-pills-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <a
+                class="nav-link active"
+                id="account"
+                data-bs-toggle="pill"
+                data-bs-target="#account-tab"
+                aria-selected="true"
+                aria-controls="account"
+                role="tab"
+              >
+                Account
+              </a>
+              <a
+                class="nav-link"
+                id="give"
+                data-bs-toggle="pill"
+                data-bs-target="#give-tab"
+                aria-selected="true"
+                aria-controls="give"
+                role="tab"
+              >
+                Give
+              </a>
+              <a
+                class="nav-link"
+                id="get"
+                data-bs-toggle="pill"
+                data-bs-target="#get-tab"
+                aria-selected="true"
+                aria-controls="get"
+                role="tab"
+              >
+                Get
+              </a>
+              <a
+                class="nav-link"
+                id="forum"
+                data-bs-toggle="pill"
+                data-bs-target="#forum-tab"
+                aria-selected="true"
+                aria-controls="forum"
+                role="tab"
+              >
+                Forum
+              </a>
+            </div>
+          </div>
+          <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+            <div
+              class="tab-pane fade"
+              id="forum-tab"
+              role="tabpanel"
+              aria-labelledby="forum"
+              style="min-height: 510px"
+            >
+              <h3 class="mb-4">Forum</h3>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="give-tab"
+              role="tabpanel"
+              aria-labelledby="give"
+              style="min-height: 510px"
+            >
+              <div class="new-give-wrap">
+                <p>Create Give -></p>
+                <button class="btn-give" (click)="newGiveForm()">Give</button>
+              </div>
+              <h5 class="my-give-title">My gives</h5>
+              <div class="col-xm-12 gives-table">
+                <table class="table table-hover gives-table">
+                  <thead>
+                    <tr>
+                      <th class="text-center" scope="col">Type</th>
+                      <th scope="col">Amount</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">View</th>
+                    </tr>
+                  </thead>
+                  <ng-container *ngIf="givesState$ | async as give">
+                    <tbody class="table-body">
+                      <tr
+                        *ngFor="let gives of give?.appData?.data?.give"
+                        class="cell-1"
+                      >
+                        <th class="text-center">{{ gives.type }}</th>
+                        <td>{{ gives.amount }} {{ gives.amountType }}</td>
+                        <td>{{ gives.description }}</td>
+                        <td>{{ gives.status }}</td>
+
+                        <td>
+                          <button
+                            type="button"
+                            class="btn btn-view"
+                            (click)="selectGive(gives.id)"
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </ng-container>
+                </table>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="get-tab"
+              role="tabpanel"
+              aria-labelledby="get"
+              style="min-height: 510px"
+            >
+              <h3 class="mb-4">Get</h3>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="forum-tab"
+              role="tabpanel"
+              aria-labelledby="forum"
+              style="min-height: 510px"
+            >
+              <h3 class="mb-4">Forum</h3>
+            </div>
+            <div
+              class="tab-pane fade show active"
+              id="account-tab"
+              role="tabpanel"
+              aria-labelledby="account"
+              style="min-height: 510px"
+            >
+              <div class="account-items">
+                <div class="account-main-wrap">
+                  <div class="welcome-container">
+                    <h3 class="welcome-text">
+                      Hello,<br />
+                      <span class="non-bold"
+                        >{{ state?.appData?.data?.user?.username }}!</span
+                      >
+                      👋
+                    </h3>
+                    <p>Lettuce make a difference!</p>
+                  </div>
+                  <div class="participation-container">
+                    <h5 class="participation-title">My participation</h5>
+                  </div>
+                </div>
+                <div class="thankyou-container">
+                  <div class="thankyou-note">
+                    <p class="thanks-title">Thanks!</p>
+                    <p class="thanks-text">The cucumbers were delicious</p>
+                  </div>
+                  <div class="thankyou-note" style="background-color: #f0e3df">
+                    <p class="thanks-title">Hey!</p>
+                    <p class="thanks-text">
+                      We made amazing salads from your tomatoes
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</ng-container>
+
+<!-- profile image change form -->
+<form enctype="multipart/form-data" style="display: none">
+  <input
+    type="file"
+    #fileInput
+    (change)="updatePicture($event.target.files[0])"
+    name="image"
+    id="image"
+    placeholder="file"
+    ngModel
+    accept="image/*"
+  />
+</form>

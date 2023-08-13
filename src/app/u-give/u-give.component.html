@@ -1,0 +1,145 @@
+<ng-container
+  *ngIf="newGiveState$ | async as state"
+  [ngSwitch]="state.dataState"
+>
+  <ng-container *ngSwitchCase="DataState.LOADED">
+    <ng-container
+      *ngIf="profileState$ | async as profile"
+      [ngSwitch]="profile.dataState"
+    >
+      <app-nav [user]="profile?.appData?.data?.user"> </app-nav>
+    </ng-container>
+
+    <section>
+      <div class="container">
+        <span [routerLink]="['/dashboard']" href="#" class="close"
+          ><svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="35"
+            height="35"
+            fill="currentColor"
+            class="bi bi-x"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+            /></svg
+        ></span>
+        <div class="row justify-content-center">
+          <div class="col-md-12">
+            <div>
+              <div class="card-body">
+                <div class="text-center">
+                  <h3>New Give</h3>
+                </div>
+                <div
+                  *ngIf="state.error"
+                  class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show"
+                  role="alert"
+                >
+                  {{ state.error }}
+                  <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <form #newGiveForm="ngForm" (ngSubmit)="newGive(newGiveForm)">
+                  <div class="row form-wrap">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="type">Type</label>
+                        <input
+                          type="text"
+                          ngModel
+                          name="type"
+                          id="type"
+                          class="form-control"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div class="amount-input-wrap">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="amount">Amount</label>
+                          <input
+                            type="text"
+                            ngModel
+                            name="amount"
+                            id="amount"
+                            class="form-control amount-input"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <button
+                          class="btn-kg"
+                          id="amountType"
+                          name="amountType"
+                          type="button"
+                          value="kg"
+                          [class.active]="buttonValue === 'kg'"
+                          (click)="setButton('kg')"
+                        >
+                          kg
+                        </button>
+                        <button
+                          class="btn-units"
+                          type="button"
+                          id="amountType"
+                          name="amountType"
+                          value="units"
+                          [class.active]="buttonValue === 'units'"
+                          (click)="setButton('units')"
+                        >
+                          pieces
+                        </button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleFormControlTextarea1"
+                        >Description</label
+                      >
+                      <textarea
+                        class="form-control"
+                        ngModel
+                        name="description"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      [disabled]="
+                        state.dataState === DataState.LOADING ||
+                        newGiveForm.invalid ||
+                        newGiveForm.pristine ||
+                        (isLoading$ | async)
+                      "
+                      type="submit"
+                      class="btn-save"
+                    >
+                      <span
+                        *ngIf="isLoading$ | async"
+                        class="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                        style="margin-right: 5px"
+                      ></span>
+                      <span *ngIf="isLoading$ | async">Saving...</span>
+                      <span *ngIf="!(isLoading$ | async)">Save</span>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,93 @@
+<section *ngIf="loginState$ | async as state" [ngSwitch]="state.dataState">
+  <div class="container" *ngIf="!state.loginSuccess">
+    <span [routerLink]="['']" href="#" class="close" (click)="exit()"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="35"
+        height="35"
+        fill="currentColor"
+        class="bi bi-x"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+        /></svg
+    ></span>
+    <div *ngIf="state.dataState === DataState.ERROR" role="alert">
+      {{ state.error }}
+      <button type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+      <div class="input-wrap">
+        <label for="email">Email Address</label>
+        <input
+          [disabled]="state.dataState === DataState.LOADING"
+          ngModel
+          type="email"
+          name="email"
+          class="form-control"
+          required
+          id="email"
+        />
+      </div>
+      <div class="input-wrap">
+        <label for="password">Password</label>
+        <input
+          [disabled]="state.dataState === DataState.LOADING"
+          ngModel
+          type="password"
+          name="password"
+          class="form-control"
+          required
+          id="password"
+        />
+      </div>
+      <button
+        [disabled]="
+          state.dataState === DataState.LOADING ||
+          loginForm.invalid ||
+          loginForm.pristine
+        "
+        type="submit"
+        class="btn-signin"
+      >
+        <span
+          *ngIf="state.dataState === DataState.LOADING"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+          style="margin-right: 5px"
+        ></span>
+        <span *ngIf="state.dataState === DataState.LOADING">Loading...</span>
+        <span *ngIf="!(state.dataState === DataState.LOADING)">Log in</span>
+      </button>
+    </form>
+    <div class="link-container">
+      <div>
+        <a
+          [ngStyle]="{
+            'pointer-events':
+              state.dataState === DataState.LOADING ? 'none' : ''
+          }"
+          routerLink="/register"
+          (click)="goToCreateAccount()"
+          >Create an Account</a
+        >
+      </div>
+      <div>
+        <a
+          [ngStyle]="{
+            'pointer-events':
+              state.dataState === DataState.LOADING ? 'none' : ''
+          }"
+          routerLink="/resetpassword"
+          >Forgot password?</a
+        >
+      </div>
+    </div>
+    <!-- <div class="link-container">
+      <a href="#">Forgot password?</a>
+      <button class="btn-create-account">Create an account</button>
+    </div> -->
+  </div>
+</section>

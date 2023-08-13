@@ -1,0 +1,22 @@
+<app-nav
+  [class.blur]="
+    sharedService.showLoginComponent || sharedService.showRegisterComponent
+  "
+></app-nav>
+<app-login *ngIf="sharedService.showLoginComponent"></app-login>
+<app-register *ngIf="sharedService.showRegisterComponent"></app-register>
+<div
+  class="about-container"
+  [class.blur]="
+    sharedService.showLoginComponent || sharedService.showRegisterComponent
+  "
+>
+  <h1>Something</h1>
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint perferendis
+    harum cumque ad praesentium, aspernatur nesciunt? Rerum inventore quae aut
+    culpa veniam voluptatum dolorem autem neque vitae ipsam doloribus
+    consectetur corporis dolores totam, impedit aperiam voluptatibus! Quia
+    tempora adipisci harum.
+  </p>
+</div>
