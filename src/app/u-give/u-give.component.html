@@ -45,7 +45,11 @@
                     aria-label="Close"
                   ></button>
                 </div>
-                <form #newGiveForm="ngForm" (ngSubmit)="newGive(newGiveForm)">
+                <form
+                  #newGiveForm="ngForm"
+                  (ngSubmit)="newGive(newGiveForm)"
+                  enctype="multipart/form-data"
+                >
                   <div class="row form-wrap">
                     <div class="col-md-6">
                       <div class="form-group">
@@ -99,6 +103,29 @@
                         </button>
                       </div>
                     </div>
+                    <div>
+                      <!-- <input
+                        type="file"
+                        class="file-input"
+                        (change)="onImageSelected($event.target.files[0])"
+                        name="img_url"
+                        id="img_url"
+                        placeholder="file"
+                        ngModel
+                        accept="image/*"
+                      /> -->
+                      <input
+                        type="file"
+                        class="file-input"
+                        (change)="selectFile($event)"
+                        name="img_url"
+                        id="img_url"
+                        placeholder="file"
+                        ngModel
+                        accept="image/*"
+                      />
+                      <label for="img_url">Choose file</label>
+                    </div>
                     <div class="form-group">
                       <label for="exampleFormControlTextarea1"
                         >Description</label
@@ -143,3 +170,17 @@
     </section>
   </ng-container>
 </ng-container>
+
+<!-- profile image change form -->
+<!-- <form enctype="multipart/form-data" style="display: none">
+  <input
+    type="file"
+    #fileInput
+    (change)="updatePicture($event.target.files[0])"
+    name="image"
+    id="image"
+    placeholder="file"
+    ngModel
+    accept="image/*"
+  />
+</form> -->

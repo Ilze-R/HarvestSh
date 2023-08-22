@@ -4,6 +4,9 @@
   </ng-container>
   <div class="container">
     <ng-container *ngIf="giveState$ | async as give">
+      <img src="give?.appData?.data?.give?.img_url" alt="" />
+      {{ give?.appData?.data?.give?.img_url | json }}
+
       <p>{{ give?.appData?.data?.give?.type }}</p>
       <p>
         {{ give?.appData?.data?.give?.amount }}

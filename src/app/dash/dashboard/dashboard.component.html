@@ -120,11 +120,11 @@
                 <table class="table table-hover gives-table">
                   <thead>
                     <tr>
-                      <th class="text-center" scope="col">Type</th>
-                      <th scope="col">Amount</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">View</th>
+                      <th class="text-center" scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
                     </tr>
                   </thead>
                   <ng-container *ngIf="givesState$ | async as give">
@@ -133,8 +133,14 @@
                         *ngFor="let gives of give?.appData?.data?.give"
                         class="cell-1"
                       >
-                        <th class="text-center">{{ gives.type }}</th>
-                        <td>{{ gives.amount }} {{ gives.amountType }}</td>
+                        <th class="text-center">
+                          <img
+                            src="{{ gives.image }}"
+                            alt=""
+                            class="give-image"
+                          />
+                        </th>
+                        <td>{{ gives.type }}</td>
                         <td>{{ gives.description }}</td>
                         <td>{{ gives.status }}</td>
 

@@ -1,19 +1,19 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, tap, catchError, throwError, map } from 'rxjs';
+import { Observable, tap, catchError, throwError } from 'rxjs';
 import { Key } from '../_enum/key.enum';
 import {
   CustomHttpResponse,
   Profile,
   AccountType,
-  LoginState,
-  Page,
 } from '../_interface/appstates';
 import { User } from '../_interface/user';
 import { Give } from '../_interface/give';
-import { formatDate } from '@angular/common';
-import { DashboardComponent } from '../dash/dashboard/dashboard.component';
 
 @Injectable({
   providedIn: 'root',
@@ -166,6 +166,16 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  giveImage$ = (formData: FormData) =>
+    <Observable<CustomHttpResponse<Profile & Give>>>(
+      this.http
+        .patch<CustomHttpResponse<Profile & Give>>(
+          `${this.server}/user/give/image`,
+          formData
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   logOut() {
     localStorage.removeItem(Key.TOKEN);
     localStorage.removeItem(Key.REFRESH_TOKEN);
@@ -200,15 +210,42 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  createGive$ = (id: number, give: Give) =>
-    <Observable<CustomHttpResponse<Profile & Give>>>(
-      this.http
-        .post<CustomHttpResponse<Profile & Give>>(
-          `${this.server}/user/give/addtouser/${id}`,
-          give
-        )
-        .pipe(tap(console.log), catchError(this.handleError))
-    );
+  // createGive$ = (id: number, give: Give, image: File) =>
+  //   <Observable<CustomHttpResponse<Profile & Give>>>(
+  //     this.http
+  //       .post<CustomHttpResponse<Profile & Give>>(
+  //         `${this.server}/user/give/addtouser/${id}`,
+  //         give
+  //       )
+  //       .pipe(tap(console.log), catchError(this.handleError))
+  //   );
+
+  createGive$ = (id: number, give: Give) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & Give>>(
+        `${this.server}/user/give/addtouser/image/${id}`,
+        give
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  // createGive$(
+  //   id: number,
+  //   give: Give,
+  //   formData: FormData
+  // ): Observable<CustomHttpResponse<Profile & Give>> {
+  //   const url = `${this.server}/user/give/addtouser/image/${id}`;
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'multipart/form-data',
+  //   });
+  //   const requestBody = {
+  //     ...give,
+  //     formData: formData,
+  //   };
+  //   return this.http
+  //     .post<CustomHttpResponse<Profile & Give>>(url, requestBody, { headers })
+  //     .pipe(tap(console.log), catchError(this.handleError));
+  // }
 
   give$ = (id: number): Observable<CustomHttpResponse<Profile & Give>> =>
     this.http

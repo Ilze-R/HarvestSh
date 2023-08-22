@@ -142,6 +142,9 @@ a#give.nav-link.active {
 .gives-table {
   border-radius: 7px;
   background-color: #f2f7fa;
+  .give-image {
+    width: 200px;
+  }
   .btn-view {
     background-color: #d7e7da;
   }

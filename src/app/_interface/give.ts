@@ -4,5 +4,8 @@ export interface Give {
   type: string;
   amount: number;
   amountType: string;
+  description: string;
+  img_url: string;
+  location: string;
   status: string;
 }
