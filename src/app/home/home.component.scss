@@ -162,9 +162,134 @@
 // }
 
 .info-container {
-  margin: 10em 8em 10em 8em;
+  margin: 6em 8em 6em 8em;
+  .title {
+    text-align: center;
+    color: #00361e;
+    font-size: 30px;
+  }
+  .info-text {
+    text-align: center;
+  }
+  .how-container {
+    margin-top: 2em;
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    .title-smaller {
+      margin-top: 2em;
+      margin-bottom: 2em;
+      color: #00361e;
+      font-size: 18px;
+      font-weight: 400;
+      text-align: center;
+    }
+    .card-group {
+      justify-content: center;
+      gap: 1em;
+      .card {
+        text-align: center;
+        max-width: 10em;
+        height: 10em;
+        border-radius: 0;
+        border: 0.8px solid #949494;
+        transition: all 0.3s ease-in-out;
+        .numeration {
+          text-align: left;
+          position: absolute;
+          padding-left: 0.5em;
+        }
+        .step-img-container {
+          padding: 0.8em 0em 0.8em 0em;
+          .card-img-top {
+            background-size: cover;
+            width: 4em;
+          }
+        }
+
+        hr {
+          margin: 0;
+          border-top: 1.5px dotted #bebebe;
+        }
+        .card-body {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          .card-title {
+            font-size: 13px;
+          }
+          .card-text {
+            font-size: 10px;
+            margin: 0.5em;
+            color: gray;
+          }
+        }
+      }
+    }
+  }
 }
 
+.card:hover {
+  transform: scale(1.1);
+}
+
+.first-card:hover {
+  box-shadow: -2px -2px 75px -47px #a45399;
+  border: 0.8px solid #e4cbe0 !important;
+}
+.second-card:hover {
+  box-shadow: -2px -2px 75px -47px #007dbe;
+  border: 0.8px solid #b3d8ec !important;
+}
+.third-card:hover {
+  box-shadow: -2px -2px 75px -47px #00b58c;
+  border: 0.8px solid #b3e9dd !important;
+}
+.fourth-card:hover {
+  box-shadow: -2px -2px 75px -47px #ffc060;
+  border: 0.8px solid #ffeccf !important;
+}
+.fifth-card:hover {
+  box-shadow: -2px -2px 75px -47px #cc6763;
+  border: 0.8px solid #f0d1d0 !important;
+}
+
+.join {
+  background-image: url(./join.png);
+}
+.choose {
+  background-image: url(./choose.png);
+}
+.upload {
+  background-image: url(./upload.png);
+}
+.reply {
+  background-image: url(./reply.png);
+}
+.exchange {
+  background-image: url(./exchange.png);
+}
+.collect {
+  background-image: url(./collect.png);
+}
+.search {
+  background-image: url(./search.png);
+}
+.one {
+  color: #62325c;
+}
+
+.two {
+  color: #003f5f;
+}
+.three {
+  color: #005b46;
+}
+.four {
+  color: #cc9a4d;
+}
+.five {
+  color: #7a3e3b;
+}
 @media screen and (max-width: 760px) {
   .container {
     margin: 0.3em;
