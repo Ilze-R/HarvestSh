@@ -1,5 +1,84 @@
 .container {
-  width: 800px;
+  width: 550px;
   border-radius: 7px;
   background-color: #f2f7fa;
+  margin-top: 4em;
+
+  .content-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 2em;
+    .close {
+      color: #005d96;
+      cursor: pointer;
+    }
+    .column {
+      display: flex;
+      gap: 2em;
+
+      .img-wrap {
+        padding: 1em;
+        .image {
+          width: 13em;
+        }
+        p {
+          padding-top: 0.3em;
+        }
+      }
+      .input-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        .btn-wrap {
+          display: flex;
+          gap: 0.5em;
+          .btn-edit,
+          .btn-cancel {
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-size: 0.7em;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 8px 30px 8px 30px;
+            color: #4e4b93;
+            background-color: #fff;
+            border: 0.9px solid #4e4b93;
+            margin-top: 1em;
+            .bi-pencil-fill {
+              padding-right: 0.7em;
+              padding-bottom: 0.1em;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+input,
+textarea {
+  width: 15em;
+  border: 0.8px solid #1e5e43;
+  border-radius: 5px;
+  font-size: 14px;
+}
+label {
+  font-size: 14px;
+  color: #394b41;
+  padding-bottom: 0.3em;
+}
+::placeholder {
+  color: #bebebe;
+  font-size: 12px;
+}
+
+.btn-edit:hover {
+  background-color: #4e4b93;
+  color: white;
+}
+.btn-save {
+  background-color: #4e4b93 !important;
+  color: #fff !important;
 }

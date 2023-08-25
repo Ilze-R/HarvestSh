@@ -28,6 +28,7 @@ export class GiveViewComponent implements OnInit {
   private dataGiveSubject = new BehaviorSubject<
     CustomHttpResponse<Profile & Give>
   >(null);
+  isEditMode = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +41,7 @@ export class GiveViewComponent implements OnInit {
       map((response) => {
         console.log(response);
         this.dataSubject.next(response);
+
         return { dataState: DataState.LOADED, appData: response };
       }),
       startWith({ dataState: DataState.LOADING }),
@@ -52,7 +54,7 @@ export class GiveViewComponent implements OnInit {
       this.giveState$ = this.userService.give$(giveId).pipe(
         map((response) => {
           this.dataGiveSubject.next(response);
-          console.log(response + 'SHDSHIDUHDUUJDS');
+
           return { dataState: DataState.LOADED, appData: response };
         }),
         startWith({ dataState: DataState.LOADING }),
@@ -61,5 +63,8 @@ export class GiveViewComponent implements OnInit {
         })
       );
     });
+  }
+  toggleEditMode() {
+    this.isEditMode = !this.isEditMode;
   }
 }

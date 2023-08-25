@@ -210,42 +210,14 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  // createGive$ = (id: number, give: Give, image: File) =>
-  //   <Observable<CustomHttpResponse<Profile & Give>>>(
-  //     this.http
-  //       .post<CustomHttpResponse<Profile & Give>>(
-  //         `${this.server}/user/give/addtouser/${id}`,
-  //         give
-  //       )
-  //       .pipe(tap(console.log), catchError(this.handleError))
-  //   );
-
-  createGive$ = (id: number, give: Give) => {
+  createGive$ = (id: number, formData: FormData) => {
     return this.http
       .post<CustomHttpResponse<Profile & Give>>(
         `${this.server}/user/give/addtouser/image/${id}`,
-        give
+        formData
       )
       .pipe(tap(console.log), catchError(this.handleError));
   };
-
-  // createGive$(
-  //   id: number,
-  //   give: Give,
-  //   formData: FormData
-  // ): Observable<CustomHttpResponse<Profile & Give>> {
-  //   const url = `${this.server}/user/give/addtouser/image/${id}`;
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'multipart/form-data',
-  //   });
-  //   const requestBody = {
-  //     ...give,
-  //     formData: formData,
-  //   };
-  //   return this.http
-  //     .post<CustomHttpResponse<Profile & Give>>(url, requestBody, { headers })
-  //     .pipe(tap(console.log), catchError(this.handleError));
-  // }
 
   give$ = (id: number): Observable<CustomHttpResponse<Profile & Give>> =>
     this.http

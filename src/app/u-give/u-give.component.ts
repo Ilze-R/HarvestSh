@@ -35,6 +35,7 @@ export class UGiveComponent implements OnInit {
   buttonValue: string = 'kg';
   msg: string = '';
   image_url: any;
+  selectedImage: File;
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -63,17 +64,21 @@ export class UGiveComponent implements OnInit {
     );
   }
 
-  newGive(newGiveForm: NgForm, image: File): void {
+
+  newGive(newGiveForm: NgForm): void {
     this.dataSubject.next({ ...this.dataSubject.value, message: null });
     this.isLoadingSubject.next(true);
-    newGiveForm.value.status = 'available';
-    newGiveForm.value.amountType = this.buttonValue;
-    newGiveForm.value.location = 'daugavpils';
-    newGiveForm.value.img_url = this.image_url;
     const formData = new FormData();
-    formData.append('image', image);
+    formData.append('image', this.selectedImage);
+    formData.append('type', newGiveForm.value.type);
+    formData.append('amount', newGiveForm.value.amount);
+    formData.append('description', newGiveForm.value.description);
+    formData.append('status', 'available'); 
+    formData.append('amountType', this.buttonValue); 
+    formData.append('location', 'riga'); 
+    formData.append('img_url', this.image_url); 
     this.newGiveState$ = this.userService
-      .createGive$(this.dataSubject.value.data.user.id, newGiveForm.value)
+      .createGive$(this.dataSubject.value.data.user.id, formData)
       .pipe(
         map((response) => {
           console.log(response);
@@ -100,64 +105,7 @@ export class UGiveComponent implements OnInit {
       );
   }
 
-  // newGive(newGiveForm: NgForm): void {
-  //   this.dataSubject.next({ ...this.dataSubject.value, message: null });
-  //   this.isLoadingSubject.next(true);
-  //   newGiveForm.value.status = 'available';
-  //   newGiveForm.value.amountType = this.buttonValue;
-  //   const imageInput = newGiveForm.value.image;
-  //   if (this.selectedImage) {
-  //     this.newGiveState$ = this.userService
-  //       .createGive$(
-  //         this.dataSubject.value.data.user.id,
-  //         newGiveForm.value,
-  //         this.selectedImage
-  //       )
-  //       .pipe(
-  //         map((response) => {
-  //           console.log(response);
-  //           newGiveForm.reset({ status: 'PENDING' });
-  //           this.isLoadingSubject.next(false);
-  //           this.dataSubject.next(response);
-  //           console.log(this.dataSubject.value);
-  //           this.router.navigate(['/dashboard']);
-  //           console.log(this.dataSubject.value);
-  //           return {
-  //             dataState: DataState.LOADED,
-  //             appData: this.dataSubject.value,
-  //           };
-  //         }),
-  //         startWith({
-  //           dataState: DataState.LOADED,
-  //           appData: this.dataSubject.value,
-  //         }),
-  //         catchError((error: string) => {
-  //           this.isLoadingSubject.next(false);
-  //           console.log(this.dataSubject.value);
-  //           return of({ dataState: DataState.LOADED, error });
-  //         })
-  //       );
-  //   } else {
-  //     console.log('No image selected');
-  //   }
-  // }
-
-  // handleImageChange(event: any): void {
-  //   const files = event.target.files;
-  //   if (files && files.length > 0) {
-  //     this.selectedImage = files[0]; // Store the selected image
-  //   } else {
-  //     this.selectedImage = null; // Reset the selected image if none is chosen
-  //   }
-  // }
-  // private getFormData(image: File): FormData {
-  //   const formData = new FormData();
-  //   formData.append('image', image);
-  //   return formData;
-  // }
-
   selectFile(event: any) {
-    //Angular 11, for stricter type
     if (!event.target.files[0] || event.target.files[0].length == 0) {
       this.msg = 'You must select an image';
       return;
@@ -170,6 +118,15 @@ export class UGiveComponent implements OnInit {
       return;
     }
 
+    const selectedFile = event.target.files[0];
+    const maxSizeInBytes = 2000 * 1024 * 1024; // 2GB in bytes
+
+    if (selectedFile.size > maxSizeInBytes) {
+      this.msg = 'File size exceeds the allowed limit (2GB)';
+      return;
+    }
+
+    this.selectedImage = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
 
@@ -178,13 +135,6 @@ export class UGiveComponent implements OnInit {
       this.image_url = reader.result;
     };
   }
-
-  // onImageSelected(file: File): FormData {
-  //   console.log('Image selected:', file);
-  //   const formData = new FormData();
-  //   formData.append('image', file);
-  //   return formData;
-  // }
 
   setButton(value: string) {
     this.buttonValue = value;

@@ -25,7 +25,7 @@
               d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
             /></svg
         ></span>
-        <div class="row justify-content-center">
+        <div class="row">
           <div class="col-md-12">
             <div>
               <div class="card-body">
@@ -59,8 +59,9 @@
                           ngModel
                           name="type"
                           id="type"
-                          class="form-control"
+                          class="form-control type-input"
                           required
+                          placeholder="fruit/vegetable"
                         />
                       </div>
                     </div>
@@ -78,7 +79,7 @@
                           />
                         </div>
                       </div>
-                      <div>
+                      <div class="amount-type-buttons">
                         <button
                           class="btn-kg"
                           id="amountType"
@@ -104,16 +105,6 @@
                       </div>
                     </div>
                     <div>
-                      <!-- <input
-                        type="file"
-                        class="file-input"
-                        (change)="onImageSelected($event.target.files[0])"
-                        name="img_url"
-                        id="img_url"
-                        placeholder="file"
-                        ngModel
-                        accept="image/*"
-                      /> -->
                       <input
                         type="file"
                         class="file-input"
@@ -124,9 +115,9 @@
                         ngModel
                         accept="image/*"
                       />
-                      <label for="img_url">Choose file</label>
+                      <!-- <label for="img_url">Choose file</label> -->
                     </div>
-                    <div class="form-group">
+                    <div class="form-group textarea-container">
                       <label for="exampleFormControlTextarea1"
                         >Description</label
                       >
@@ -170,17 +161,3 @@
     </section>
   </ng-container>
 </ng-container>
-
-<!-- profile image change form -->
-<!-- <form enctype="multipart/form-data" style="display: none">
-  <input
-    type="file"
-    #fileInput
-    (change)="updatePicture($event.target.files[0])"
-    name="image"
-    id="image"
-    placeholder="file"
-    ngModel
-    accept="image/*"
-  />
-</form> -->
