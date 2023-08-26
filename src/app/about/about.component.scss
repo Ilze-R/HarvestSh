@@ -1,0 +1,34 @@
+.about-container {
+  .introduction-text {
+    padding: 6em 15em 5em 15em;
+    background-color: #d7e7da;
+
+    .content-text {
+      margin-top: 3em;
+    }
+  }
+  .divide-area {
+    display: flex;
+    align-items: center;
+    gap: 6em;
+    background-color: #324b4d;
+    padding: 2em;
+    .quote {
+      color: #fbf7ff;
+      padding-left: 15em;
+    }
+    img {
+      background: url(./quote-logo.png);
+      background-size: cover;
+      width: 7em;
+    }
+  }
+  .rules {
+    padding: 5em;
+  }
+}
+.title {
+  color: #00361e;
+  font-size: 30px;
+  text-align: center;
+}

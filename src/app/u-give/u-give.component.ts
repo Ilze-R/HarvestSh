@@ -14,6 +14,7 @@ import { Give } from '../_interface/give';
 import { UserService } from '../_service/user.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { GiveService } from '../_service/give.service';
 
 @Component({
   selector: 'app-u-give',
@@ -37,10 +38,14 @@ export class UGiveComponent implements OnInit {
   image_url: any;
   selectedImage: File;
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(
+    private userService: UserService,
+    private giveService: GiveService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.newGiveState$ = this.userService.newGive$().pipe(
+    this.newGiveState$ = this.giveService.newGive$().pipe(
       map((response) => {
         console.log(response + 'rsponse from giveeeee');
         this.dataSubject.next(response);
@@ -64,7 +69,6 @@ export class UGiveComponent implements OnInit {
     );
   }
 
-
   newGive(newGiveForm: NgForm): void {
     this.dataSubject.next({ ...this.dataSubject.value, message: null });
     this.isLoadingSubject.next(true);
@@ -73,11 +77,11 @@ export class UGiveComponent implements OnInit {
     formData.append('type', newGiveForm.value.type);
     formData.append('amount', newGiveForm.value.amount);
     formData.append('description', newGiveForm.value.description);
-    formData.append('status', 'available'); 
-    formData.append('amountType', this.buttonValue); 
-    formData.append('location', 'riga'); 
-    formData.append('img_url', this.image_url); 
-    this.newGiveState$ = this.userService
+    formData.append('status', 'available');
+    formData.append('amountType', this.buttonValue);
+    formData.append('location', 'riga');
+    formData.append('img_url', this.image_url);
+    this.newGiveState$ = this.giveService
       .createGive$(this.dataSubject.value.data.user.id, formData)
       .pipe(
         map((response) => {

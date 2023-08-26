@@ -202,34 +202,5 @@ export class UserService {
     }
     return throwError(() => errorMessage);
   }
-
-  newGive$ = () =>
-    <Observable<CustomHttpResponse<Profile & Give>>>(
-      this.http
-        .get<CustomHttpResponse<Profile & Give>>(`${this.server}/user/give/new`)
-        .pipe(tap(console.log), catchError(this.handleError))
-    );
-
-  createGive$ = (id: number, formData: FormData) => {
-    return this.http
-      .post<CustomHttpResponse<Profile & Give>>(
-        `${this.server}/user/give/addtouser/image/${id}`,
-        formData
-      )
-      .pipe(tap(console.log), catchError(this.handleError));
-  };
-
-  give$ = (id: number): Observable<CustomHttpResponse<Profile & Give>> =>
-    this.http
-      .get<CustomHttpResponse<Profile & Give>>(`${this.server}/user/give/${id}`)
-      .pipe(catchError(this.handleError));
-
-  gives$ = (): Observable<
-    CustomHttpResponse<{ user: Profile; give: Give[] }>
-  > =>
-    this.http
-      .get<CustomHttpResponse<{ user: Profile; give: Give[] }>>(
-        `${this.server}/user/give/list`
-      )
-      .pipe(catchError(this.handleError));
 }
+

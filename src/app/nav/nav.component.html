@@ -58,13 +58,7 @@
           >
         </li>
       </div>
-      <div class="dashboard-menu">
-        <li class="li-rote" *ngIf="!isLoggedIn">
-          <a [routerLink]="['/about']" routerLinkActive="active-link"
-            >Account</a
-          >
-        </li>
-      </div>
+
       <div class="login-menu">
         <li class="li-rote">
           <button class="btn-login" *ngIf="!isLoggedIn" (click)="showLogin()">

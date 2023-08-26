@@ -15,6 +15,7 @@ import { CustomHttpResponse, Profile } from 'src/app/_interface/appstates';
 import { User } from 'src/app/_interface/user';
 import { Give } from 'src/app/_interface/give';
 import { EventType } from 'src/app/_enum/event-type.enum';
+import { GiveService } from 'src/app/_service/give.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,7 +39,11 @@ export class DashboardComponent implements OnInit {
   readonly DataState = DataState;
   readonly EventType = EventType;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private giveService: GiveService
+  ) {}
 
   ngOnInit(): void {
     this.profileState$ = this.userService.profile$().pipe(
@@ -52,7 +57,7 @@ export class DashboardComponent implements OnInit {
         return of({ dataState: DataState.ERROR, error });
       })
     );
-    this.givesState$ = this.userService.gives$().pipe(
+    this.givesState$ = this.giveService.gives$().pipe(
       map((response) => {
         const givesList: Give[] = response.data.give;
         // this.dataGiveSubject.next(response);
