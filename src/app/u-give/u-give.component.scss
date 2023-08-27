@@ -48,14 +48,15 @@
       cursor: pointer;
       border-radius: 5px;
       padding: 10px 35px;
-      transition: all 0.8s ease-in-out;
+      transition: all 0.5s ease-in-out;
       color: #4e4b93;
       background-color: #fff;
-      border: 0.9px solid #4e4b93;
+      border: 0.9px solid darkgray;
       margin-top: 1em;
     }
     .btn-save:hover {
       background-color: #4e4b93;
+      border: 0.9px solid #4e4b93;
       color: white;
     }
   }

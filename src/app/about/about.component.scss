@@ -2,7 +2,6 @@
   .introduction-text {
     padding: 6em 15em 5em 15em;
     background-color: #d7e7da;
-
     .content-text {
       margin-top: 3em;
     }
@@ -10,21 +9,44 @@
   .divide-area {
     display: flex;
     align-items: center;
-    gap: 6em;
     background-color: #324b4d;
-    padding: 2em;
+    padding: 2em 2em 2em 1em;
     .quote {
       color: #fbf7ff;
-      padding-left: 15em;
+      text-transform: uppercase;
+      padding: 1em 4em 0 15em;
     }
-    img {
-      background: url(./quote-logo.png);
+    .img-first {
+      background: url(./quote-lo.png);
       background-size: cover;
       width: 7em;
+      margin-right: 2em;
+    }
+    .img-second {
+      background: url(./quote-logo.png);
+      background-size: cover;
+      width: 6.5em;
+      margin-right: 2em;
+    }
+    .img-third {
+      background: url(./quote-log.png);
+      background-size: cover;
+      width: 6.5em;
     }
   }
   .rules {
     padding: 5em;
+    .rule-undernote {
+      text-align: center;
+      color: darkgray;
+    }
+    .rupe-wrap {
+      padding-top: 2.5em;
+      width: 75em;
+      .rule {
+        padding-left: 7em;
+      }
+    }
   }
 }
 .title {

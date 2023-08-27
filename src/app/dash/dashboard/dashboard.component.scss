@@ -116,27 +116,25 @@ a#give.nav-link.active {
   font-weight: 300;
   margin-bottom: 1.5em;
 }
-.new-give-wrap {
-  display: flex;
-  gap: 1em;
-  align-content: center;
-  .btn-give {
-    margin-bottom: 3em;
-    letter-spacing: 0.7px;
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 0.8em;
-    cursor: pointer;
-    border-radius: 15px;
-    padding: 10px 35px;
-    transition: all 0.4s ease-in-out;
-    color: #4e4b93;
-    background-color: #fff;
-    border: 0.8px solid #4e4b93;
-  }
-  .btn-give:hover {
-    transform: scale(1);
-  }
+
+.btn-give {
+  margin-bottom: 3em;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.8em;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 10px 35px;
+  transition: all 0.8s ease-in;
+  color: #4e4b93;
+  background-color: #fff;
+  border: 0.8px solid #4e4b93;
+}
+
+.btn-give:hover {
+  background-color: #4e4b93;
+  color: white;
 }
 
 .gives-table {
@@ -146,7 +144,7 @@ a#give.nav-link.active {
     width: 200px;
   }
   .btn-view {
-    background-color: #d7e7da;
+    background-color: lightgrey;
   }
 }
 

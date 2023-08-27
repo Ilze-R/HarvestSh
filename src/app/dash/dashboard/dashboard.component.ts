@@ -46,6 +46,10 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  private loadData(): void {
     this.profileState$ = this.userService.profile$().pipe(
       map((response) => {
         console.log(response);
@@ -57,16 +61,15 @@ export class DashboardComponent implements OnInit {
         return of({ dataState: DataState.ERROR, error });
       })
     );
+
     this.givesState$ = this.giveService.gives$().pipe(
       map((response) => {
         const givesList: Give[] = response.data.give;
-        // this.dataGiveSubject.next(response);
         const modifiedResponse = {
           ...response,
           data: { user: response.data.user, give: givesList },
         };
         this.dataGiveSubject.next(modifiedResponse);
-        // console.log(JSON.stringify(this.dataGiveSubject) + 'GJKFDHDFHKDF');
         return { dataState: DataState.LOADED, appData: modifiedResponse };
       }),
       startWith({ dataState: DataState.LOADING }),
@@ -129,5 +132,17 @@ export class DashboardComponent implements OnInit {
 
   selectGive(id: number): void {
     this.router.navigate(['/give', id]);
+  }
+
+  deleteItem(id: number): void {
+    this.giveService.delete$(id).subscribe({
+      next: (response) => {
+        console.log('Item deleted successfully', response);
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error deleting item', error);
+      },
+    });
   }
 }

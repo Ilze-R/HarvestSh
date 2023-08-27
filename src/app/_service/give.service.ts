@@ -52,6 +52,20 @@ export class GiveService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  // delete$ = (id: number) =>
+  //   <Observable<CustomHttpResponse<Give>>>(
+  //     this.http
+  //       .delete<CustomHttpResponse<Give>>(
+  //         `${this.server}/user/give/delete/${id}`
+  //       )
+  //       .pipe(tap(console.log), catchError(this.handleError))
+  //   );
+  delete$(id: number) {
+    return this.http
+      .delete(`${this.server}/user/give/delete/${id}`)
+      .pipe(tap(console.log), catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(error);
     let errorMessage: string;
