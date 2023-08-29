@@ -12,6 +12,7 @@ export class SharedService {
   // fromGiveComponent = false;
   // fromHomeComponent = false;
   cretaAccount: boolean = false;
+  toDelete: boolean = false;
 
   constructor() {}
 }

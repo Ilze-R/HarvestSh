@@ -31,7 +31,8 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 import { ProfileComponent } from './profile/profile.component';
 import { UGiveComponent } from './u-give/u-give.component';
 import { GiveViewComponent } from './give-view/give-view.component';
-3;
+import { DeleteWarnComponent } from './warnings/delete-warn/delete-warn.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { GiveViewComponent } from './give-view/give-view.component';
     ProfileComponent,
     UGiveComponent,
     GiveViewComponent,
+    DeleteWarnComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,11 +66,13 @@ import { GiveViewComponent } from './give-view/give-view.component';
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    MatDialogModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
+  entryComponents: [DeleteWarnComponent],
 })
 export class AppModule {}

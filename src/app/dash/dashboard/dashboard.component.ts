@@ -16,6 +16,9 @@ import { User } from 'src/app/_interface/user';
 import { Give } from 'src/app/_interface/give';
 import { EventType } from 'src/app/_enum/event-type.enum';
 import { GiveService } from 'src/app/_service/give.service';
+import { SharedService } from 'src/app/_service/shared.service';
+import { DeleteWarnComponent } from 'src/app/warnings/delete-warn/delete-warn.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +27,7 @@ import { GiveService } from 'src/app/_service/give.service';
 })
 export class DashboardComponent implements OnInit {
   @Input() user: User;
+  dialogRef: MatDialogRef<DeleteWarnComponent>;
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(null);
   givesState$: Observable<
@@ -42,7 +46,9 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private giveService: GiveService
+    private giveService: GiveService,
+    public sharedService: SharedService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -135,14 +141,25 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteItem(id: number): void {
-    this.giveService.delete$(id).subscribe({
-      next: (response) => {
-        console.log('Item deleted successfully', response);
-        this.loadData();
-      },
-      error: (error) => {
-        console.error('Error deleting item', error);
-      },
+    this.dialogRef = this.dialog.open(DeleteWarnComponent, {
+      disableClose: false,
+    });
+    this.dialogRef.componentInstance.confirmMessage =
+      'Are you sure you want to delete?';
+    this.dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // do confirmation actions
+        this.giveService.delete$(id).subscribe({
+          next: (response) => {
+            console.log('Item deleted successfully', response);
+            this.loadData();
+          },
+          error: (error) => {
+            console.error('Error deleting item', error);
+          },
+        });
+      }
+      this.dialogRef = null;
     });
   }
 }
