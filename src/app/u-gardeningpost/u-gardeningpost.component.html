@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="newGiveState$ | async as state"
+  *ngIf="newGardeningPostState$ | async as state"
   [ngSwitch]="state.dataState"
 >
   <ng-container *ngSwitchCase="DataState.LOADED">
@@ -7,11 +7,7 @@
       *ngIf="profileState$ | async as profile"
       [ngSwitch]="profile.dataState"
     >
-      <app-nav
-        [user]="profile?.appData?.data?.user"
-        [class.blur]="sharedService.showUGiveComonent"
-      >
-      </app-nav>
+      <app-nav [user]="profile?.appData?.data?.user" class="blur"> </app-nav>
     </ng-container>
 
     <section>
@@ -34,7 +30,7 @@
             <div>
               <div class="card-body">
                 <div class="text-center">
-                  <h3>New Give</h3>
+                  <h3>Gardening post</h3>
                 </div>
                 <div
                   *ngIf="state.error"
@@ -50,62 +46,23 @@
                   ></button>
                 </div>
                 <form
-                  #newGiveForm="ngForm"
-                  (ngSubmit)="newGive(newGiveForm)"
+                  #newGardeningForm="ngForm"
+                  (ngSubmit)="newGardeningPost(newGardeningForm)"
                   enctype="multipart/form-data"
                 >
                   <div class="row form-wrap">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label for="type">Type</label>
+                        <label for="title">Title</label>
                         <input
                           type="text"
                           ngModel
-                          name="type"
-                          id="type"
-                          class="form-control type-input"
+                          name="title"
+                          id="title"
+                          class="form-control title-input"
                           required
-                          placeholder="fruit/vegetable"
+                          placeholder="Your title"
                         />
-                      </div>
-                    </div>
-                    <div class="amount-input-wrap">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="amount">Amount</label>
-                          <input
-                            type="text"
-                            ngModel
-                            name="amount"
-                            id="amount"
-                            class="form-control amount-input"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div class="amount-type-buttons">
-                        <button
-                          class="btn-kg"
-                          id="amountType"
-                          name="amountType"
-                          type="button"
-                          value="kg"
-                          [class.active]="buttonValue === 'kg'"
-                          (click)="setButton('kg')"
-                        >
-                          kg
-                        </button>
-                        <button
-                          class="btn-units"
-                          type="button"
-                          id="amountType"
-                          name="amountType"
-                          value="units"
-                          [class.active]="buttonValue === 'units'"
-                          (click)="setButton('units')"
-                        >
-                          pieces
-                        </button>
                       </div>
                     </div>
                     <div>
@@ -122,11 +79,9 @@
                       <!-- <label for="img_url">Choose file</label> -->
                     </div>
                     <div class="form-group textarea-container">
-                      <label for="exampleFormControlTextarea1"
-                        >Description</label
-                      >
+                      <label for="exampleFormControlTextarea1">Content</label>
                       <textarea
-                        class="form-control"
+                        class="form-control content-input"
                         ngModel
                         name="description"
                         id="exampleFormControlTextarea1"
@@ -138,8 +93,8 @@
                     <button
                       [disabled]="
                         state.dataState === DataState.LOADING ||
-                        newGiveForm.invalid ||
-                        newGiveForm.pristine ||
+                        newGardeningForm.invalid ||
+                        newGardeningForm.pristine ||
                         (isLoading$ | async)
                       "
                       type="submit"

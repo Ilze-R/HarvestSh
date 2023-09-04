@@ -10,23 +10,23 @@ import {
 import { DataState } from '../_enum/datastate.enum';
 import { CustomHttpResponse, Profile } from '../_interface/appstates';
 import { State } from '../_interface/state';
-import { Give } from '../_interface/give';
-import { UserService } from '../_service/user.service';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GiveService } from '../_service/give.service';
-import { SharedService } from '../_service/shared.service';
+import { UserService } from '../_service/user.service';
+import { GardeningPost } from '../_interface/gardeningost';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-u-give',
-  templateUrl: './u-give.component.html',
-  styleUrls: ['./u-give.component.scss'],
+  selector: 'app-u-gardeningpost',
+  templateUrl: './u-gardeningpost.component.html',
+  styleUrls: ['./u-gardeningpost.component.scss'],
 })
-export class UGiveComponent implements OnInit {
-  newGiveState$: Observable<State<CustomHttpResponse<Profile & Give>>>;
-  private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile & Give>>(
-    null
-  );
+export class UGardeningpostComponent implements OnInit {
+  newGardeningPostState$: Observable<
+    State<CustomHttpResponse<Profile & GardeningPost>>
+  >;
+  private dataSubject = new BehaviorSubject<
+    CustomHttpResponse<Profile & GardeningPost>
+  >(null);
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataProfileSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(
     null
@@ -34,20 +34,14 @@ export class UGiveComponent implements OnInit {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
   readonly DataState = DataState;
-  buttonValue: string = 'kg';
   msg: string = '';
   image_url: any;
   selectedImage: File;
 
-  constructor(
-    private userService: UserService,
-    private giveService: GiveService,
-    private sharedService: SharedService,
-    private router: Router
-  ) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    this.newGiveState$ = this.giveService.newGive$().pipe(
+    this.newGardeningPostState$ = this.userService.newGardeningPost$().pipe(
       map((response) => {
         console.log(response + 'rsponse from giveeeee');
         this.dataSubject.next(response);
@@ -71,24 +65,19 @@ export class UGiveComponent implements OnInit {
     );
   }
 
-  newGive(newGiveForm: NgForm): void {
+  newGardeningPost(newGardeningForm: NgForm): void {
     this.dataSubject.next({ ...this.dataSubject.value, message: null });
     this.isLoadingSubject.next(true);
     const formData = new FormData();
     formData.append('image', this.selectedImage);
-    formData.append('type', newGiveForm.value.type);
-    formData.append('amount', newGiveForm.value.amount);
-    formData.append('description', newGiveForm.value.description);
-    formData.append('status', 'available');
-    formData.append('amountType', this.buttonValue);
-    formData.append('location', 'riga');
+    formData.append('title', newGardeningForm.value.title);
     formData.append('img_url', this.image_url);
-    this.newGiveState$ = this.giveService
-      .createGive$(this.dataSubject.value.data.user.id, formData)
+    formData.append('description', newGardeningForm.value.description);
+    this.newGardeningPostState$ = this.userService
+      .createGardeningPost$(this.dataSubject.value.data.user.id, formData)
       .pipe(
         map((response) => {
           console.log(response);
-          newGiveForm.reset({ status: 'PENDING' });
           this.isLoadingSubject.next(false);
           this.dataSubject.next(response);
           console.log(this.dataSubject.value);
@@ -140,9 +129,5 @@ export class UGiveComponent implements OnInit {
       this.msg = '';
       this.image_url = reader.result;
     };
-  }
-
-  setButton(value: string) {
-    this.buttonValue = value;
   }
 }

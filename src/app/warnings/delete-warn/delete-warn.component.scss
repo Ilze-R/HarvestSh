@@ -1,16 +1,23 @@
 .wrap {
+  justify-content: center;
   display: flex;
   gap: 1em;
+  padding: 1em;
+  .img-delete {
+    background-image: url(./full-inbox-0.svg);
+  }
   .btn-yes {
     padding: 0.5em 0.7em;
     cursor: pointer;
     border-radius: 5px;
     background-color: #d7e7da;
+    font-size: smaller;
   }
   .btn-no {
     padding: 0.5em 0.7em;
     cursor: pointer;
     border-radius: 5px;
     background-color: white;
+    font-size: smaller;
   }
 }

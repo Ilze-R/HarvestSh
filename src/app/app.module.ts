@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GoogleMapsModule } from '@angular/google-maps';
 import { MapDemoComponent } from './map-demo/map-demo.component';
 import {
   HttpClientModule,
@@ -33,6 +32,12 @@ import { UGiveComponent } from './u-give/u-give.component';
 import { GiveViewComponent } from './give-view/give-view.component';
 import { DeleteWarnComponent } from './warnings/delete-warn/delete-warn.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { GardeningComponent } from './forum/gardening/gardening.component';
+import { ReciepesComponent } from './forum/reciepes/reciepes.component';
+import { ImadeComponent } from './forum/imade/imade.component';
+import { OtherComponent } from './forum/other/other.component';
+import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +61,11 @@ import { MatDialogModule } from '@angular/material/dialog';
     UGiveComponent,
     GiveViewComponent,
     DeleteWarnComponent,
+    GardeningComponent,
+    ReciepesComponent,
+    ImadeComponent,
+    OtherComponent,
+    UGardeningpostComponent,
   ],
   imports: [
     BrowserModule,

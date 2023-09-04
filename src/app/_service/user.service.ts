@@ -14,6 +14,7 @@ import {
 } from '../_interface/appstates';
 import { User } from '../_interface/user';
 import { Give } from '../_interface/give';
+import { GardeningPost } from '../_interface/gardeningost';
 
 @Injectable({
   providedIn: 'root',
@@ -202,5 +203,20 @@ export class UserService {
     }
     return throwError(() => errorMessage);
   }
-}
 
+  createGardeningPost$ = (id: number, formData: FormData) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & GardeningPost>>(
+        `${this.server}/user/give/addgardeningpost/image/${id}`,
+        formData
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  newGardeningPost$ = () =>
+    <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & GardeningPost>>(`${this.server}/user/gardeningpost/new`)
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+}

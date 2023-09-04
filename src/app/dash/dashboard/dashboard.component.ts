@@ -42,6 +42,18 @@ export class DashboardComponent implements OnInit {
   showLogs$ = this.showLogsSubject.asObservable();
   readonly DataState = DataState;
   readonly EventType = EventType;
+  showGardening: boolean = true;
+  showReciepes: boolean = false;
+  showImade: boolean = false;
+  showOther: boolean = false;
+  activeLink: string = 'Gardening';
+
+  center = { lat: 24, lng: 12 };
+  // center: google.maps.LatLngLiteral = {
+  //   lat: 24,
+  //   lng: 12,
+  // };
+  zoom = 5;
 
   constructor(
     private router: Router,
@@ -53,6 +65,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.sharedService.showUGiveComonent = true;
   }
 
   private loadData(): void {
@@ -87,6 +100,7 @@ export class DashboardComponent implements OnInit {
 
   newGiveForm(): void {
     this.router.navigate(['/gives']);
+    this.sharedService.showUGiveComonent = true;
   }
 
   updatePicture(image: File): void {
@@ -161,5 +175,34 @@ export class DashboardComponent implements OnInit {
       }
       this.dialogRef = null;
     });
+  }
+
+  showGardeningSection() {
+    this.showGardening = true;
+    this.showReciepes = false;
+    this.showImade = false;
+    this.showOther = false;
+    this.activeLink = 'Gardening';
+  }
+  showReciepesSection() {
+    this.showReciepes = true;
+    this.showGardening = false;
+    this.showImade = false;
+    this.showOther = false;
+    this.activeLink = 'Reciepes';
+  }
+  showImadeSection() {
+    this.showImade = true;
+    this.showReciepes = false;
+    this.showGardening = false;
+    this.showOther = false;
+    this.activeLink = 'Imade';
+  }
+  showOtherSection() {
+    this.showOther = true;
+    this.showImade = false;
+    this.showReciepes = false;
+    this.showGardening = false;
+    this.activeLink = 'Other';
   }
 }

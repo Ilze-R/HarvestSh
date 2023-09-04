@@ -1,10 +1,11 @@
 .main-nav {
   z-index: 100;
-  padding-top: 1.5em;
+  padding-top: 0.5em;
   .main-nav-list {
     list-style: none;
     display: flex;
-
+    margin: 0;
+    border-bottom: 0.3px solid darkgray;
     .logo-container {
       display: flex;
       flex-direction: row;
@@ -23,7 +24,8 @@
     width: 85px;
     height: 85px;
     cursor: pointer;
-    margin-left: 2em;
+    padding-left: 1em;
+    margin-left: 1em;
   }
 
   .logo {
@@ -33,7 +35,7 @@
   }
 
   .active-link {
-    font-weight: bold;
+    // font-weight: bold;
   }
 
   a {
@@ -95,7 +97,10 @@
   //   display: none;
   // }
 }
-.user-avatar-md {
-  height: 32px;
-  width: 32px;
+.profile-img-wrap {
+  margin-right: 2.5em;
+  .user-avatar-md {
+    height: 32px;
+    width: 32px;
+  }
 }

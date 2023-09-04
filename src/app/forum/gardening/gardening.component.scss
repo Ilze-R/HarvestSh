@@ -1,0 +1,24 @@
+.add-post-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 60em;
+  height: 4em;
+  border: 0.8px solid darkgray;
+  margin: 0 !important;
+  border-radius: 7px;
+  cursor: pointer;
+  background-color: #f1f1f1;
+  svg {
+    align-self: center;
+  }
+}
+.gardening-wrap {
+  width: 60em;
+  padding: 0.5em;
+  margin-top: 2em;
+  .card-text {
+    font-size: 13px;
+  }
+}

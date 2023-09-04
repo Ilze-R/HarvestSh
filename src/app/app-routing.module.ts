@@ -16,6 +16,11 @@ import { ResetpasswordComponent } from './resetpassword/resetpassword.component'
 import { ProfileComponent } from './profile/profile.component';
 import { UGiveComponent } from './u-give/u-give.component';
 import { GiveViewComponent } from './give-view/give-view.component';
+import { GardeningComponent } from './forum/gardening/gardening.component';
+import { ReciepesComponent } from './forum/reciepes/reciepes.component';
+import { ImadeComponent } from './forum/imade/imade.component';
+import { OtherComponent } from './forum/other/other.component';
+import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.component';
 
 const routes: Routes = [
   {
@@ -49,6 +54,31 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'newgardeningpost',
+    component: UGardeningpostComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'forum/:gardening',
+    component: GardeningComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'forum/:reciepes',
+    component: ReciepesComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'forum/:imadethis',
+    component: ImadeComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'forum/:other',
+    component: OtherComponent,
     canActivate: [AuthenticationGuard],
   },
   {

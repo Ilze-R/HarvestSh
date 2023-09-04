@@ -9,10 +9,9 @@ import { LoginState } from '../_interface/appstates';
 export class SharedService {
   showLoginComponent = false;
   showRegisterComponent = false;
-  // fromGiveComponent = false;
-  // fromHomeComponent = false;
   cretaAccount: boolean = false;
   toDelete: boolean = false;
+  showUGiveComonent: boolean = false;
 
   constructor() {}
 }

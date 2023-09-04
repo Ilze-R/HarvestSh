@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SharedService } from '../_service/shared.service';
 import { User } from '../_interface/user';
 import { Router } from '@angular/router';
@@ -31,12 +31,10 @@ export class NavComponent implements OnInit {
     ) {
       this.isLoggedIn = true;
     }
-    console.log(this.sharedService.showLoginComponent);
   }
 
   showLogin() {
     this.sharedService.showLoginComponent = true;
-    console.log(this.sharedService.showLoginComponent);
   }
 
   logOut(): void {

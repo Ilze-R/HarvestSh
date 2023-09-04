@@ -1,8 +1,10 @@
-<ng-container *ngIf="profileState$ | async as state">
-  <ng-container>
-    <app-nav [user]="state?.appData?.data?.user"></app-nav>
-    <section>
-      <div class="container-fluid">
+<div class="background-wrap" >
+  <ng-container *ngIf="profileState$ | async as state">
+    <ng-container>
+      <app-nav
+        [user]="state?.appData?.data?.user"
+      ></app-nav>
+      <section>
         <div class="bg-white d-block d-sm-flex">
           <div class="profile-tab-nav">
             <div class="p-4">
@@ -42,7 +44,7 @@
               </h4>
             </div>
             <div
-              class="nav flex-column nav-pills"
+              class="nav flex-column nav-pills align-items-stretch"
               id="v-pills-tab"
               role="tablist"
               aria-orientation="vertical"
@@ -93,22 +95,71 @@
               </a>
             </div>
           </div>
+          <!-- *************** -->
+          <!-- ****NAV BAR END**** -->
+          <!-- *************** -->
           <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
             <div
-              class="tab-pane fade"
+              class="tab-pane fade forum-wrap"
               id="forum-tab"
               role="tabpanel"
               aria-labelledby="forum"
               style="min-height: 510px"
             >
-              <div>
-                <h6>Gardening</h6>
-                <h6>Reciepes</h6>
-                <h6>Other</h6>
+              <div class="forum-topic-wrap flex-column">
+                <div class="link-wrap">
+                  <button
+                    class="btn-link"
+                    (click)="showGardeningSection()"
+                    [ngClass]="{
+                      'active-link': activeLink === 'Gardening',
+                      'inactive-link': activeLink !== 'Gardening'
+                    }"
+                  >
+                    Gardening
+                  </button>
+                  <button
+                    class="btn-link"
+                    (click)="showReciepesSection()"
+                    [ngClass]="{
+                      'active-link': activeLink === 'Reciepes',
+                      'inactive-link': activeLink !== 'Reciepes'
+                    }"
+                  >
+                    Recipes
+                  </button>
+                  <button
+                    class="btn-link"
+                    (click)="showImadeSection()"
+                    [ngClass]="{
+                      'active-link': activeLink === 'Imade',
+                      'inactive-link': activeLink !== 'Imade'
+                    }"
+                  >
+                    I made this
+                  </button>
+                  <button
+                    class="btn-link"
+                    (click)="showOtherSection()"
+                    [ngClass]="{
+                      'active-link': activeLink === 'Other',
+                      'inactive-link': activeLink !== 'Other'
+                    }"
+                  >
+                    Other
+                  </button>
+                </div>
+
+                <div>
+                  <app-gardening *ngIf="showGardening"></app-gardening>
+                  <app-reciepes *ngIf="showReciepes"></app-reciepes>
+                  <app-imade *ngIf="showImade"></app-imade>
+                  <app-other *ngIf="showOther"></app-other>
+                </div>
               </div>
             </div>
             <div
-              class="tab-pane fade"
+              class="tab-pane fade give-wrap"
               id="give-tab"
               role="tabpanel"
               aria-labelledby="give"
@@ -159,21 +210,7 @@
                           {{ gives.status }}
                         </td>
                         <td (click)="deleteItem(gives.id)">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="#A21E2A"
-                            class="bi bi-trash"
-                            viewBox="0 0 16 16"
-                          >
-                            <path
-                              d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"
-                            />
-                            <path
-                              d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"
-                            />
-                          </svg>
+                          <img class="img-bin" src="./bin-icon.svg" alt="" />
                         </td>
                         <td>
                           <button
@@ -191,13 +228,77 @@
               </div>
             </div>
             <div
-              class="tab-pane fade"
+              class="tab-pane fade get-wrap"
               id="get-tab"
               role="tabpanel"
               aria-labelledby="get"
               style="min-height: 510px"
             >
-              <h3 class="mb-4">Get</h3>
+              <h5 class="mb-4 my-give-title">Look for offers</h5>
+              <div class="search-wrap">
+                <form class="d-flex flex-row position-relative">
+                  <input
+                    type="search"
+                    class="form-control"
+                    id="example-search-input"
+                    placeholder="search"
+                  />
+
+                  <button
+                    class="btn border-0 position-absolute end-0"
+                    type="submit"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill=" #808080 "
+                      class="bi bi-search"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                      />
+                    </svg>
+                  </button>
+                </form>
+                <p>in</p>
+                <form class="d-flex flex-row position-relative">
+                  <input
+                    type="search"
+                    class="form-control"
+                    placeholder="location"
+                  />
+
+                  <button
+                    class="btn border-0 position-absolute end-0"
+                    type="submit"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="#808080"
+                      class="bi bi-geo-alt"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"
+                      />
+                      <path
+                        d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+                      />
+                    </svg>
+                  </button>
+                </form>
+              </div>
+              <!-- <google-map
+                height="30em"
+                width="60em"
+                [center]="center"
+                [zoom]="zoom"
+                [options]="mapOptions"
+              ></google-map> -->
             </div>
             <div
               class="tab-pane fade"
@@ -212,58 +313,88 @@
               class="tab-pane fade show active"
               id="account-tab"
               role="tabpanel"
-              aria-labelledby="account"
-              style="min-height: 510px"
             >
               <div class="account-items">
-                <div class="account-main-wrap">
+                <div class="account-main-wrap container-fluid">
                   <div class="welcome-container">
-                    <h3 class="welcome-text">
-                      Hello,<br />
-                      <span class="non-bold"
-                        >{{
-                          state?.appData?.data?.user?.username | titlecase
-                        }}!</span
-                      >
-                      👋
-                    </h3>
-                    <p>Lettuce make a difference!</p>
+                    <div>
+                      <div class="greeting-wrap">
+                        <div>
+                          <h3 class="welcome-text">
+                            Hello,<br />
+                            <span class="non-bold"
+                              >{{
+                                state?.appData?.data?.user?.username
+                                  | titlecase
+                              }}!</span
+                            >
+                          </h3>
+                        </div>
+                        <div>
+                          <img
+                            class="img-lettuce"
+                            src="./lettuce.png"
+                            alt="lettuce"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p>Lettuce make a difference!</p>
+                      </div>
+                    </div>
+                    <div class="stats">
+                      <div class="result">
+                        <p class="nr">0</p>
+                        <p>Gives</p>
+                      </div>
+                      <div class="result">
+                        <p class="nr">0</p>
+                        <p>Gets</p>
+                      </div>
+                      <div class="result">
+                        <p class="nr">1</p>
+                        <p>Level</p>
+                      </div>
+                    </div>
                   </div>
                   <div class="participation-container">
                     <h5 class="participation-title">My participation</h5>
                   </div>
                 </div>
-                <div class="thankyou-container">
-                  <div class="thankyou-note">
-                    <p class="thanks-title">Thanks!</p>
-                    <p class="thanks-text">The cucumbers were delicious</p>
-                  </div>
-                  <div class="thankyou-note" style="background-color: #f0e3df">
-                    <p class="thanks-title">Hey!</p>
-                    <p class="thanks-text">
-                      We made amazing salads from your tomatoes
-                    </p>
+
+                <div class="row">
+                  <div class="thankyou-container">
+                    <div class="thankyou-note">
+                      <p class="thanks-title">Thanks!</p>
+                      <p class="thanks-text">The cucumbers were delicious</p>
+                    </div>
+                    <div class="thankyou-note">
+                      <p class="thanks-title">Hey!</p>
+                      <p class="thanks-text">
+                        We made amazing salads from your tomatoes
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </ng-container>
   </ng-container>
-</ng-container>
 
-<!-- profile image change form -->
-<form enctype="multipart/form-data" style="display: none">
-  <input
-    type="file"
-    #fileInput
-    (change)="updatePicture($event.target.files[0])"
-    name="image"
-    id="image"
-    placeholder="file"
-    ngModel
-    accept="image/*"
-  />
-</form>
+  <!-- profile image change form -->
+  <form enctype="multipart/form-data" style="display: none">
+    <input
+      type="file"
+      #fileInput
+      (change)="updatePicture($event.target.files[0])"
+      name="image"
+      id="image"
+      placeholder="file"
+      ngModel
+      accept="image/*"
+    />
+  </form>
+</div>
