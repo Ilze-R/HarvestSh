@@ -43,7 +43,6 @@ export class UGardeningpostComponent implements OnInit {
   ngOnInit(): void {
     this.newGardeningPostState$ = this.userService.newGardeningPost$().pipe(
       map((response) => {
-        console.log(response + 'rsponse from giveeeee');
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -77,12 +76,9 @@ export class UGardeningpostComponent implements OnInit {
       .createGardeningPost$(this.dataSubject.value.data.user.id, formData)
       .pipe(
         map((response) => {
-          console.log(response);
           this.isLoadingSubject.next(false);
           this.dataSubject.next(response);
-          console.log(this.dataSubject.value);
           this.router.navigate(['/dashboard']);
-          console.log(this.dataSubject.value);
           return {
             dataState: DataState.LOADED,
             appData: this.dataSubject.value,
@@ -94,7 +90,6 @@ export class UGardeningpostComponent implements OnInit {
         }),
         catchError((error: string) => {
           this.isLoadingSubject.next(false);
-          console.log(this.dataSubject.value);
           return of({ dataState: DataState.LOADED, error });
         })
       );
@@ -105,14 +100,11 @@ export class UGardeningpostComponent implements OnInit {
       this.msg = 'You must select an image';
       return;
     }
-
     var mimeType = event.target.files[0].type;
-
     if (mimeType.match(/image\/*/) == null) {
       this.msg = 'Only images are supported';
       return;
     }
-
     const selectedFile = event.target.files[0];
     const maxSizeInBytes = 2000 * 1024 * 1024; // 2GB in bytes
 
@@ -120,11 +112,9 @@ export class UGardeningpostComponent implements OnInit {
       this.msg = 'File size exceeds the allowed limit (2GB)';
       return;
     }
-
     this.selectedImage = event.target.files[0];
     var reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
-
     reader.onload = (_event) => {
       this.msg = '';
       this.image_url = reader.result;

@@ -1,4 +1,7 @@
-
+<ng-container
+  *ngIf="gardeningPostState$ | async as state"
+  [ngSwitch]="state.dataState"
+>
   <div class="add-post-wrap">
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -18,17 +21,21 @@
     </svg>
   </div>
 
-  <div class="card mb-3 gardening-wrap">
+  <div
+    class="card mb-3 gardening-wrap"
+    *ngFor="let post of state?.appData?.data?.posts"
+  >
     <!-- <img src="..." class="card-img-top" alt="..." /> -->
-
     <div class="card-body">
-      <h6 class="card-title">How to grow yellow mushrooms</h6>
+      <h6 class="card-title">{{ post?.title }}</h6>
       <p class="card-text">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, eaque
-        ..
+        {{ post?.description }}
       </p>
       <p class="card-text">
-        <small class="text-muted">Last updated 3 mins ago</small>
+        <small class="text-muted"
+          >Last updated {{ formatTimeDifference(post.date | date) }}</small
+        >
       </p>
     </div>
   </div>
+</ng-container>

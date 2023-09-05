@@ -18,6 +18,11 @@
   width: 60em;
   padding: 0.5em;
   margin-top: 2em;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  &:hover {
+    transform: scale(1.01); /* Scale the element by 5% on hover */
+  }
   .card-text {
     font-size: 13px;
   }

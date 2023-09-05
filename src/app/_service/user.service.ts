@@ -216,7 +216,18 @@ export class UserService {
   newGardeningPost$ = () =>
     <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
       this.http
-        .get<CustomHttpResponse<Profile & GardeningPost>>(`${this.server}/user/gardeningpost/new`)
+        .get<CustomHttpResponse<Profile & GardeningPost>>(
+          `${this.server}/user/gardeningpost/new`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  allGardeningPosts$ = (page: number = 1, pageSize: number = 10) =>
+    <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & GardeningPost>>(
+          `${this.server}/user/gardening/list?page=${page}&pageSize=${pageSize}`
+        )
         .pipe(tap(console.log), catchError(this.handleError))
     );
 }
