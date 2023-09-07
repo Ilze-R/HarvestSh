@@ -21,6 +21,9 @@ import { ReciepesComponent } from './forum/reciepes/reciepes.component';
 import { ImadeComponent } from './forum/imade/imade.component';
 import { OtherComponent } from './forum/other/other.component';
 import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.component';
+import { URecipepostComponent } from './u-recipepost/u-recipepost.component';
+import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
+import { UImadepostComponent } from './u-imadepost/u-imadepost.component';
 
 const routes: Routes = [
   {
@@ -59,6 +62,21 @@ const routes: Routes = [
   {
     path: 'newgardeningpost',
     component: UGardeningpostComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'newrecipepost',
+    component: URecipepostComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'newotherpost',
+    component: UOtherpostComponent,
+    canActivate: [AuthenticationGuard],
+  },
+  {
+    path: 'newimadepost',
+    component: UImadepostComponent,
     canActivate: [AuthenticationGuard],
   },
   {

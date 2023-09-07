@@ -38,6 +38,9 @@ import { ReciepesComponent } from './forum/reciepes/reciepes.component';
 import { ImadeComponent } from './forum/imade/imade.component';
 import { OtherComponent } from './forum/other/other.component';
 import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.component';
+import { URecipepostComponent } from './u-recipepost/u-recipepost.component';
+import { UImadepostComponent } from './u-imadepost/u-imadepost.component';
+import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +69,9 @@ import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.compo
     ImadeComponent,
     OtherComponent,
     UGardeningpostComponent,
+    URecipepostComponent,
+    UImadepostComponent,
+    UOtherpostComponent,
   ],
   imports: [
     BrowserModule,

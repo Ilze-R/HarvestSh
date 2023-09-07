@@ -27,13 +27,11 @@ export interface Profile {
   access_token?: string;
   refresh_token?: string;
 }
-export interface Page<T> {
+export interface Pagination<T> {
   content: T[];
+  currentPage: number;
   totalPages: number;
-  totalElements: number;
-  numberOfElements: number;
-  size: number;
-  number: number;
+  totalItems: number;
 }
 
 export interface RegisterAndResetState {

@@ -11,10 +11,14 @@ import {
   CustomHttpResponse,
   Profile,
   AccountType,
+  Pagination,
 } from '../_interface/appstates';
 import { User } from '../_interface/user';
 import { Give } from '../_interface/give';
 import { GardeningPost } from '../_interface/gardeningost';
+import { RecipePost } from '../_interface/recipepost';
+import { IMadePost } from '../_interface/imadepost';
+import { OtherPost } from '../_interface/otherpost';
 
 @Injectable({
   providedIn: 'root',
@@ -207,7 +211,34 @@ export class UserService {
   createGardeningPost$ = (id: number, formData: FormData) => {
     return this.http
       .post<CustomHttpResponse<Profile & GardeningPost>>(
-        `${this.server}/user/give/addgardeningpost/image/${id}`,
+        `${this.server}/user/addgardeningpost/image/${id}`,
+        formData
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  createRecipePost$ = (id: number, formData: FormData) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & RecipePost>>(
+        `${this.server}/user/addrecipepost/image/${id}`,
+        formData
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  createIMadePost$ = (id: number, formData: FormData) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & IMadePost>>(
+        `${this.server}/user/addimadepost/image/${id}`,
+        formData
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  createOtherPost$ = (id: number, formData: FormData) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & OtherPost>>(
+        `${this.server}/user/addotherpost/image/${id}`,
         formData
       )
       .pipe(tap(console.log), catchError(this.handleError));
@@ -217,16 +248,79 @@ export class UserService {
     <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
       this.http
         .get<CustomHttpResponse<Profile & GardeningPost>>(
-          `${this.server}/user/gardeningpost/new`
+          `${this.server}/user/post/new`
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  allGardeningPosts$ = (page: number = 1, pageSize: number = 10) =>
+  newRecipePost$ = () =>
+    <Observable<CustomHttpResponse<Profile & RecipePost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & RecipePost>>(
+          `${this.server}/user/post/new`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  newIMadePost$ = () =>
+    <Observable<CustomHttpResponse<Profile & IMadePost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & IMadePost>>(
+          `${this.server}/user/post/new`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  newOtherPost$ = () =>
+    <Observable<CustomHttpResponse<Profile & OtherPost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & OtherPost>>(
+          `${this.server}/user/post/new`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  // { user: Profile; give: Give[] }
+
+  allGardeningPosts$ = (page: number = 1, pageSize: number = 5) =>
     <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
       this.http
         .get<CustomHttpResponse<Profile & GardeningPost>>(
           `${this.server}/user/gardening/list?page=${page}&pageSize=${pageSize}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  allRecipePosts$ = (page: number = 1, pageSize: number = 10) =>
+    <Observable<CustomHttpResponse<Profile & RecipePost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & RecipePost>>(
+          `${this.server}/user/recipe/list?page=${page}&pageSize=${pageSize}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  recipePostCount$ = () =>
+    <Observable<CustomHttpResponse<number>>>(
+      this.http
+        .get<CustomHttpResponse<number>>(`${this.server}/user/recipe/count`)
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  allIMadePosts$ = (page: number = 1, pageSize: number = 10) =>
+    <Observable<CustomHttpResponse<Profile & IMadePost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & IMadePost>>(
+          `${this.server}/user/imade/list?page=${page}&pageSize=${pageSize}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  allOtherPosts$ = (page: number = 1, pageSize: number = 10) =>
+    <Observable<CustomHttpResponse<Profile & OtherPost>>>(
+      this.http
+        .get<CustomHttpResponse<Profile & OtherPost>>(
+          `${this.server}/user/other/list?page=${page}&pageSize=${pageSize}`
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );

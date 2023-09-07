@@ -1,5 +1,5 @@
 <ng-container
-  *ngIf="newGardeningPostState$ | async as state"
+  *ngIf="newRecipePostState$ | async as state"
   [ngSwitch]="state.dataState"
 >
   <ng-container *ngSwitchCase="DataState.LOADED">
@@ -30,7 +30,7 @@
             <div>
               <div class="card-body">
                 <div class="text-center">
-                  <h3>Gardening post</h3>
+                  <h3>Recipe post</h3>
                 </div>
                 <div
                   *ngIf="state.error"
@@ -47,7 +47,7 @@
                 </div>
                 <form
                   #postForm="ngForm"
-                  (ngSubmit)="newGardeningPost(postForm)"
+                  (ngSubmit)="newRecipePost(postForm)"
                   enctype="multipart/form-data"
                 >
                   <div class="row form-wrap">
@@ -120,3 +120,4 @@
     </section>
   </ng-container>
 </ng-container>
+

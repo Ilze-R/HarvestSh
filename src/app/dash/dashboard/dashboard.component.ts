@@ -36,6 +36,7 @@ export class DashboardComponent implements OnInit {
   private dataGiveSubject = new BehaviorSubject<
     CustomHttpResponse<{ user: Profile; give: Give[] }>
   >(null);
+
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
   private showLogsSubject = new BehaviorSubject<boolean>(false);
@@ -183,6 +184,7 @@ export class DashboardComponent implements OnInit {
     this.showImade = false;
     this.showOther = false;
     this.activeLink = 'Gardening';
+    this.sharedService.currentFormType = 'gardening';
   }
   showReciepesSection() {
     this.showReciepes = true;
@@ -190,6 +192,7 @@ export class DashboardComponent implements OnInit {
     this.showImade = false;
     this.showOther = false;
     this.activeLink = 'Reciepes';
+    this.sharedService.currentFormType = 'recipe';
   }
   showImadeSection() {
     this.showImade = true;
@@ -197,6 +200,7 @@ export class DashboardComponent implements OnInit {
     this.showGardening = false;
     this.showOther = false;
     this.activeLink = 'Imade';
+    this.sharedService.currentFormType = 'iMade';
   }
   showOtherSection() {
     this.showOther = true;
@@ -204,5 +208,6 @@ export class DashboardComponent implements OnInit {
     this.showReciepes = false;
     this.showGardening = false;
     this.activeLink = 'Other';
+    this.sharedService.currentFormType = 'other';
   }
 }

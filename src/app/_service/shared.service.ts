@@ -12,6 +12,5 @@ export class SharedService {
   cretaAccount: boolean = false;
   toDelete: boolean = false;
   showUGiveComonent: boolean = false;
-
-  constructor() {}
+  currentFormType: string = 'gardening';
 }

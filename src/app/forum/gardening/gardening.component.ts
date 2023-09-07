@@ -12,7 +12,6 @@ import { DataState } from 'src/app/_enum/datastate.enum';
 import { EventType } from 'src/app/_enum/event-type.enum';
 import { CustomHttpResponse, Profile } from 'src/app/_interface/appstates';
 import { GardeningPost } from 'src/app/_interface/gardeningost';
-import { Give } from 'src/app/_interface/give';
 import { State } from 'src/app/_interface/state';
 import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
@@ -31,6 +30,9 @@ export class GardeningComponent implements OnInit {
   >(null);
   readonly DataState = DataState;
   readonly EventType = EventType;
+  currentPage = 1;
+  pageSize = 10;
+  count: any;
 
   constructor(
     private router: Router,
@@ -42,11 +44,12 @@ export class GardeningComponent implements OnInit {
     this.loadData();
   }
 
-  private loadData(): void {
+  private loadData(page: number = 1, pageSize: number = 10): void {
     this.gardeningPostState$ = this.userService.allGardeningPosts$().pipe(
       map((response) => {
-        console.log(response + 'POSTSPOSTS');
         this.gardeningPostSubject.next(response);
+        const posts = (response.data as any)?.posts || [];
+        this.count = posts.length;
         return { dataState: DataState.LOADED, appData: response };
       }),
       startWith({ dataState: DataState.LOADING }),
@@ -58,6 +61,11 @@ export class GardeningComponent implements OnInit {
 
   newGardeningPostForm(): void {
     this.router.navigate(['/newgardeningpost']);
+  }
+
+  changePage(page: number) {
+    this.currentPage = page;
+    this.loadData();
   }
 
   formatTimeDifference(postDate: any): string {

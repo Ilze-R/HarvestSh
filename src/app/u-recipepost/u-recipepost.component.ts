@@ -7,28 +7,26 @@ import {
   of,
   startWith,
 } from 'rxjs';
-import { DataState } from '../_enum/datastate.enum';
 import { CustomHttpResponse, Profile } from '../_interface/appstates';
+import { RecipePost } from '../_interface/recipepost';
 import { State } from '../_interface/state';
 import { Router } from '@angular/router';
-import { UserService } from '../_service/user.service';
-import { GardeningPost } from '../_interface/gardeningost';
-import { NgForm } from '@angular/forms';
-import { IMadePost } from '../_interface/imadepost';
-import { OtherPost } from '../_interface/otherpost';
 import { SharedService } from '../_service/shared.service';
+import { UserService } from '../_service/user.service';
+import { DataState } from '../_enum/datastate.enum';
+import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-u-gardeningpost',
-  templateUrl: './u-gardeningpost.component.html',
-  styleUrls: ['./u-gardeningpost.component.scss'],
+  selector: 'app-u-recipepost',
+  templateUrl: './u-recipepost.component.html',
+  styleUrls: ['./u-recipepost.component.scss'],
 })
-export class UGardeningpostComponent implements OnInit {
-  newGardeningPostState$: Observable<
-    State<CustomHttpResponse<Profile & GardeningPost>>
+export class URecipepostComponent implements OnInit {
+  newRecipePostState$: Observable<
+    State<CustomHttpResponse<Profile & RecipePost>>
   >;
-  private dataGardenSubject = new BehaviorSubject<
-    CustomHttpResponse<Profile & GardeningPost>
+  private dataRecipeSubject = new BehaviorSubject<
+    CustomHttpResponse<Profile & RecipePost>
   >(null);
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataProfileSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(
@@ -48,9 +46,9 @@ export class UGardeningpostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.newGardeningPostState$ = this.userService.newGardeningPost$().pipe(
+    this.newRecipePostState$ = this.userService.newRecipePost$().pipe(
       map((response) => {
-        this.dataGardenSubject.next(response);
+        this.dataRecipeSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
       startWith({ dataState: DataState.LOADING }),
@@ -71,9 +69,9 @@ export class UGardeningpostComponent implements OnInit {
     );
   }
 
-  newGardeningPost(postForm: NgForm): void {
-    this.dataGardenSubject.next({
-      ...this.dataGardenSubject.value,
+  newRecipePost(postForm: NgForm): void {
+    this.dataRecipeSubject.next({
+      ...this.dataRecipeSubject.value,
       message: null,
     });
     this.isLoadingSubject.next(true);
@@ -82,21 +80,21 @@ export class UGardeningpostComponent implements OnInit {
     formData.append('title', postForm.value.title);
     formData.append('img_url', this.image_url);
     formData.append('description', postForm.value.description);
-    this.newGardeningPostState$ = this.userService
-      .createGardeningPost$(this.dataGardenSubject.value.data.user.id, formData)
+    this.newRecipePostState$ = this.userService
+      .createRecipePost$(this.dataRecipeSubject.value.data.user.id, formData)
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
-          this.dataGardenSubject.next(response);
+          this.dataRecipeSubject.next(response);
           this.router.navigate(['/dashboard']);
           return {
             dataState: DataState.LOADED,
-            appData: this.dataGardenSubject.value,
+            appData: this.dataRecipeSubject.value,
           };
         }),
         startWith({
           dataState: DataState.LOADED,
-          appData: this.dataGardenSubject.value,
+          appData: this.dataRecipeSubject.value,
         }),
         catchError((error: string) => {
           this.isLoadingSubject.next(false);
