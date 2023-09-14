@@ -20,22 +20,98 @@
       />
     </svg>
   </div>
-
   <div
     class="card mb-3 gardening-wrap"
-    *ngFor="let post of state?.appData?.data?.posts"
+    *ngFor="let post of state?.appData?.data?.posts; let i = index"
+    [ngClass]="{ 'no-hover': clickedIndex === i }"
   >
-    <!-- <img src="..." class="card-img-top" alt="..." /> -->
     <div class="card-body">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        [ngClass]="{
+          'bi-chevron-down': clickedIndex !== i,
+          'bi-chevron-up': clickedIndex === i
+        }"
+        viewBox="0 0 16 16"
+        (click)="getDetails(i)"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+        />
+      </svg>
       <h6 class="card-title">{{ post?.title }}</h6>
-      <p class="card-text">
-        {{ post?.description }}
+      <img *ngIf="clickedIndex === i" src="{{ post.img_url }}" alt="" />
+      <p *ngIf="clickedIndex !== i" class="card-text">
+        {{ post?.description | shorten : 90 }}
       </p>
-      <p class="card-text">
+      <p *ngIf="clickedIndex === i">{{ post?.description }}</p>
+      <p *ngIf="clickedIndex !== i" class="card-text">
         <small class="text-muted"
           >Last updated {{ formatTimeDifference(post.date | date) }}</small
         >
       </p>
+      <div
+        *ngIf="clickedIndex === i"
+        class="form-group textarea-container add-comment-wrap"
+      >
+        <ng-container
+          *ngIf="userState$ | async as user"
+          [ngSwitch]="user.dataState"
+        >
+          <img
+            src="{{ user?.appData?.data?.user?.imageUrl }}"
+            alt="profile photo icon"
+          />
+        </ng-container>
+        <form
+          class="comment-form"
+          #commentForm="ngForm"
+          (ngSubmit)="addOtherPostComment(commentForm)"
+        >
+          <div class="comment-input-wrap">
+            <textarea
+              class="form-control content-input"
+              type="text"
+              ngModel
+              name="comment_text"
+              id="comment_text"
+              placeholder="Write a comment..."
+            ></textarea>
+            <button class="btn-comment" type="submit">Comment</button>
+          </div>
+        </form>
+      </div>
+
+      <div
+        *ngIf="allCommentsState$ | async as comments"
+        [ngSwitch]="comments.dataState"
+        class="comment-wrap"
+      >
+        <ng-container *ngIf="clickedIndex === i">
+          <div
+            *ngFor="let comment of comments.appData?.data?.comments"
+            class="comment"
+          >
+            <div class="comment-display-wrap">
+              <div>
+                <img
+                  src="{{ comment.user_image_url }}"
+                  alt="user image"
+                  class="user-img-icon"
+                />
+              </div>
+              <div>
+                <p class="username">{{ comment.username }}</p>
+                <p>{{ comment.comment_text }}</p>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
   <div class="pagination-wrap">

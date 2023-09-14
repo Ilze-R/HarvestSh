@@ -21,7 +21,6 @@ import { DataState } from '../_enum/datastate.enum';
 export class HomeComponent implements OnInit {
   homeState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(null);
-  // readonly DataState = DataState;
 
   constructor(
     public sharedService: SharedService,
@@ -29,8 +28,6 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.sharedService.showLoginComponent = true;
-    // this.sharedService.showRegisterComponent = true;
     this.homeState$ = this.userService.profile$().pipe(
       map((response) => {
         console.log(response);

@@ -41,6 +41,9 @@ import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.compo
 import { URecipepostComponent } from './u-recipepost/u-recipepost.component';
 import { UImadepostComponent } from './u-imadepost/u-imadepost.component';
 import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
+import { ShortenTextComponent } from './pipes/shorten-text/shorten-text.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -72,6 +75,7 @@ import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
     URecipepostComponent,
     UImadepostComponent,
     UOtherpostComponent,
+    ShortenTextComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,6 +87,8 @@ import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

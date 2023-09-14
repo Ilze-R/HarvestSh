@@ -1,8 +1,4 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Observable, tap, catchError, throwError } from 'rxjs';
@@ -11,7 +7,6 @@ import {
   CustomHttpResponse,
   Profile,
   AccountType,
-  Pagination,
 } from '../_interface/appstates';
 import { User } from '../_interface/user';
 import { Give } from '../_interface/give';
@@ -19,6 +14,10 @@ import { GardeningPost } from '../_interface/gardeningost';
 import { RecipePost } from '../_interface/recipepost';
 import { IMadePost } from '../_interface/imadepost';
 import { OtherPost } from '../_interface/otherpost';
+import { GardeningComment } from '../_interface/gardeningcomment';
+import { RecipeComment } from '../_interface/recipecomment';
+import { IMadeComment } from '../_interface/imadecomment';
+import { OtherComment } from '../_interface/othercomment';
 
 @Injectable({
   providedIn: 'root',
@@ -50,6 +49,13 @@ export class UserService {
     <Observable<CustomHttpResponse<Profile>>>(
       this.http
         .post<CustomHttpResponse<Profile>>(`${this.server}/user/register`, user)
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserById$ = (userId: number) =>
+    <Observable<CustomHttpResponse<User & Profile>>>(
+      this.http
+        .get<CustomHttpResponse<User>>(`${this.server}/user/${userId}`)
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
@@ -282,7 +288,7 @@ export class UserService {
 
   // { user: Profile; give: Give[] }
 
-  allGardeningPosts$ = (page: number = 1, pageSize: number = 5) =>
+  allGardeningPosts$ = (page: number, pageSize: number) =>
     <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
       this.http
         .get<CustomHttpResponse<Profile & GardeningPost>>(
@@ -291,7 +297,7 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  allRecipePosts$ = (page: number = 1, pageSize: number = 10) =>
+  allRecipePosts$ = (page: number, pageSize: number) =>
     <Observable<CustomHttpResponse<Profile & RecipePost>>>(
       this.http
         .get<CustomHttpResponse<Profile & RecipePost>>(
@@ -307,7 +313,7 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  allIMadePosts$ = (page: number = 1, pageSize: number = 10) =>
+  allIMadePosts$ = (page: number, pageSize: number) =>
     <Observable<CustomHttpResponse<Profile & IMadePost>>>(
       this.http
         .get<CustomHttpResponse<Profile & IMadePost>>(
@@ -316,7 +322,7 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  allOtherPosts$ = (page: number = 1, pageSize: number = 10) =>
+  allOtherPosts$ = (page: number, pageSize: number) =>
     <Observable<CustomHttpResponse<Profile & OtherPost>>>(
       this.http
         .get<CustomHttpResponse<Profile & OtherPost>>(
@@ -324,4 +330,88 @@ export class UserService {
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
+
+  addGardeningPostComment$ = (
+    userId: number,
+    postId: number,
+    comment: GardeningComment
+  ) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & GardeningPost>>(
+        `${this.server}/user/addgardeningcomment/${userId}/${postId}`,
+        comment
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  getGardeningPostComments$ = (id: number) => {
+    return this.http
+      .get<CustomHttpResponse<GardeningComment>>(
+        `${this.server}/user/gardeningpost/comments/${id}`
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  addRecipePostComment$ = (
+    userId: number,
+    postId: number,
+    comment: RecipeComment
+  ) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & RecipePost>>(
+        `${this.server}/user/addrecipecomment/${userId}/${postId}`,
+        comment
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  getRecipePostComments$ = (id: number) => {
+    return this.http
+      .get<CustomHttpResponse<RecipeComment>>(
+        `${this.server}/user/recipepost/comments/${id}`
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  addIMadePostComment$ = (
+    userId: number,
+    postId: number,
+    comment: IMadeComment
+  ) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & IMadePost>>(
+        `${this.server}/user/addimadecomment/${userId}/${postId}`,
+        comment
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  getIMadePostComments$ = (id: number) => {
+    return this.http
+      .get<CustomHttpResponse<IMadeComment>>(
+        `${this.server}/user/imadepost/comments/${id}`
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  addOtherPostComment$ = (
+    userId: number,
+    postId: number,
+    comment: OtherComment
+  ) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & OtherPost>>(
+        `${this.server}/user/addothercomment/${userId}/${postId}`,
+        comment
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
+  getOtherPostComments$ = (id: number) => {
+    return this.http
+      .get<CustomHttpResponse<OtherComment>>(
+        `${this.server}/user/otherpost/comments/${id}`
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
 }
