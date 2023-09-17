@@ -1,0 +1,12 @@
+<form #editForm="ngForm">
+  <textarea
+    class="comment-content"
+    id="comment_text"
+    name="comment_text"
+    trim="blur"
+    [(ngModel)]="commentText"
+    (keyup.enter)="editComment(editForm)"
+    autosize
+  >
+  </textarea>
+</form>

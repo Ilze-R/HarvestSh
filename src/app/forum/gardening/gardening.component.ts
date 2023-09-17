@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -18,6 +18,7 @@ import { State } from 'src/app/_interface/state';
 import { User } from 'src/app/_interface/user';
 import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
+import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 
 @Component({
   selector: 'app-gardening',
@@ -56,7 +57,9 @@ export class GardeningComponent implements OnInit {
   count: any;
   clickedIndex: any;
   responsivePostId: number;
-  userProfile: User;
+  toggleActive: boolean = true;
+  currentEditIndex: number | null = null;
+  fromGardeningComponent: boolean = false;
 
   constructor(
     private router: Router,
@@ -76,6 +79,9 @@ export class GardeningComponent implements OnInit {
         return of({ dataState: DataState.ERROR, error });
       })
     );
+    Array.from(
+      document.querySelectorAll('button[data-bs-toggle="tooltip"]')
+    ).forEach((tooltipNode) => new Tooltip(tooltipNode));
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -156,9 +162,22 @@ export class GardeningComponent implements OnInit {
     this.router.navigate(['/newgardeningpost']);
   }
 
+  editComment(index: number): void {
+    this.currentEditIndex = index;
+    this.fromGardeningComponent = true;
+  }
+
+  deleteComment(): void {
+    // this.comments = this.comments.splice(this.index, 1);
+  }
+
   changePage(page: number) {
     this.currentPage = page;
     this.loadData();
+  }
+
+  disableTooltip() {
+    this.toggleActive = false;
   }
 
   formatTimeDifference(postDate: any): string {

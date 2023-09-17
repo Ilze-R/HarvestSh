@@ -27,7 +27,8 @@ export class CacheInterceptor implements HttpInterceptor {
       request.url.includes('new/password') ||
       request.url.includes('profile') ||
       request.url.includes('list') ||
-      request.url.includes('give')
+      request.url.includes('give') ||
+      request.url.includes('gardeningpost')
     ) {
       return next.handle(request);
     }

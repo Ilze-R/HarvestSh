@@ -68,25 +68,51 @@
     }
   }
   .comment-wrap {
-    margin-top: 1.5em;
     display: flex;
     flex-direction: column;
     gap: 1em;
-
+    margin-top: 1.5em;
     .comment {
-      padding: 0.5em;
-      border-radius: 7px;
-      background-color: #f6f6f7;
+      display: flex;
+      justify-content: space-between;
+      gap: 1em;
       .comment-display-wrap {
         display: flex;
-        gap: 1em;
         align-items: flex-start;
+        flex-grow: 1;
+        gap: 1em;
+        padding: 0.5em;
+        border-radius: 7px;
+        background-color: #f6f6f7;
+        cursor: default;
+        .comment-input {
+          border: none;
+          font-size: 13px;
+        }
+      }
+      .edit-delete-icon {
+        align-self: center;
+        border-radius: 100%;
+        padding: 0.3em;
+        width: 1.5em;
+        height: 1.5em;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.2s ease-in-out;
+      }
+      .not-logged-padding {
+        width: 1.5em;
+        height: 1.5em;
       }
       .user-img-icon {
         width: 1.5em !important;
         margin: 0;
         height: 1.5em;
         border-radius: 100%;
+        text-align: center;
+        transition: background-color 0.25s;
       }
       .username {
         font-weight: bolder;
@@ -113,7 +139,7 @@
   }
 }
 
-::placeholder {
+textarea::placeholder {
   color: #bebebe;
   font-size: 13px;
 }
@@ -128,4 +154,7 @@
 }
 .gardening-wrap.no-hover:hover {
   transform: none;
+}
+.edit-delete-icon:hover {
+  background-color: #f6f6f7;
 }

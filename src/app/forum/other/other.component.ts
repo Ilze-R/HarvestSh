@@ -14,11 +14,11 @@ import { EventType } from 'src/app/_enum/event-type.enum';
 import { CustomHttpResponse, Profile } from 'src/app/_interface/appstates';
 import { OtherComment } from 'src/app/_interface/othercomment';
 import { OtherPost } from 'src/app/_interface/otherpost';
-import { RecipePost } from 'src/app/_interface/recipepost';
 import { State } from 'src/app/_interface/state';
 import { User } from 'src/app/_interface/user';
 import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
+import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 
 @Component({
   selector: 'app-other',
@@ -53,7 +53,9 @@ export class OtherComponent implements OnInit {
   count: any;
   clickedIndex: any;
   responsivePostId: number;
-  userProfile: User;
+  toggleActive: boolean = true;
+  currentEditIndex: number | null = null;
+  fromOtherComponent: boolean = false;
 
   constructor(
     private router: Router,
@@ -73,6 +75,9 @@ export class OtherComponent implements OnInit {
         return of({ dataState: DataState.ERROR, error });
       })
     );
+    Array.from(
+      document.querySelectorAll('button[data-bs-toggle="tooltip"]')
+    ).forEach((tooltipNode) => new Tooltip(tooltipNode));
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -153,9 +158,22 @@ export class OtherComponent implements OnInit {
     this.router.navigate(['/newotherpost']);
   }
 
+  editComment(index: number): void {
+    this.currentEditIndex = index;
+    this.fromOtherComponent = true;
+  }
+
+  deleteComment(): void {
+    // this.comments = this.comments.splice(this.index, 1);
+  }
+
   changePage(page: number) {
     this.currentPage = page;
     this.loadData();
+  }
+
+  disableTooltip() {
+    this.toggleActive = false;
   }
 
   formatTimeDifference(postDate: any): string {

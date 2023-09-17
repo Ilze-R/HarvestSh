@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, tap, catchError, throwError, BehaviorSubject } from 'rxjs';
 import { Key } from '../_enum/key.enum';
 import {
   CustomHttpResponse,
@@ -25,8 +25,14 @@ import { OtherComment } from '../_interface/othercomment';
 export class UserService {
   private readonly server: string = 'http://localhost:8080';
   private jwtHelper = new JwtHelperService();
+  private userProfileSubject = new BehaviorSubject<Profile | null>(null);
+  userProfile$ = this.userProfileSubject.asObservable();
 
   constructor(private http: HttpClient) {}
+
+  setUserProfile(profile: Profile): void {
+    this.userProfileSubject.next(profile);
+  }
 
   login$ = (email: string, password: string) =>
     <Observable<CustomHttpResponse<Profile>>>this.http
@@ -414,4 +420,64 @@ export class UserService {
       )
       .pipe(tap(console.log), catchError(this.handleError));
   };
+
+  editGardeningComent$ = (
+    id: number,
+    form: {
+      comment_text: string;
+    }
+  ) =>
+    <Observable<CustomHttpResponse<GardeningComment>>>(
+      this.http
+        .patch<CustomHttpResponse<GardeningComment>>(
+          `${this.server}/user/update/gardeningcomment/${id}`,
+          form
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  editIMadeComent$ = (
+    id: number,
+    form: {
+      comment_text: string;
+    }
+  ) =>
+    <Observable<CustomHttpResponse<IMadeComment>>>(
+      this.http
+        .patch<CustomHttpResponse<IMadeComment>>(
+          `${this.server}/user/update/imadecomment/${id}`,
+          form
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  editOtherComent$ = (
+    id: number,
+    form: {
+      comment_text: string;
+    }
+  ) =>
+    <Observable<CustomHttpResponse<OtherComment>>>(
+      this.http
+        .patch<CustomHttpResponse<OtherComment>>(
+          `${this.server}/user/update/othercomment/${id}`,
+          form
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  editRecipesComent$ = (
+    id: number,
+    form: {
+      comment_text: string;
+    }
+  ) =>
+    <Observable<CustomHttpResponse<RecipeComment>>>(
+      this.http
+        .patch<CustomHttpResponse<RecipeComment>>(
+          `${this.server}/user/update/recipecomment/${id}`,
+          form
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
 }

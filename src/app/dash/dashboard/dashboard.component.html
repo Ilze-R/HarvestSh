@@ -1,9 +1,7 @@
-<div class="background-wrap" >
+<div class="background-wrap">
   <ng-container *ngIf="profileState$ | async as state">
     <ng-container>
-      <app-nav
-        [user]="state?.appData?.data?.user"
-      ></app-nav>
+      <app-nav [user]="state?.appData?.data?.user"></app-nav>
       <section>
         <div class="bg-white d-block d-sm-flex">
           <div class="profile-tab-nav">
@@ -241,6 +239,7 @@
                     type="search"
                     class="form-control"
                     id="example-search-input"
+                    name="search"
                     placeholder="search"
                   />
 
@@ -268,6 +267,7 @@
                     type="search"
                     class="form-control"
                     placeholder="location"
+                    name="search"
                   />
 
                   <button

@@ -85,7 +85,6 @@
           </div>
         </form>
       </div>
-
       <div
         *ngIf="allCommentsState$ | async as comments"
         [ngSwitch]="comments.dataState"
@@ -93,7 +92,10 @@
       >
         <ng-container *ngIf="clickedIndex === i">
           <div
-            *ngFor="let comment of comments.appData?.data?.comments"
+            *ngFor="
+              let comment of comments.appData?.data?.comments;
+              let j = index
+            "
             class="comment"
           >
             <div class="comment-display-wrap">
@@ -106,9 +108,59 @@
               </div>
               <div>
                 <p class="username">{{ comment.username }}</p>
-                <p>{{ comment.comment_text }}</p>
+                <p *ngIf="currentEditIndex !== j" class="comment-input">
+                  {{ comment.comment_text }}
+                </p>
+                <app-comment-form
+                  *ngIf="currentEditIndex === j"
+                  [commentText]="comment.comment_text"
+                  [commentId]="comment.id"
+                  [fromImade]="fromIMadeComponent"
+                ></app-comment-form>
               </div>
             </div>
+            <ng-container
+              *ngIf="userState$ | async as user"
+              [ngSwitch]="user.dataState"
+            >
+              <div
+                *ngIf="user?.appData?.data?.user?.username === comment.username"
+                class="dropdown edit-delete-icon"
+                matTooltip="Edit or delete"
+                matTooltipPosition="above"
+                [matTooltipDisabled]="!toggleActive"
+              >
+                <div
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  (click)="disableTooltip()"
+                >
+                  <span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="currentColor"
+                      class="bi bi-three-dots"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                      /></svg
+                  ></span>
+                </div>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" (click)="editComment(j)">Edit </a>
+                  <a class="dropdown-item" (click)="deleteComment()">Delete</a>
+                </div>
+              </div>
+              <div
+                class="not-logged-padding"
+                *ngIf="user?.appData?.data?.user?.username !== comment.username"
+              ></div>
+            </ng-container>
           </div>
         </ng-container>
       </div>

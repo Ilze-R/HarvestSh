@@ -44,6 +44,9 @@ import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
 import { ShortenTextComponent } from './pipes/shorten-text/shorten-text.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CommentFormComponent } from './forum/comment-form/comment-form.component';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -76,6 +79,7 @@ import { MatIconModule } from '@angular/material/icon';
     UImadepostComponent,
     UOtherpostComponent,
     ShortenTextComponent,
+    CommentFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -89,6 +93,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
+    AutosizeModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
