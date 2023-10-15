@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -26,10 +26,11 @@ import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
   styleUrls: ['./reciepes.component.scss'],
 })
 export class ReciepesComponent implements OnInit {
+  // @Input() user: User;
   userForCommentsState$: Observable<State<CustomHttpResponse<Profile & User>>>;
-  private userForCommentsSubject = new BehaviorSubject<
-    CustomHttpResponse<Profile & User>
-  >(null);
+  // private userForCommentsSubject = new BehaviorSubject<
+  //   CustomHttpResponse<Profile & User>
+  // >(null);
   recipePostState$: Observable<State<CustomHttpResponse<Profile & RecipePost>>>;
   private recipePostSubject = new BehaviorSubject<
     CustomHttpResponse<Profile & RecipePost>
@@ -58,6 +59,9 @@ export class ReciepesComponent implements OnInit {
   toggleActive: boolean = true;
   currentEditIndex: number | null = null;
   fromRecipesComponent: boolean = false;
+  activeLink: string = this.sharedService.currentFormType;
+  postLiked: boolean = false;
+  userLikedPosts: RecipePost[] = [];
 
   constructor(
     private router: Router,
@@ -66,9 +70,13 @@ export class ReciepesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.sharedService.editEvent$.subscribe(() => {
+      this.loadData();
+    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
+        this.userLikedPosts = response.data.likedRecipePosts;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -80,6 +88,8 @@ export class ReciepesComponent implements OnInit {
     Array.from(
       document.querySelectorAll('button[data-bs-toggle="tooltip"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
+    this.activeLink = 'Reciepes';
+    this.sharedService.currentFormType = 'recipe';
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -126,12 +136,11 @@ export class ReciepesComponent implements OnInit {
         })
       );
     this.recipePostComment$.subscribe((response) => {
-      console.log('Comment posted:', response);
+      this.loadData();
     });
   }
 
-  getDetails(i: any) {
-    const postId = i + 1;
+  getDetails(i: number, postId: number) {
     this.responsivePostId = postId;
     this.recipePostState$.subscribe((response) => {
       console.log('POSTS response:', response);
@@ -150,10 +159,26 @@ export class ReciepesComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
-    this.userService.getUserById$(postId).subscribe((userResponse) => {
-      this.userForCommentsState$;
-      console.log(userResponse + 'USERID');
+  }
+
+  updateLike(id: number, userid: number) {
+    this.userService.toggleRecipeLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.postLiked = !this.postLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling like', error);
+      },
     });
+  }
+
+  isLikedPost(postId: number): boolean {
+    if (!this.userLikedPosts) {
+      return false;
+    }
+    return this.userLikedPosts.some((post) => post.id === postId);
   }
 
   newRecipePostForm(): void {
@@ -165,8 +190,15 @@ export class ReciepesComponent implements OnInit {
     this.fromRecipesComponent = true;
   }
 
-  deleteComment(): void {
-    // this.comments = this.comments.splice(this.index, 1);
+  deleteComment(id: number): void {
+    this.userService.deleteRecipeComment$(id).subscribe({
+      next: (response) => {
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error editing comment', error);
+      },
+    });
   }
 
   changePage(page: number) {

@@ -1,0 +1,70 @@
+<ng-container *ngIf="profileState$ | async as state">
+  <app-nav [user]="state?.appData?.data?.user"></app-nav>
+</ng-container>
+<div class="container">
+  <div class="side-nav">
+    <app-dash-side-nav></app-dash-side-nav>
+  </div>
+  <ng-container *ngIf="profileState$ | async as state">
+    <div class="tab-pane fade show active" id="account-tab" role="tabpanel">
+      <div class="account-items">
+        <div class="account-main-wrap container-fluid">
+          <div class="welcome-container">
+            <div>
+              <div class="greeting-wrap">
+                <div>
+                  <h3 class="welcome-text">
+                    Hello,<br />
+                    <span class="non-bold"
+                      >{{
+                        state?.appData?.data?.user?.username | titlecase
+                      }}!</span
+                    >
+                  </h3>
+                </div>
+                <div>
+                  <img class="img-lettuce" src="./lettuce.png" alt="lettuce" />
+                </div>
+              </div>
+              <div>
+                <p>Lettuce make a difference!</p>
+              </div>
+            </div>
+            <div class="stats">
+              <div class="result">
+                <p class="nr">0</p>
+                <p>Gives</p>
+              </div>
+              <div class="result">
+                <p class="nr">0</p>
+                <p>Gets</p>
+              </div>
+              <div class="result">
+                <p class="nr">1</p>
+                <p>Level</p>
+              </div>
+            </div>
+          </div>
+          <div class="participation-container">
+            <h5 class="participation-title">My participation</h5>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="thankyou-container">
+            <div class="thankyou-note">
+              <p class="thanks-title">Thanks!</p>
+              <p class="thanks-text">The cucumbers were delicious</p>
+            </div>
+            <div class="thankyou-note">
+              <p class="thanks-title">Hey!</p>
+              <p class="thanks-text">
+                We made amazing salads from your tomatoes
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

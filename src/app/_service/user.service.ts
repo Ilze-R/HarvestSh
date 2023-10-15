@@ -1,7 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable, tap, catchError, throwError, BehaviorSubject } from 'rxjs';
+import {
+  Observable,
+  tap,
+  catchError,
+  throwError,
+  BehaviorSubject,
+  map,
+} from 'rxjs';
 import { Key } from '../_enum/key.enum';
 import {
   CustomHttpResponse,
@@ -18,6 +25,7 @@ import { GardeningComment } from '../_interface/gardeningcomment';
 import { RecipeComment } from '../_interface/recipecomment';
 import { IMadeComment } from '../_interface/imadecomment';
 import { OtherComment } from '../_interface/othercomment';
+import { Number } from 'mongoose';
 
 @Injectable({
   providedIn: 'root',
@@ -292,8 +300,6 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  // { user: Profile; give: Give[] }
-
   allGardeningPosts$ = (page: number, pageSize: number) =>
     <Observable<CustomHttpResponse<Profile & GardeningPost>>>(
       this.http
@@ -480,4 +486,126 @@ export class UserService {
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
+
+  deleteGardeningComment$ = (id: number) =>
+    <Observable<CustomHttpResponse<GardeningComment>>>(
+      this.http
+        .delete<CustomHttpResponse<GardeningComment>>(
+          `${this.server}/post/delete/gardeningcomment/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteRecipeComment$ = (id: number) =>
+    <Observable<CustomHttpResponse<RecipeComment>>>(
+      this.http
+        .delete<CustomHttpResponse<RecipeComment>>(
+          `${this.server}/post/delete/recipecomment/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteIMadeComment$ = (id: number) =>
+    <Observable<CustomHttpResponse<IMadeComment>>>(
+      this.http
+        .delete<CustomHttpResponse<IMadeComment>>(
+          `${this.server}/post/delete/imadecomment/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteOtherComment$ = (id: number) =>
+    <Observable<CustomHttpResponse<OtherComment>>>(
+      this.http
+        .delete<CustomHttpResponse<OtherComment>>(
+          `${this.server}/post/delete/othercomment/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  toggleGardeningLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<GardeningPost>>>(
+      this.http
+        .patch<CustomHttpResponse<GardeningPost>>(
+          `${this.server}/post/toggle/gardeninglikes/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  toggleRecipeLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<RecipePost>>>(
+      this.http
+        .patch<CustomHttpResponse<RecipePost>>(
+          `${this.server}/post/toggle/recipelikes/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  toggleIMadeLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<IMadePost>>>(
+      this.http
+        .patch<CustomHttpResponse<IMadePost>>(
+          `${this.server}/post/toggle/imadelikes/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  toggleOtherLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<OtherPost>>>(
+      this.http
+        .patch<CustomHttpResponse<OtherPost>>(
+          `${this.server}/post/toggle/otherlikes/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserLikedGardeningPosts$ = (id: number) =>
+    <Observable<CustomHttpResponse<GardeningPost>>>(
+      this.http
+        .get<CustomHttpResponse<GardeningPost>>(
+          `${this.server}/post/gardeningpostlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserLikedRecipePosts$ = (id: number) =>
+    <Observable<CustomHttpResponse<RecipePost>>>(
+      this.http
+        .get<CustomHttpResponse<RecipePost>>(
+          `${this.server}/post/recipepostlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserLikedIMadePosts$ = (id: number) =>
+    <Observable<CustomHttpResponse<IMadePost>>>(
+      this.http
+        .get<CustomHttpResponse<IMadePost>>(
+          `${this.server}/post/imadepostlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+  getUserLikedOtherPosts$ = (id: number) =>
+    <Observable<CustomHttpResponse<OtherPost>>>(
+      this.http
+        .get<CustomHttpResponse<OtherPost>>(
+          `${this.server}/post/otherpostlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  // recipePostCount$ = () =>
+  // <Observable<CustomHttpResponse<number>>>(
+  //   this.http
+  //     .get<CustomHttpResponse<number>>(`${this.server}/user/recipe/count`)
+  //     .pipe(tap(console.log), catchError(this.handleError))
+  // );
 }

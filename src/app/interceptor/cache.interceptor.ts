@@ -28,7 +28,11 @@ export class CacheInterceptor implements HttpInterceptor {
       request.url.includes('profile') ||
       request.url.includes('list') ||
       request.url.includes('give') ||
-      request.url.includes('gardeningpost')
+      request.url.includes('gardeningpost') ||
+      request.url.includes('forum') ||
+      request.url.includes('account') ||
+      request.url.includes('get') ||
+      request.url.includes('alllikes')
     ) {
       return next.handle(request);
     }

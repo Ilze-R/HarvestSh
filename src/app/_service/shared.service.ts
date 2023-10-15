@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { DataState } from '../_enum/datastate.enum';
-import { LoginState } from '../_interface/appstates';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,5 +10,14 @@ export class SharedService {
   cretaAccount: boolean = false;
   toDelete: boolean = false;
   showUGiveComonent: boolean = false;
-  currentFormType: string = 'gardening';
+  currentFormType: string = 'Gardening';
+
+  commentHasBeenEdited: boolean = false;
+
+  private editEventSubject = new Subject<void>();
+  editEvent$ = this.editEventSubject.asObservable();
+
+  triggerEditEvent() {
+    this.editEventSubject.next();
+  }
 }

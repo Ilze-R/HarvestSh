@@ -1,82 +1,69 @@
-<app-nav
-  [class.blur]="
-    sharedService.showRegisterComponent ||
-    sharedService.showLoginComponent ||
-    sharedService.cretaAccount
-  "
-></app-nav>
-<app-login *ngIf="sharedService.showLoginComponent"></app-login>
+<ng-container *ngIf="profileState$ | async as state">
+  <app-nav [user]="state?.appData?.data?.user"></app-nav>
+</ng-container>
+<div class="container">
+  <div class="side-nav">
+    <app-dash-side-nav></app-dash-side-nav>
+  </div>
+  <div
+    class="tab-pane give-wrap"
+    id="give-tab"
+    role="tabpanel"
+    aria-labelledby="give"
+  >
+    <button class="btn-give" (click)="newGiveForm()">create</button>
 
-<app-register
-  *ngIf="sharedService.showRegisterComponent || sharedService.cretaAccount"
-></app-register>
-<div
-  [class.blur]="
-    sharedService.showRegisterComponent ||
-    sharedService.showLoginComponent ||
-    sharedService.cretaAccount
-  "
->
-  <div class="container">
-    <a class="register-link" (click)="showRegister()">SIGN UP</a>
-    <!-- <h3>How can i give harvest?</h3> -->
-    <!-- <h3 id="subtitle">
-    Do you have homegrown fruits and/or vegetables to share?
-  </h3> -->
-    <h3 id="subtitle">How we do it</h3>
-    <ul>
-      <li>
-        <div class="first one">
-          <img
-            class="img"
-            src="https://images.unsplash.com/photo-1609843025783-6a66a8f45e0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjJ8fHNwcm91dHxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60"
-            alt=""
-          />
-        </div>
-        <div class="second">
-          <p class="info-text title">Create an account</p>
-          <p class="info-text description">
-            Do you have homegrown fruits and/or vegetables to share? Create
-            account with very simple step and you will be able to control and
-            overview all your processes.
-          </p>
-        </div>
-      </li>
-      <li>
-        <div class="first two">
-          <img
-            class="img"
-            src="https://images.unsplash.com/photo-1612143395997-dcf729eb7788?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mzh8fGdhcmRlbiUyMGdhdGVzfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
-            alt=""
-          />
-        </div>
-        <div class="second location-info">
-          <p class="info-text title">Mark your location</p>
-          <p class="info-text description">
-            You will be able to add your location to the map as an anonymous pin
-            in case you have something to share. You can remove your location
-            from the map at any time.
-          </p>
-        </div>
-      </li>
-      <li>
-        <div class="first three">
-          <img
-            class="img"
-            src="https://images.unsplash.com/photo-1566450882136-ae49345cbf6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NTZ8fGdhcmRlbiUyMGVudHJ5fGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60"
-            alt=""
-          />
-        </div>
-        <div class="second">
-          <p class="info-text title">Share your harvest</p>
-          <p class="info-text description">
-            Place your homegrown fruit or veggies in a box in front of your
-            house. Dont want in a box, dont want front of house? Or maybe you
-            even prefer to place them in hand - all this you will be avle to
-            midify in your profile.
-          </p>
-        </div>
-      </li>
-    </ul>
+    <h5 class="my-give-title">My gives</h5>
+    <div class="col-xm-12 gives-table">
+      <table class="table table-hover gives-table">
+        <thead>
+          <tr>
+            <th class="text-center" scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <ng-container *ngIf="givesState$ | async as give">
+          <tbody class="table-body">
+            <tr *ngFor="let gives of give?.appData?.data?.give" class="cell-1">
+              <th class="text-center">
+                <img src="{{ gives.image }}" alt="" class="give-image" />
+              </th>
+              <td>{{ gives.type }}</td>
+              <td>{{ gives.description }}</td>
+              <td
+                [ngStyle]="{
+                  color:
+                    gives.status === 'available'
+                      ? '#2fa14e'
+                      : gives.status === 'reserved'
+                      ? '#e3a619'
+                      : gives.status === 'claimed'
+                      ? '#3277ed'
+                      : 'black'
+                }"
+              >
+                {{ gives.status }}
+              </td>
+              <td (click)="deleteItem(gives.id)">
+                <img class="img-bin" src="./bin-icon.svg" alt="" />
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-view"
+                  (click)="selectGive(gives.id)"
+                >
+                  View
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </ng-container>
+      </table>
+    </div>
   </div>
 </div>

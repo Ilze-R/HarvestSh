@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -27,9 +27,6 @@ import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 })
 export class GardeningComponent implements OnInit {
   userForCommentsState$: Observable<State<CustomHttpResponse<Profile & User>>>;
-  private userForCommentsSubject = new BehaviorSubject<
-    CustomHttpResponse<Profile & User>
-  >(null);
   gardeningPostState$: Observable<
     State<CustomHttpResponse<Profile & GardeningPost>>
   >;
@@ -60,6 +57,9 @@ export class GardeningComponent implements OnInit {
   toggleActive: boolean = true;
   currentEditIndex: number | null = null;
   fromGardeningComponent: boolean = false;
+  activeLink: string = this.sharedService.currentFormType;
+  postLiked: boolean = false;
+  userLikedPosts: GardeningPost[] = [];
 
   constructor(
     private router: Router,
@@ -68,9 +68,13 @@ export class GardeningComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.sharedService.editEvent$.subscribe(() => {
+      this.loadData();
+    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
+        this.userLikedPosts = response.data.likedGardeningPosts;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -82,6 +86,8 @@ export class GardeningComponent implements OnInit {
     Array.from(
       document.querySelectorAll('button[data-bs-toggle="tooltip"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
+    this.activeLink = 'Gardening';
+    this.sharedService.currentFormType = 'gardening';
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -128,12 +134,11 @@ export class GardeningComponent implements OnInit {
         })
       );
     this.gardeningPostComment$.subscribe((response) => {
-      console.log('Comment posted:', response);
+      this.loadData();
     });
   }
 
-  getDetails(i: any) {
-    const postId = i + 1;
+  getDetails(i: number, postId: number) {
     this.responsivePostId = postId;
     this.gardeningPostState$.subscribe((response) => {
       console.log('POSTS response:', response);
@@ -152,10 +157,30 @@ export class GardeningComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
-    this.userService.getUserById$(postId).subscribe((userResponse) => {
-      this.userForCommentsState$;
-      console.log(userResponse + 'USERID');
+    // this.userService.getUserById$(postId).subscribe((userResponse) => {
+    //   this.userForCommentsState$;
+    //   console.log(userResponse + 'USERID');
+    // });
+  }
+
+  updateLike(id: number, userid: number) {
+    this.userService.toggleGardeningLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.postLiked = !this.postLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling like', error);
+      },
     });
+  }
+
+  isLikedPost(postId: number): boolean {
+    if (!this.userLikedPosts) {
+      return false;
+    }
+    return this.userLikedPosts.some((post) => post.id === postId);
   }
 
   newGardeningPostForm(): void {
@@ -167,8 +192,15 @@ export class GardeningComponent implements OnInit {
     this.fromGardeningComponent = true;
   }
 
-  deleteComment(): void {
-    // this.comments = this.comments.splice(this.index, 1);
+  deleteComment(id: number): void {
+    this.userService.deleteGardeningComment$(id).subscribe({
+      next: (response) => {
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error editing comment', error);
+      },
+    });
   }
 
   changePage(page: number) {

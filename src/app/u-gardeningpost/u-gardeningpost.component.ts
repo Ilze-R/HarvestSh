@@ -14,8 +14,6 @@ import { Router } from '@angular/router';
 import { UserService } from '../_service/user.service';
 import { GardeningPost } from '../_interface/gardeningost';
 import { NgForm } from '@angular/forms';
-import { IMadePost } from '../_interface/imadepost';
-import { OtherPost } from '../_interface/otherpost';
 import { SharedService } from '../_service/shared.service';
 
 @Component({
@@ -88,7 +86,7 @@ export class UGardeningpostComponent implements OnInit {
         map((response) => {
           this.isLoadingSubject.next(false);
           this.dataGardenSubject.next(response);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/forum/gardening']);
           return {
             dataState: DataState.LOADED,
             appData: this.dataGardenSubject.value,

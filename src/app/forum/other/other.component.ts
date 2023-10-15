@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
@@ -26,10 +26,11 @@ import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
   styleUrls: ['./other.component.scss'],
 })
 export class OtherComponent implements OnInit {
+  // @Input() user: User;
   userForCommentsState$: Observable<State<CustomHttpResponse<Profile & User>>>;
-  private userForCommentsSubject = new BehaviorSubject<
-    CustomHttpResponse<Profile & User>
-  >(null);
+  // private userForCommentsSubject = new BehaviorSubject<
+  //   CustomHttpResponse<Profile & User>
+  // >(null);
   otherPostState$: Observable<State<CustomHttpResponse<Profile & OtherPost>>>;
   private otherPostSubject = new BehaviorSubject<
     CustomHttpResponse<Profile & OtherPost>
@@ -56,6 +57,9 @@ export class OtherComponent implements OnInit {
   toggleActive: boolean = true;
   currentEditIndex: number | null = null;
   fromOtherComponent: boolean = false;
+  activeLink: string = this.sharedService.currentFormType;
+  postLiked: boolean = false;
+  userLikedPosts: OtherPost[] = [];
 
   constructor(
     private router: Router,
@@ -64,9 +68,13 @@ export class OtherComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.sharedService.editEvent$.subscribe(() => {
+      this.loadData();
+    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
+        this.userLikedPosts = response.data.likedOtherPosts;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -78,6 +86,8 @@ export class OtherComponent implements OnInit {
     Array.from(
       document.querySelectorAll('button[data-bs-toggle="tooltip"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
+    this.activeLink = 'Other';
+    this.sharedService.currentFormType = 'other';
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -124,12 +134,11 @@ export class OtherComponent implements OnInit {
         })
       );
     this.otherPostComment$.subscribe((response) => {
-      console.log('Comment posted:', response);
+      this.loadData();
     });
   }
 
-  getDetails(i: any) {
-    const postId = i + 1;
+  getDetails(i: number, postId: number) {
     this.responsivePostId = postId;
     this.otherPostState$.subscribe((response) => {
       console.log('POSTS response:', response);
@@ -148,10 +157,26 @@ export class OtherComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
-    this.userService.getUserById$(postId).subscribe((userResponse) => {
-      this.userForCommentsState$;
-      console.log(userResponse + 'USERID');
+  }
+
+  updateLike(id: number, userid: number) {
+    this.userService.toggleOtherLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.postLiked = !this.postLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling like', error);
+      },
     });
+  }
+
+  isLikedPost(postId: number): boolean {
+    if (!this.userLikedPosts) {
+      return false;
+    }
+    return this.userLikedPosts.some((post) => post.id === postId);
   }
 
   newOtherPostForm(): void {
@@ -163,8 +188,15 @@ export class OtherComponent implements OnInit {
     this.fromOtherComponent = true;
   }
 
-  deleteComment(): void {
-    // this.comments = this.comments.splice(this.index, 1);
+  deleteComment(id: number): void {
+    this.userService.deleteOtherComment$(id).subscribe({
+      next: (response) => {
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error editing comment', error);
+      },
+    });
   }
 
   changePage(page: number) {

@@ -1,3 +1,55 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  .side-nav {
+    background-color: #deebec !important;
+  }
+}
+
+.gardening-wrap {
+  display: flex;
+  flex-direction: column;
+  .post-img-content-position {
+    display: flex;
+    gap: 2em;
+    .post-title-img-wrap {
+      display: flex;
+      gap: 0.7em;
+      align-items: center;
+      margin: 1em 0 1em 0;
+      .user-img {
+        width: 1.5em;
+        margin: 0;
+        height: 1.5em;
+        border-radius: 100%;
+      }
+      h6 {
+        margin: 0;
+      }
+    }
+  }
+  .likes-icon {
+    background-image: url(./like-icon.png);
+    width: 1em;
+    height: 1em;
+    margin: 1em 0 0 0;
+  }
+  .offer-icons {
+    display: flex;
+    .offer-to-like-icon {
+      background-image: url(./like-icon.png);
+      width: 2em;
+      height: 2em;
+    }
+    .offer-to-comment-icon {
+      background-image: url(./chat.png);
+      width: 1.9em;
+      height: 1.9em;
+    }
+  }
+}
+
 .add-post-wrap {
   display: flex;
   justify-content: center;
@@ -16,13 +68,13 @@
 }
 .gardening-wrap {
   width: 60em;
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0.1em 0.5em;
   margin-top: 2em;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.005);
-  }
+  // transition: transform 0.3s ease-in-out;
+  // &:hover {
+  //   transform: scale(1.005);
+  // }
   .bi-chevron-down {
     float: right;
   }
@@ -30,18 +82,27 @@
     float: right;
   }
   img {
-    margin-top: 1em;
-    margin-bottom: 2em;
-    width: 18em;
+    width: 16em;
+    height: 20em;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
   }
   .card-text {
     font-size: 13px;
+    margin: 0.2em;
+  }
+  .card-date {
+    font-size: 10px;
+    color: rgb(195, 195, 195);
   }
   .add-comment-wrap {
     display: flex;
     gap: 0.5em;
-    img {
+    margin-top: 1.5em;
+    .comment-form-photo {
       width: 2em;
+      height: 2em;
       border-radius: 100%;
       border: solid 0.5px darkgray;
       align-self: flex-start;
@@ -158,4 +219,56 @@ textarea::placeholder {
 
 .edit-delete-icon:hover {
   background-color: #f6f6f7;
+}
+.post-wrap {
+  justify-self: center;
+}
+.active-link {
+  color: #ff8b71;
+}
+.inactive-link {
+  color: black;
+}
+.forum-topic-wrap {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 2em;
+}
+
+.forum-wrap {
+  .forum-topic-wrap {
+    align-items: center;
+    margin: 0em 2em 2em 2em;
+    .link-wrap {
+      display: flex;
+      gap: 2em;
+      justify-content: space-around;
+      margin-bottom: 2em;
+      button {
+        font-weight: 400;
+        border: none;
+        text-decoration: none;
+        background: white;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.liked {
+  // background-color: #0000ff;
+  color: red;
+}
+
+.not-liked {
+  background-color: gray;
+}
+.like-icon-amount {
+  display: flex;
+  gap: 0.2em;
+  align-items: stretch;
+  margin-top: 0.5em;
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
 }

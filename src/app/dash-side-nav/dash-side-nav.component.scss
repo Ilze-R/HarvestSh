@@ -1,0 +1,116 @@
+a.nav-link {
+  cursor: pointer;
+  border: none !important;
+}
+a:hover {
+  transform: scale(1.02);
+}
+a {
+  transition: all 0.3s ease-in-out;
+}
+
+a#forum.nav-link.active,
+a#account.nav-link.active,
+a#get.nav-link.active,
+a#give.nav-link.active {
+  // background-color: #ebf3ed;
+  // background-color: #cee2e3;
+  background-color: #deebec;
+  // color: #4b9f91;
+  color: #000;
+  cursor: pointer;
+}
+
+.profile-tab-nav {
+  // min-width: 100px;
+
+  background-color: #deebec;
+  // background-color: #ebf3ed;
+}
+
+.tab-content {
+  padding: 0 !important;
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.nav-pills a.nav-link {
+  margin-left: 2.5em;
+  padding: 15px 20px;
+  color: #3b6452;
+}
+
+.nav-pills a.nav-link i {
+  width: 20px;
+}
+
+.img-circle img {
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  border: 2px solid #fff;
+}
+.camera {
+  position: relative;
+}
+
+.right-position {
+  position: absolute;
+  bottom: 30px;
+  color: #2e394a;
+  left: 70px;
+  top: 45px;
+  border-radius: 4px;
+  font-size: 23px;
+  cursor: pointer;
+}
+
+.unclickable {
+  pointer-events: none;
+  /* color: #AAA; */
+  background: #f5f5f5;
+}
+
+.btn-update,
+.btn-update {
+  background-color: #1a8e98;
+  border: none;
+}
+
+.btn-report {
+  background-color: #956767;
+  color: #f5f5f5;
+  font-weight: 450;
+}
+.created-at-info {
+  font-weight: 200;
+  font-size: smaller;
+}
+
+.info-container {
+  margin: 10em 8em 10em 8em;
+}
+
+@media screen and (max-width: 760px) {
+  .container {
+    margin: 0.3em;
+    .img {
+      width: 35em;
+      filter: contrast(0.9);
+    }
+    .center-one {
+      margin-left: 1.8em;
+      color: #b65144;
+    }
+    .center-two {
+      color: white;
+      padding-right: 2em;
+    }
+  }
+}
+
+@media screen and (min-width: 760px) {
+}

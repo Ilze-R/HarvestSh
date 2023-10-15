@@ -86,7 +86,7 @@ export class URecipepostComponent implements OnInit {
         map((response) => {
           this.isLoadingSubject.next(false);
           this.dataRecipeSubject.next(response);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/forum/recipes']);
           return {
             dataState: DataState.LOADED,
             appData: this.dataRecipeSubject.value,

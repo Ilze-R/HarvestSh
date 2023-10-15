@@ -92,7 +92,7 @@ export class UGiveComponent implements OnInit {
           this.isLoadingSubject.next(false);
           this.dataSubject.next(response);
           console.log(this.dataSubject.value);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/give']);
           console.log(this.dataSubject.value);
           return {
             dataState: DataState.LOADED,

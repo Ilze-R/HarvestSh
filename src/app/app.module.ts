@@ -47,6 +47,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CommentFormComponent } from './forum/comment-form/comment-form.component';
 import { AutosizeModule } from 'ngx-autosize';
+import { DashSideNavComponent } from './dash-side-nav/dash-side-nav.component';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +82,8 @@ import { AutosizeModule } from 'ngx-autosize';
     UOtherpostComponent,
     ShortenTextComponent,
     CommentFormComponent,
+    DashSideNavComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,

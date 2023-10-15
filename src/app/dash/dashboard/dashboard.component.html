@@ -4,7 +4,8 @@
       <app-nav [user]="state?.appData?.data?.user"></app-nav>
       <section>
         <div class="bg-white d-block d-sm-flex">
-          <div class="profile-tab-nav">
+          <app-dash-side-nav></app-dash-side-nav>
+          <!-- <div class="profile-tab-nav">
             <div class="p-4">
               <div class="img-circle text-center mb-3">
                 <span class="camera">
@@ -32,11 +33,11 @@
                     (click)="fileInput.click()"
                   ></i>
                 </span>
-              </div>
-              <!-- <h4 class="text-center">
+              </div> -->
+          <!-- <h4 class="text-center">
                 {{ state?.appData?.data?.user?.username }}
               </h4> -->
-              <h4 class="text-center created-at-info">
+          <!-- <h4 class="text-center created-at-info">
                 Since
                 {{ state?.appData?.data?.user?.createdAt | date : "MMMM d, y" }}
               </h4>
@@ -92,11 +93,11 @@
                 Forum
               </a>
             </div>
-          </div>
+          </div> -->
           <!-- *************** -->
           <!-- ****NAV BAR END**** -->
           <!-- *************** -->
-          <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+          <!-- <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
             <div
               class="tab-pane fade forum-wrap"
               id="forum-tab"
@@ -106,17 +107,18 @@
             >
               <div class="forum-topic-wrap flex-column">
                 <div class="link-wrap">
-                  <button
+                  <a
                     class="btn-link"
                     (click)="showGardeningSection()"
+                    [routerLink]="['/forum/gardening']"
                     [ngClass]="{
                       'active-link': activeLink === 'Gardening',
                       'inactive-link': activeLink !== 'Gardening'
                     }"
                   >
                     Gardening
-                  </button>
-                  <button
+                  </a>
+                  <a
                     class="btn-link"
                     (click)="showReciepesSection()"
                     [ngClass]="{
@@ -125,8 +127,8 @@
                     }"
                   >
                     Recipes
-                  </button>
-                  <button
+                  </a>
+                  <a
                     class="btn-link"
                     (click)="showImadeSection()"
                     [ngClass]="{
@@ -135,8 +137,8 @@
                     }"
                   >
                     I made this
-                  </button>
-                  <button
+                  </a>
+                  <a
                     class="btn-link"
                     (click)="showOtherSection()"
                     [ngClass]="{
@@ -145,18 +147,18 @@
                     }"
                   >
                     Other
-                  </button>
+                  </a>
                 </div>
 
-                <div>
-                  <app-gardening *ngIf="showGardening"></app-gardening>
-                  <app-reciepes *ngIf="showReciepes"></app-reciepes>
+                <div> -->
+          <!-- <app-gardening *ngIf="showGardening"></app-gardening> -->
+          <!-- <app-reciepes *ngIf="showReciepes"></app-reciepes>
                   <app-imade *ngIf="showImade"></app-imade>
                   <app-other *ngIf="showOther"></app-other>
                 </div>
               </div>
-            </div>
-            <div
+            </div> -->
+          <!-- <div
               class="tab-pane fade give-wrap"
               id="give-tab"
               role="tabpanel"
@@ -224,8 +226,8 @@
                   </ng-container>
                 </table>
               </div>
-            </div>
-            <div
+            </div> -->
+          <!-- <div
               class="tab-pane fade get-wrap"
               id="get-tab"
               role="tabpanel"
@@ -291,25 +293,25 @@
                     </svg>
                   </button>
                 </form>
-              </div>
-              <!-- <google-map
+              </div> -->
+          <!-- <google-map
                 height="30em"
                 width="60em"
                 [center]="center"
                 [zoom]="zoom"
                 [options]="mapOptions"
               ></google-map> -->
-            </div>
-            <div
-              class="tab-pane fade"
-              id="forum-tab"
-              role="tabpanel"
-              aria-labelledby="forum"
-              style="min-height: 510px"
-            >
-              <h3 class="mb-4">Forum</h3>
-            </div>
-            <div
+          <!-- </div> -->
+          <div
+            class="tab-pane fade"
+            id="forum-tab"
+            role="tabpanel"
+            aria-labelledby="forum"
+            style="min-height: 510px"
+          >
+            <h3 class="mb-4">Forum</h3>
+          </div>
+          <!-- <div
               class="tab-pane fade show active"
               id="account-tab"
               role="tabpanel"
@@ -377,15 +379,14 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> -->
         </div>
       </section>
     </ng-container>
   </ng-container>
 
   <!-- profile image change form -->
-  <form enctype="multipart/form-data" style="display: none">
+  <!-- <form enctype="multipart/form-data" style="display: none">
     <input
       type="file"
       #fileInput
@@ -396,5 +397,5 @@
       ngModel
       accept="image/*"
     />
-  </form>
+  </form> -->
 </div>

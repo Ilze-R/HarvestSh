@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 
 @Component({
@@ -7,7 +9,7 @@ import { UserService } from 'src/app/_service/user.service';
   templateUrl: './comment-form.component.html',
   styleUrls: ['./comment-form.component.scss'],
 })
-export class CommentFormComponent {
+export class CommentFormComponent implements OnInit {
   @Input() commentText: string;
   @Input() commentId: number;
   @Input() fromGarden: boolean;
@@ -16,9 +18,15 @@ export class CommentFormComponent {
   @Input() fromRecipes: boolean;
   editedCommentText: string;
 
-  constructor(private userService: UserService) {
+  constructor(
+    private userService: UserService,
+    public sharedService: SharedService,
+    private router: Router
+  ) {
     this.editedCommentText = this.commentText;
   }
+
+  ngOnInit(): void {}
 
   editComment(editForm: NgForm): void {
     let editFunction;
@@ -39,6 +47,7 @@ export class CommentFormComponent {
       comment_text: editForm.value.comment_text,
     }).subscribe({
       next: (response) => {
+        this.sharedService.triggerEditEvent();
         console.log('Comment edited successfully', response);
       },
       error: (error) => {
@@ -46,4 +55,13 @@ export class CommentFormComponent {
       },
     });
   }
+
+  // removeAutofocus(): void {
+  //   const textarea = document.getElementById(
+  //     'comment_text'
+  //   ) as HTMLTextAreaElement;
+  //   if (textarea) {
+  //     textarea.removeAttribute('autofocus');
+  //   }
+  // }
 }

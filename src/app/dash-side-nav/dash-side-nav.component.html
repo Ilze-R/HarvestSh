@@ -1,0 +1,108 @@
+<ng-container *ngIf="profileState$ | async as state">
+  <div class="profile-tab-nav">
+    <div class="p-4">
+      <div class="img-circle text-center mb-3">
+        <span class="camera">
+          <img
+            [src]="state?.appData?.data?.user?.imageUrl"
+            alt="username"
+            class="shadow"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-camera-fill right-position"
+            viewBox="0 0 16 16"
+            (click)="fileInput.click()"
+          >
+            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
+            <path
+              d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"
+            />
+          </svg>
+          <i
+            class="bi bi-camera-fill right-position"
+            (click)="fileInput.click()"
+          ></i>
+        </span>
+      </div>
+      <!-- <h4 class="text-center">
+      {{ state?.appData?.data?.user?.username }}
+    </h4> -->
+      <h4 class="text-center created-at-info">
+        Since
+        {{ state?.appData?.data?.user?.createdAt | date : "MMMM d, y" }}
+      </h4>
+    </div>
+    <div
+      class="nav flex-column nav-pills align-items-stretch"
+      id="v-pills-tab"
+      role="tablist"
+      aria-orientation="vertical"
+    >
+      <a
+        [routerLink]="['/account']"
+        class="nav-link active"
+        id="account"
+        data-bs-toggle="pill"
+        data-bs-target="#account-tab"
+        aria-selected="true"
+        aria-controls="account"
+        role="tab"
+      >
+        Account
+      </a>
+      <a
+        [routerLink]="['/give']"
+        class="nav-link"
+        id="give"
+        data-bs-toggle="pill"
+        data-bs-target="#give-tab"
+        aria-selected="true"
+        aria-controls="give"
+        role="tab"
+      >
+        Give
+      </a>
+      <a
+        [routerLink]="['/get']"
+        class="nav-link"
+        id="get"
+        data-bs-toggle="pill"
+        data-bs-target="#get-tab"
+        aria-selected="true"
+        aria-controls="get"
+        role="tab"
+      >
+        Get
+      </a>
+      <a
+        [routerLink]="['/forum/gardening']"
+        class="nav-link"
+        id="forum"
+        data-bs-toggle="pill"
+        data-bs-target="#forum-tab"
+        aria-selected="true"
+        aria-controls="forum"
+        role="tab"
+      >
+        Forum
+      </a>
+    </div>
+  </div>
+</ng-container>
+<!-- profile image change form -->
+<form enctype="multipart/form-data" style="display: none">
+  <input
+    type="file"
+    #fileInput
+    (change)="updatePicture($event.target.files[0])"
+    name="image"
+    id="image"
+    placeholder="file"
+    ngModel
+    accept="image/*"
+  />
+</form>

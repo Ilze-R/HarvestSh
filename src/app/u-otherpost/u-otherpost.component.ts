@@ -86,7 +86,7 @@ export class UOtherpostComponent implements OnInit {
         map((response) => {
           this.isLoadingSubject.next(false);
           this.dataOtherSubject.next(response);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/forum/other']);
           return {
             dataState: DataState.LOADED,
             appData: this.dataOtherSubject.value,

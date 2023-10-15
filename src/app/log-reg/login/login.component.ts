@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
         map((response) => {
           localStorage.setItem(Key.TOKEN, response.data.access_token);
           localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/account']);
           return { dataState: DataState.LOADED, loginSuccess: true };
         }),
         startWith({ dataState: DataState.LOADING }),

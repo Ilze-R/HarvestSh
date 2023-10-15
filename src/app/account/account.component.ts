@@ -3,21 +3,21 @@ import { State } from 'src/app/_interface/state';
 import {
   Observable,
   BehaviorSubject,
-  map,
-  startWith,
   catchError,
+  map,
   of,
+  startWith,
 } from 'rxjs';
-import { DataState } from 'src/app/_enum/datastate.enum';
-import { CustomHttpResponse, Profile } from 'src/app/_interface/appstates';
-import { UserService } from 'src/app/_service/user.service';
+import { CustomHttpResponse, Profile } from '../_interface/appstates';
+import { UserService } from '../_service/user.service';
+import { DataState } from '../_enum/datastate.enum';
 
 @Component({
-  selector: 'app-get',
-  templateUrl: './get.component.html',
-  styleUrls: ['./get.component.scss'],
+  selector: 'app-account',
+  templateUrl: './account.component.html',
+  styleUrls: ['./account.component.scss'],
 })
-export class GetComponent implements OnInit {
+export class AccountComponent implements OnInit {
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(null);
   readonly DataState = DataState;
