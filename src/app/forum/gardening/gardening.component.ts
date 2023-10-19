@@ -59,6 +59,7 @@ export class GardeningComponent implements OnInit {
   fromGardeningComponent: boolean = false;
   activeLink: string = this.sharedService.currentFormType;
   postLiked: boolean = false;
+  commentLiked: boolean = false;
   userLikedPosts: GardeningPost[] = [];
 
   constructor(
@@ -88,6 +89,7 @@ export class GardeningComponent implements OnInit {
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
     this.activeLink = 'Gardening';
     this.sharedService.currentFormType = 'gardening';
+    this.userService.getGardeningPostComments$(this.responsivePostId);
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -105,6 +107,17 @@ export class GardeningComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
+  }
+
+  deleteGardeningPost(id: number): void {
+    this.userService.deleteGardeningPost$(id).subscribe({
+      next: (response) => {
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error deleting post', error);
+      },
+    });
   }
 
   addGardeningPostComment(commentForm: NgForm): void {
@@ -163,7 +176,7 @@ export class GardeningComponent implements OnInit {
     // });
   }
 
-  updateLike(id: number, userid: number) {
+  updatePostLike(id: number, userid: number) {
     this.userService.toggleGardeningLike$(id, userid).subscribe({
       next: (response) => {
         console.log(response);
@@ -171,7 +184,20 @@ export class GardeningComponent implements OnInit {
         this.loadData();
       },
       error: (error) => {
-        console.error('Error toggling like', error);
+        console.error('Error toggling post like', error);
+      },
+    });
+  }
+
+  updateCommentLike(id: number, userid: number) {
+    this.userService.toggleGardeningCommentLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.commentLiked = !this.commentLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling comment like', error);
       },
     });
   }

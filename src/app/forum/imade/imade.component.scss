@@ -13,20 +13,48 @@
   .post-img-content-position {
     display: flex;
     gap: 2em;
-    .post-title-img-wrap {
+    .title-wrap {
       display: flex;
-      gap: 0.7em;
+      gap: 0.5em;
       align-items: center;
-      margin: 1em 0 1em 0;
-      .user-img {
-        width: 1.5em;
-        margin: 0;
-        height: 1.5em;
-        border-radius: 100%;
-      }
-      h6 {
-        margin: 0;
-      }
+      margin-bottom: 0.5em;
+    }
+    .user-img {
+      width: 1.5em;
+      margin: 0;
+      height: 1.5em;
+      border-radius: 100%;
+    }
+    h6 {
+      margin: 0;
+    }
+    .card-date {
+      margin: 0;
+    }
+    .post-text-wrap {
+      padding-top: 2.2em;
+    }
+    .dots-icon-wrap {
+      margin-left: auto;
+    }
+  }
+  .likes-icon {
+    background-image: url(/harvest-fr/src/app/forum/gardening/like-icon.png);
+    width: 1em;
+    height: 1em;
+    margin: 1em 0 0 0;
+  }
+  .offer-icons {
+    display: flex;
+    .offer-to-like-icon {
+      background-image: url(/harvest-fr/src/app/forum/gardening/like-icon.png);
+      width: 2em;
+      height: 2em;
+    }
+    .offer-to-comment-icon {
+      background-image: url(/harvest-fr/src/app/forum/gardening/chat.png);
+      width: 1.9em;
+      height: 1.9em;
     }
   }
 }
@@ -49,19 +77,13 @@
 }
 .gardening-wrap {
   width: 60em;
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0.1em 0.5em;
   margin-top: 2em;
   cursor: pointer;
-  transition: transform 0.3s ease-in-out;
-  &:hover {
-    transform: scale(1.005);
-  }
-  .bi-chevron-down {
-    float: right;
-  }
-  .bi-chevron-up {
-    float: right;
-  }
+  // transition: transform 0.3s ease-in-out;
+  // &:hover {
+  //   transform: scale(1.005);
+  // }
   img {
     width: 16em;
     height: 20em;
@@ -185,12 +207,12 @@ textarea::placeholder {
   color: #bebebe;
   font-size: 13px;
 }
-// .like {
-//   width: 1em !important;
-//   border: solid 0.5px #a39cff;
-//   border-radius: 100%;
-//   background-image: url(./like.png);
-// }
+.like {
+  width: 1em !important;
+  border: solid 0.5px #a39cff;
+  border-radius: 100%;
+  background-image: url(/harvest-fr/src/app/forum/gardening/like.png);
+}
 .bi-send {
   width: 2em;
 }
@@ -234,4 +256,29 @@ textarea::placeholder {
       }
     }
   }
+}
+.liked {
+  // background-color: #0000ff;
+  color: red;
+}
+
+.not-liked {
+  background-color: gray;
+}
+.like-icon-amount {
+  display: flex;
+  gap: 0.2em;
+  align-items: stretch;
+  margin-top: 0.5em;
+  p {
+    margin: 0;
+    font-size: 12px;
+  }
+}
+.view-comment {
+  text-decoration: none;
+  color: #65676b;
+}
+.view-comment:hover {
+  text-decoration: underline;
 }

@@ -602,6 +602,52 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  toggleGardeningCommentLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<GardeningComment>>>(
+      this.http
+        .patch<CustomHttpResponse<GardeningComment>>(
+          `${this.server}/post/toggle/gardeningcommentlike/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteGardeningPost$ = (id: number) =>
+    <Observable<CustomHttpResponse<GardeningPost>>>(
+      this.http
+        .delete<CustomHttpResponse<GardeningPost>>(
+          `${this.server}/post/delete/gardeningpost/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteRecipePost$ = (id: number) =>
+    <Observable<CustomHttpResponse<RecipePost>>>(
+      this.http
+        .delete<CustomHttpResponse<RecipePost>>(
+          `${this.server}/post/delete/recipepost/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteIMadePost$ = (id: number) =>
+    <Observable<CustomHttpResponse<IMadePost>>>(
+      this.http
+        .delete<CustomHttpResponse<IMadePost>>(
+          `${this.server}/post/delete/imadepost/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  deleteOtherPost$ = (id: number) =>
+    <Observable<CustomHttpResponse<OtherPost>>>(
+      this.http
+        .delete<CustomHttpResponse<OtherPost>>(
+          `${this.server}/post/delete/otherpost/${id}`
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   // recipePostCount$ = () =>
   // <Observable<CustomHttpResponse<number>>>(
   //   this.http

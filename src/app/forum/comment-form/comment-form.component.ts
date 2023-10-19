@@ -13,7 +13,7 @@ export class CommentFormComponent implements OnInit {
   @Input() commentText: string;
   @Input() commentId: number;
   @Input() fromGarden: boolean;
-  @Input() fromImade: boolean;
+  @Input() fromIMade: boolean;
   @Input() fromOther: boolean;
   @Input() fromRecipes: boolean;
   editedCommentText: string;
@@ -33,7 +33,7 @@ export class CommentFormComponent implements OnInit {
 
     if (this.fromGarden) {
       editFunction = this.userService.editGardeningComent$;
-    } else if (this.fromImade) {
+    } else if (this.fromIMade) {
       editFunction = this.userService.editIMadeComent$;
     } else if (this.fromOther) {
       editFunction = this.userService.editOtherComent$;

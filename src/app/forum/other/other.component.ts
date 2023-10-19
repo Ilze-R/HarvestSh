@@ -107,6 +107,17 @@ export class OtherComponent implements OnInit {
       );
   }
 
+  deleteOtherPost(id: number): void {
+    this.userService.deleteOtherPost$(id).subscribe({
+      next: (response) => {
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error deleting post', error);
+      },
+    });
+  }
+
   addOtherPostComment(commentForm: NgForm): void {
     this.isLoadingSubject.next(true);
     const userId = this.dataSubject.value.data.user.id;
@@ -157,6 +168,10 @@ export class OtherComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
+    // this.userService.getUserById$(postId).subscribe((userResponse) => {
+    //   this.userForCommentsState$;
+    //   console.log(userResponse + 'USERID');
+    // });
   }
 
   updateLike(id: number, userid: number) {

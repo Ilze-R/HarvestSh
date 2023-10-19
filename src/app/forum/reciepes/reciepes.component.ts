@@ -109,6 +109,17 @@ export class ReciepesComponent implements OnInit {
       );
   }
 
+  deleteRecipePost(id: number): void {
+    this.userService.deleteRecipePost$(id).subscribe({
+      next: (response) => {
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error deleting post', error);
+      },
+    });
+  }
+
   addRecipePostComment(commentForm: NgForm): void {
     this.isLoadingSubject.next(true);
     const userId = this.dataSubject.value.data.user.id;
