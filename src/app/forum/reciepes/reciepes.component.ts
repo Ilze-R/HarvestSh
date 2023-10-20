@@ -61,6 +61,7 @@ export class ReciepesComponent implements OnInit {
   fromRecipesComponent: boolean = false;
   activeLink: string = this.sharedService.currentFormType;
   postLiked: boolean = false;
+  commentLiked: boolean = false;
   userLikedPosts: RecipePost[] = [];
 
   constructor(
@@ -172,7 +173,7 @@ export class ReciepesComponent implements OnInit {
       );
   }
 
-  updateLike(id: number, userid: number) {
+  updatePostLike(id: number, userid: number) {
     this.userService.toggleRecipeLike$(id, userid).subscribe({
       next: (response) => {
         console.log(response);
@@ -181,6 +182,19 @@ export class ReciepesComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error toggling like', error);
+      },
+    });
+  }
+
+  updateCommentLike(id: number, userid: number) {
+    this.userService.toggleRecipeCommentLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.commentLiked = !this.commentLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling comment like', error);
       },
     });
   }

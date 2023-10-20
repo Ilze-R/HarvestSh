@@ -59,6 +59,7 @@ export class OtherComponent implements OnInit {
   fromOtherComponent: boolean = false;
   activeLink: string = this.sharedService.currentFormType;
   postLiked: boolean = false;
+  commentLiked: boolean = false;
   userLikedPosts: OtherPost[] = [];
 
   constructor(
@@ -174,7 +175,7 @@ export class OtherComponent implements OnInit {
     // });
   }
 
-  updateLike(id: number, userid: number) {
+  updatePostLike(id: number, userid: number) {
     this.userService.toggleOtherLike$(id, userid).subscribe({
       next: (response) => {
         console.log(response);
@@ -183,6 +184,19 @@ export class OtherComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error toggling like', error);
+      },
+    });
+  }
+
+  updateCommentLike(id: number, userid: number) {
+    this.userService.toggleOtherCommentLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.commentLiked = !this.commentLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling comment like', error);
       },
     });
   }

@@ -49,6 +49,7 @@ import { CommentFormComponent } from './forum/comment-form/comment-form.componen
 import { AutosizeModule } from 'ngx-autosize';
 import { DashSideNavComponent } from './dash-side-nav/dash-side-nav.component';
 import { AccountComponent } from './account/account.component';
+import { DateFormatPipe } from './pipes/date-format.pipe';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import { AccountComponent } from './account/account.component';
     CommentFormComponent,
     DashSideNavComponent,
     AccountComponent,
+    DateFormatPipe,
   ],
   imports: [
     BrowserModule,

@@ -207,18 +207,6 @@
             </div>
           </ng-container>
           <hr />
-          <div class="offer-icons">
-            <img
-              class="offer-to-like-icon"
-              src="/harvest-fr/src/app/forum/gardening/like-icon.png"
-              alt="offer to like"
-            />
-            <img
-              class="offer-to-comment-icon"
-              src="/harvest-fr/src/app/forum/gardening/chat.png"
-              alt="offer to comment"
-            />
-          </div>
           <div class="form-group textarea-container add-comment-wrap">
             <ng-container
               *ngIf="userState$ | async as user"
@@ -264,15 +252,16 @@
                 "
                 class="comment"
               >
-                <div class="comment-display-wrap">
-                  <div>
-                    <img
-                      src="{{ comment.user_image_url }}"
-                      alt="user image"
-                      class="user-img-icon"
-                    />
-                  </div>
-                  <div>
+              <div class="comment-container">
+                <div>
+                  <img
+                    src="{{ comment.user_image_url }}"
+                    alt="user image"
+                    class="user-img-icon"
+                  />
+                </div>
+                <div class="comment-content-like-icon-wrap">
+                  <div class="comment-content-wrap">
                     <p class="username">{{ comment.username }}</p>
                     <p *ngIf="currentEditIndex !== j" class="comment-input">
                       {{ comment.comment_text }}
@@ -281,10 +270,22 @@
                       *ngIf="currentEditIndex === j"
                       [commentText]="comment.comment_text"
                       [commentId]="comment.id"
-                      [fromOther]="fromOtherComponent"
+                      [fromGarden]="fromGardeningComponent"
                     ></app-comment-form>
                   </div>
+                  <div>
+                    <span class="like-span" (click)="
+                    updateCommentLike(
+                      state?.appData?.data?.user.id,
+                      comment.id
+                    )
+                  ">Like</span>
+                    <span class="date-span">{{
+                      comment.date | dateFormat
+                    }}</span>
+                  </div>
                 </div>
+              </div>
                 <ng-container
                   *ngIf="userState$ | async as user"
                   [ngSwitch]="user.dataState"
@@ -340,7 +341,6 @@
                     "
                   ></div>
                 </ng-container>
-                <p>Like</p>
               </div>
             </ng-container>
           </div>

@@ -44,19 +44,19 @@
     height: 1em;
     margin: 1em 0 0 0;
   }
-  .offer-icons {
-    display: flex;
-    .offer-to-like-icon {
-      background-image: url(/harvest-fr/src/app/forum/gardening/like-icon.png);
-      width: 2em;
-      height: 2em;
-    }
-    .offer-to-comment-icon {
-      background-image: url(/harvest-fr/src/app/forum/gardening/chat.png);
-      width: 1.9em;
-      height: 1.9em;
-    }
-  }
+  // .offer-icons {
+  //   display: flex;
+  //   .offer-to-like-icon {
+  //     background-image: url(./like-icon.png);
+  //     width: 2em;
+  //     height: 2em;
+  //   }
+  //   .offer-to-comment-icon {
+  //     background-image: url(./chat.png);
+  //     width: 1.9em;
+  //     height: 1.9em;
+  //   }
+  // }
 }
 
 .add-post-wrap {
@@ -140,18 +140,57 @@
       display: flex;
       justify-content: space-between;
       gap: 1em;
-      .comment-display-wrap {
+      .comment-container {
         display: flex;
-        align-items: flex-start;
-        flex-grow: 1;
-        gap: 1em;
-        padding: 0.5em;
-        border-radius: 7px;
-        background-color: #f6f6f7;
-        cursor: default;
-        .comment-input {
-          border: none;
-          font-size: 13px;
+        gap: 0.3em;
+        flex-grow: 2;
+        .user-img-icon {
+          width: 1.7em !important;
+          margin: 0;
+          height: 1.7em;
+          border-radius: 100%;
+          text-align: center;
+          transition: background-color 0.25s;
+        }
+        .comment-content-like-icon-wrap {
+          flex-grow: 1;
+          .comment-content-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 0.5em;
+            border-radius: 7px;
+            background-color: #f6f6f7;
+            cursor: default;
+            .username {
+              font-size: 13px;
+              font-weight: 600;
+              margin-bottom: 0.2em;
+              color: rgb(5, 5, 5);
+            }
+            .comment-input {
+              border: none;
+              overflow-wrap: break-word;
+              font-size: 15px;
+              font-weight: 400;
+              color: rgb(5, 5, 5);
+            }
+          }
+          .like-span {
+            padding: 0 1.5em 0 1em;
+            font-size: 12px;
+            color: rgb(101, 103, 107);
+            font-weight: 700;
+            cursor: pointer;
+          }
+          .like-span:hover {
+            text-decoration: underline;
+          }
+          .date-span {
+            font-size: 12px;
+            font-weight: 400;
+            color: rgb(101, 103, 107);
+          }
         }
       }
       .edit-delete-icon {
@@ -169,18 +208,6 @@
       .not-logged-padding {
         width: 1.5em;
         height: 1.5em;
-      }
-      .user-img-icon {
-        width: 1.5em !important;
-        margin: 0;
-        height: 1.5em;
-        border-radius: 100%;
-        text-align: center;
-        transition: background-color 0.25s;
-      }
-      .username {
-        font-weight: bolder;
-        margin-bottom: 0.2em;
       }
     }
   }

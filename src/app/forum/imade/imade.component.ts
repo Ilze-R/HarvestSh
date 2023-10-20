@@ -55,6 +55,7 @@ export class ImadeComponent implements OnInit {
   fromIMadeComponent: boolean = false;
   activeLink: string = this.sharedService.currentFormType;
   postLiked: boolean = false;
+  commentLiked: boolean = false;
   userLikedPosts: IMadePost[] = [];
 
   constructor(
@@ -170,7 +171,7 @@ export class ImadeComponent implements OnInit {
     // });
   }
 
-  updateLike(id: number, userid: number) {
+  updatePostLike(id: number, userid: number) {
     this.userService.toggleIMadeLike$(id, userid).subscribe({
       next: (response) => {
         console.log(response);
@@ -182,6 +183,20 @@ export class ImadeComponent implements OnInit {
       },
     });
   }
+
+  updateCommentLike(id: number, userid: number) {
+    this.userService.toggleIMadeCommentLike$(id, userid).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.commentLiked = !this.commentLiked;
+        this.loadData();
+      },
+      error: (error) => {
+        console.error('Error toggling comment like', error);
+      },
+    });
+  }
+
 
   isLikedPost(postId: number): boolean {
     if (!this.userLikedPosts) {

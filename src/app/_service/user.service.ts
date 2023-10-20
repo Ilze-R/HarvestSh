@@ -612,6 +612,36 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  toggleRecipeCommentLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<RecipeComment>>>(
+      this.http
+        .patch<CustomHttpResponse<RecipeComment>>(
+          `${this.server}/post/toggle/recipecommentlike/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  toggleIMadeCommentLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<IMadeComment>>>(
+      this.http
+        .patch<CustomHttpResponse<IMadeComment>>(
+          `${this.server}/post/toggle/imadecommentlike/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  toggleOtherCommentLike$ = (id: number, userid: number) =>
+    <Observable<CustomHttpResponse<OtherComment>>>(
+      this.http
+        .patch<CustomHttpResponse<OtherComment>>(
+          `${this.server}/post/toggle/othercommentlike/${id}/${userid}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   deleteGardeningPost$ = (id: number) =>
     <Observable<CustomHttpResponse<GardeningPost>>>(
       this.http
