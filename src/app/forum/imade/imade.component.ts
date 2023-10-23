@@ -57,6 +57,7 @@ export class ImadeComponent implements OnInit {
   postLiked: boolean = false;
   commentLiked: boolean = false;
   userLikedPosts: IMadePost[] = [];
+  userLikedComments: IMadeComment[] = [];
 
   constructor(
     private router: Router,
@@ -72,6 +73,7 @@ export class ImadeComponent implements OnInit {
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
         this.userLikedPosts = response.data.likedIMadePosts;
+        this.userLikedComments = response.data.likedIMadeComments;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -203,6 +205,14 @@ export class ImadeComponent implements OnInit {
       return false;
     }
     return this.userLikedPosts.some((post) => post.id === postId);
+  }
+
+
+  isLikedComment(commentId: number): boolean {
+    if (!this.userLikedComments) {
+      return false;
+    }
+    return this.userLikedComments.some((comment) => comment.id === commentId);
   }
 
   newIMadePostForm(): void {

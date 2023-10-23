@@ -10,6 +10,27 @@
 .gardening-wrap {
   display: flex;
   flex-direction: column;
+  .forum-wrap {
+    .forum-topic-wrap {
+      align-items: center;
+      margin: 0em 2em 2em 2em;
+      display: flex;
+      justify-content: space-evenly;
+      padding-top: 2em;
+      .link-wrap {
+        display: flex;
+        gap: 2em;
+        justify-content: space-around;
+        margin-bottom: 2em;
+        .active-link {
+          color: #ff8b71;
+        }
+        .inactive-link {
+          color: black;
+        }
+      }
+    }
+  }
   .post-img-content-position {
     display: flex;
     gap: 2em;
@@ -36,6 +57,19 @@
     }
     .dots-icon-wrap {
       margin-left: auto;
+      .edit-delete-icon:hover {
+        background-color: #f6f6f7;
+      }
+    }
+  }
+  .like-icon-amount {
+    display: flex;
+    gap: 0.2em;
+    align-items: stretch;
+    margin-top: 0.5em;
+    p {
+      margin: 0;
+      font-size: 12px;
     }
   }
   .likes-icon {
@@ -44,19 +78,6 @@
     height: 1em;
     margin: 1em 0 0 0;
   }
-  // .offer-icons {
-  //   display: flex;
-  //   .offer-to-like-icon {
-  //     background-image: url(./like-icon.png);
-  //     width: 2em;
-  //     height: 2em;
-  //   }
-  //   .offer-to-comment-icon {
-  //     background-image: url(./chat.png);
-  //     width: 1.9em;
-  //     height: 1.9em;
-  //   }
-  // }
 }
 
 .add-post-wrap {
@@ -131,6 +152,13 @@
       }
     }
   }
+  .view-comment {
+    text-decoration: none;
+    color: #65676b;
+  }
+  .view-comment:hover {
+    text-decoration: underline;
+  }
   .comment-wrap {
     display: flex;
     flex-direction: column;
@@ -176,20 +204,38 @@
               color: rgb(5, 5, 5);
             }
           }
-          .like-span {
-            padding: 0 1.5em 0 1em;
-            font-size: 12px;
-            color: rgb(101, 103, 107);
-            font-weight: 700;
-            cursor: pointer;
-          }
-          .like-span:hover {
-            text-decoration: underline;
-          }
-          .date-span {
-            font-size: 12px;
-            font-weight: 400;
-            color: rgb(101, 103, 107);
+          .comment-below-interaction {
+            display: flex;
+            gap: 2em;
+            justify-content: space-between;
+            .like-span {
+              padding: 0 1.5em 0 1em;
+              font-size: 12px;
+              color: rgb(101, 103, 107);
+              font-weight: 700;
+              cursor: pointer;
+            }
+            .like-span:hover {
+              text-decoration: underline;
+            }
+            .date-span {
+              font-size: 12px;
+              font-weight: 400;
+              color: rgb(101, 103, 107);
+            }
+            .blue-like-wrap {
+              display: inline;
+              display: flex;
+              gap: 0.2em;
+              padding: 0.3em 1em 0 0;
+              .blue-like {
+                background-image: url(/harvest-fr/src/app/forum/gardening/blue-like.png);
+                max-height: 20px;
+                max-width: 20px;
+                object-fit: cover;
+                margin: 0 !important;
+              }
+            }
           }
         }
       }
@@ -220,13 +266,12 @@
     border: solid 0.8px darkgray;
     padding: 0.2em 0.6em 0.35em 0.6em;
   }
-}
-
-.pagination-display {
-  justify-content: center;
-  padding: 0.2em 0.8em 0.2em 0.8em;
-  p {
-    margin: 0;
+  .pagination-display {
+    justify-content: center;
+    padding: 0.2em 0.8em 0.2em 0.8em;
+    p {
+      margin: 0;
+    }
   }
 }
 
@@ -247,43 +292,10 @@ textarea::placeholder {
   transform: none;
 }
 
-.edit-delete-icon:hover {
-  background-color: #f6f6f7;
-}
 .post-wrap {
   justify-self: center;
 }
-.active-link {
-  color: #ff8b71;
-}
-.inactive-link {
-  color: black;
-}
-.forum-topic-wrap {
-  display: flex;
-  justify-content: space-evenly;
-  padding-top: 2em;
-}
 
-.forum-wrap {
-  .forum-topic-wrap {
-    align-items: center;
-    margin: 0em 2em 2em 2em;
-    .link-wrap {
-      display: flex;
-      gap: 2em;
-      justify-content: space-around;
-      margin-bottom: 2em;
-      button {
-        font-weight: 400;
-        border: none;
-        text-decoration: none;
-        background: white;
-        cursor: pointer;
-      }
-    }
-  }
-}
 .liked {
   // background-color: #0000ff;
   color: red;
@@ -291,21 +303,4 @@ textarea::placeholder {
 
 .not-liked {
   background-color: gray;
-}
-.like-icon-amount {
-  display: flex;
-  gap: 0.2em;
-  align-items: stretch;
-  margin-top: 0.5em;
-  p {
-    margin: 0;
-    font-size: 12px;
-  }
-}
-.view-comment {
-  text-decoration: none;
-  color: #65676b;
-}
-.view-comment:hover {
-  text-decoration: underline;
 }

@@ -27,6 +27,10 @@ export interface Profile {
   likedRecipePosts: [];
   likedIMadePosts: [];
   likedOtherPosts: [];
+  likedGardeningComments: [];
+  likedRecipeComments: [];
+  likedIMadeComments: [];
+  likedOtherComments: [];
   roles?: Role[];
   access_token?: string;
   refresh_token?: string;

@@ -63,6 +63,7 @@ export class ReciepesComponent implements OnInit {
   postLiked: boolean = false;
   commentLiked: boolean = false;
   userLikedPosts: RecipePost[] = [];
+  userLikedComments: RecipeComment[] = [];
 
   constructor(
     private router: Router,
@@ -78,6 +79,7 @@ export class ReciepesComponent implements OnInit {
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
         this.userLikedPosts = response.data.likedRecipePosts;
+        this.userLikedComments = response.data.likedRecipeComments;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -204,6 +206,13 @@ export class ReciepesComponent implements OnInit {
       return false;
     }
     return this.userLikedPosts.some((post) => post.id === postId);
+  }
+
+  isLikedComment(commentId: number): boolean {
+    if (!this.userLikedComments) {
+      return false;
+    }
+    return this.userLikedComments.some((comment) => comment.id === commentId);
   }
 
   newRecipePostForm(): void {

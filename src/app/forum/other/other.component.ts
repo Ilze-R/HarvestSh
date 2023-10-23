@@ -61,6 +61,7 @@ export class OtherComponent implements OnInit {
   postLiked: boolean = false;
   commentLiked: boolean = false;
   userLikedPosts: OtherPost[] = [];
+  userLikedComments: OtherComment[] = [];
 
   constructor(
     private router: Router,
@@ -76,6 +77,7 @@ export class OtherComponent implements OnInit {
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
         this.userLikedPosts = response.data.likedOtherPosts;
+        this.userLikedComments = response.data.likedOtherComments;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -206,6 +208,14 @@ export class OtherComponent implements OnInit {
       return false;
     }
     return this.userLikedPosts.some((post) => post.id === postId);
+  }
+
+
+  isLikedComment(commentId: number): boolean {
+    if (!this.userLikedComments) {
+      return false;
+    }
+    return this.userLikedComments.some((comment) => comment.id === commentId);
   }
 
   newOtherPostForm(): void {

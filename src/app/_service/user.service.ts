@@ -642,6 +642,46 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  getUserLikedGardeningComments$ = (id: number) =>
+    <Observable<CustomHttpResponse<GardeningComment>>>(
+      this.http
+        .get<CustomHttpResponse<GardeningComment>>(
+          `${this.server}/post/gardeningcommentlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserLikedRecipeComments$ = (id: number) =>
+    <Observable<CustomHttpResponse<RecipeComment>>>(
+      this.http
+        .get<CustomHttpResponse<RecipeComment>>(
+          `${this.server}/post/recipecommentlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserLikedIMadeComments$ = (id: number) =>
+    <Observable<CustomHttpResponse<IMadeComment>>>(
+      this.http
+        .get<CustomHttpResponse<IMadeComment>>(
+          `${this.server}/post/imadecommentlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
+  getUserLikedOtherComments$ = (id: number) =>
+    <Observable<CustomHttpResponse<OtherComment>>>(
+      this.http
+        .get<CustomHttpResponse<OtherComment>>(
+          `${this.server}/post/othercommentlikes/${id}`,
+          {}
+        )
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   deleteGardeningPost$ = (id: number) =>
     <Observable<CustomHttpResponse<GardeningPost>>>(
       this.http

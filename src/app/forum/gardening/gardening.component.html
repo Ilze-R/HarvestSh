@@ -322,20 +322,32 @@
                         [fromGarden]="fromGardeningComponent"
                       ></app-comment-form>
                     </div>
-                    <div>
-                      <span
-                        class="like-span"
-                        (click)="
-                          updateCommentLike(
-                            state?.appData?.data?.user.id,
-                            comment.id
-                          )
-                        "
-                        >Like</span
-                      >
-                      <span class="date-span">{{
-                        comment.date | dateFormat
-                      }}</span>
+                    <div class="comment-below-interaction">
+                      <div>
+                        <span
+                          class="like-span"
+                          (click)="
+                            updateCommentLike(
+                              comment.comment_user_id,
+                              comment.id
+                            )
+                          "
+                          >Like</span
+                        >
+                        <span class="date-span">{{
+                          comment.date | dateFormat
+                        }}</span>
+                      </div>
+                      <div class="blue-like-wrap">
+                        <img src="./blue-like.png" alt="" class="blue-like" />
+                        <p
+                          *ngIf="
+                            comment.likes > 0 && !isLikedComment(comment.id)
+                          "
+                        >
+                          {{ comment.likes }}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>

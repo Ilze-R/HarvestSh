@@ -61,6 +61,7 @@ export class GardeningComponent implements OnInit {
   postLiked: boolean = false;
   commentLiked: boolean = false;
   userLikedPosts: GardeningPost[] = [];
+  userLikedComments: GardeningComment[] = [];
 
   constructor(
     private router: Router,
@@ -76,6 +77,7 @@ export class GardeningComponent implements OnInit {
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
         this.userLikedPosts = response.data.likedGardeningPosts;
+        this.userLikedComments = response.data.likedGardeningComments;
         this.dataSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
       }),
@@ -207,6 +209,13 @@ export class GardeningComponent implements OnInit {
       return false;
     }
     return this.userLikedPosts.some((post) => post.id === postId);
+  }
+
+  isLikedComment(commentId: number): boolean {
+    if (!this.userLikedComments) {
+      return false;
+    }
+    return this.userLikedComments.some((comment) => comment.id === commentId);
   }
 
   newGardeningPostForm(): void {
