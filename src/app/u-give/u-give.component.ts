@@ -15,7 +15,6 @@ import { UserService } from '../_service/user.service';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { GiveService } from '../_service/give.service';
-import { SharedService } from '../_service/shared.service';
 
 @Component({
   selector: 'app-u-give',
@@ -42,7 +41,6 @@ export class UGiveComponent implements OnInit {
   constructor(
     private userService: UserService,
     private giveService: GiveService,
-    private sharedService: SharedService,
     private router: Router
   ) {}
 
@@ -92,7 +90,7 @@ export class UGiveComponent implements OnInit {
           this.isLoadingSubject.next(false);
           this.dataSubject.next(response);
           console.log(this.dataSubject.value);
-          this.router.navigate(['/give']);
+          this.router.navigate(['/account']);
           console.log(this.dataSubject.value);
           return {
             dataState: DataState.LOADED,
