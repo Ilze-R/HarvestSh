@@ -19,6 +19,7 @@ import { User } from 'src/app/_interface/user';
 import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
+import { RecipeCommWithReplies } from 'src/app/_interface/recipeCommWithReplies';
 
 @Component({
   selector: 'app-reciepes',
@@ -26,11 +27,7 @@ import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
   styleUrls: ['./reciepes.component.scss'],
 })
 export class ReciepesComponent implements OnInit {
-  // @Input() user: User;
   userForCommentsState$: Observable<State<CustomHttpResponse<Profile & User>>>;
-  // private userForCommentsSubject = new BehaviorSubject<
-  //   CustomHttpResponse<Profile & User>
-  // >(null);
   recipePostState$: Observable<State<CustomHttpResponse<Profile & RecipePost>>>;
   private recipePostSubject = new BehaviorSubject<
     CustomHttpResponse<Profile & RecipePost>
@@ -58,12 +55,22 @@ export class ReciepesComponent implements OnInit {
   responsivePostId: number;
   toggleActive: boolean = true;
   currentEditIndex: number | null = null;
+  currentEditModeIndex: number | null = null;
   fromRecipesComponent: boolean = false;
-  activeLink: string = this.sharedService.currentFormType;
   postLiked: boolean = false;
+  editMode: boolean = false;
+  editMode$ = new BehaviorSubject<boolean>(false);
   commentLiked: boolean = false;
   userLikedPosts: RecipePost[] = [];
   userLikedComments: RecipeComment[] = [];
+  commentsWithReplies: RecipeCommWithReplies[] = [];
+  isReply: boolean = false;
+  isReplyReply: boolean = false;
+  selectedCommentIndex: number | null = null;
+  selectedCommentCommentIndex: number | null = null;
+  selectedRepliesViewIndex: number | null = null;
+  viewReplies: boolean = false;
+  selectedMainCommentId: number | null = null;
 
   constructor(
     private router: Router,
@@ -91,8 +98,7 @@ export class ReciepesComponent implements OnInit {
     Array.from(
       document.querySelectorAll('button[data-bs-toggle="tooltip"]')
     ).forEach((tooltipNode) => new Tooltip(tooltipNode));
-    this.activeLink = 'Reciepes';
-    this.sharedService.currentFormType = 'recipe';
+    this.viewReplies = false;
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
@@ -112,6 +118,24 @@ export class ReciepesComponent implements OnInit {
       );
   }
 
+  processCommentsAndReplies(data: RecipeComment[]): RecipeCommWithReplies[] {
+    const commentsWithReplies: RecipeCommWithReplies[] = [];
+    const mainComments = data.filter(
+      (comment) => comment.parent_comment_id === 0
+    );
+
+    mainComments.forEach((mainComment) => {
+      const recipeCommentWithReplies: RecipeCommWithReplies = {
+        comment: mainComment,
+        replies: data.filter(
+          (reply) => reply.parent_comment_id === mainComment.id
+        ),
+      };
+      commentsWithReplies.push(recipeCommentWithReplies);
+    });
+    return commentsWithReplies;
+  }
+
   deleteRecipePost(id: number): void {
     this.userService.deleteRecipePost$(id).subscribe({
       next: (response) => {
@@ -127,6 +151,8 @@ export class ReciepesComponent implements OnInit {
     this.isLoadingSubject.next(true);
     const userId = this.dataSubject.value.data.user.id;
     const postId = this.responsivePostId;
+    const trimmedCommentText = commentForm.value.comment_text.trim();
+    commentForm.form.patchValue({ comment_text: trimmedCommentText });
     this.recipePostComment$ = this.userService
       .addRecipePostComment$(userId, postId, commentForm.value)
       .pipe(
@@ -154,6 +180,89 @@ export class ReciepesComponent implements OnInit {
     });
   }
 
+  addRecipePostCommentReply(
+    replyForm: NgForm,
+    replyIid: number,
+    mainId: number,
+    main: boolean
+  ): void {
+    this.isLoadingSubject.next(true);
+    const userId = this.dataSubject.value.data.user.id;
+    const postId = this.responsivePostId;
+    let mainComment;
+    if (main) {
+      const mainComment = this.commentsWithReplies.find(
+        (comment) => comment.comment.id === mainId
+      );
+      replyForm.value.parent_comment_id = mainId;
+      replyForm.value.reply_username = mainComment.comment.username;
+      replyForm.value.comment_text = replyForm.value.comment_text.trim();
+    } else {
+      replyForm.value.parent_comment_id = mainId;
+      this.commentsWithReplies.forEach((commentWithReplies) => {
+        const foundReply = commentWithReplies.replies.find(
+          (reply) => reply.id === replyIid
+        );
+        if (foundReply) {
+          mainComment = commentWithReplies;
+          replyForm.value.reply_username = foundReply.username;
+          replyForm.value.comment_text = replyForm.value.comment_text.trim();
+        }
+      });
+    }
+    this.recipePostComment$ = this.userService
+      .addRecipePostComment$(userId, postId, replyForm.value)
+      .pipe(
+        map((response) => {
+          this.isLoadingSubject.next(false);
+          this.recipePostCommentSubject.next(response);
+          return {
+            dataState: DataState.LOADED,
+            appData: this.recipePostCommentSubject.value,
+          };
+        }),
+        startWith({
+          dataState: DataState.LOADING,
+          appData: this.recipePostCommentSubject.value,
+        }),
+        catchError((error: string) => {
+          this.isLoadingSubject.next(false);
+          console.error(error);
+          return of({ dataState: DataState.ERROR, error });
+        })
+      );
+    this.recipePostComment$.subscribe((response) => {
+      this.loadData();
+    });
+    this.resetSelectedComment();
+    this.resetSelectedCommenComment();
+  }
+
+  showReplyArea(commentIndex: number): void {
+    this.selectedCommentIndex = commentIndex;
+    this.isReply = true;
+    this.resetSelectedCommenComment();
+    this.editMode = false;
+    this.editMode$.next(false);
+    this.currentEditModeIndex = null;
+  }
+
+  showReplyReplyArea(commentIndex: number): void {
+    this.selectedCommentCommentIndex = commentIndex;
+    this.isReplyReply = true;
+    this.resetSelectedComment();
+    this.editMode = false;
+    this.editMode$.next(false);
+    this.currentEditModeIndex = null;
+  }
+
+  resetSelectedComment() {
+    this.selectedCommentIndex = null;
+  }
+  resetSelectedCommenComment() {
+    this.selectedCommentCommentIndex = null;
+  }
+
   getDetails(i: number, postId: number) {
     this.responsivePostId = postId;
     this.recipePostState$.subscribe((response) => {
@@ -165,6 +274,8 @@ export class ReciepesComponent implements OnInit {
       .pipe(
         map((response) => {
           this.allCommentsSubject.next(response);
+          const comments = response.comments;
+          this.commentsWithReplies = this.processCommentsAndReplies(comments);
           return { dataState: DataState.LOADED, appData: response };
         }),
         startWith({ dataState: DataState.LOADING }),
@@ -173,6 +284,7 @@ export class ReciepesComponent implements OnInit {
           return of({ dataState: DataState.ERROR, error });
         })
       );
+    this.viewReplies = false;
   }
 
   updatePostLike(id: number, userid: number) {
@@ -219,9 +331,25 @@ export class ReciepesComponent implements OnInit {
     this.router.navigate(['/newrecipepost']);
   }
 
+  goToReplies(mainCommentId: number) {
+    this.viewReplies = true;
+    if (this.selectedMainCommentId === mainCommentId) {
+      this.selectedMainCommentId = null;
+    } else {
+      this.selectedMainCommentId = mainCommentId;
+    }
+    this.editMode = false;
+    this.editMode$.next(false);
+    this.currentEditModeIndex = null;
+  }
+
   editComment(index: number): void {
+    this.isReply = false;
     this.currentEditIndex = index;
     this.fromRecipesComponent = true;
+    this.editMode = true;
+    this.editMode$.next(false);
+    this.currentEditModeIndex = index;
   }
 
   deleteComment(id: number): void {
@@ -233,6 +361,13 @@ export class ReciepesComponent implements OnInit {
         console.error('Error editing comment', error);
       },
     });
+  }
+
+  cancelCommentEdit(): void {
+    this.editMode = false;
+    this.editMode$.next(false);
+    this.currentEditModeIndex = null;
+    this.currentEditIndex = null;
   }
 
   changePage(page: number) {

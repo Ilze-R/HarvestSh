@@ -50,6 +50,9 @@ import { AutosizeModule } from 'ngx-autosize';
 import { DashSideNavComponent } from './dash-side-nav/dash-side-nav.component';
 import { AccountComponent } from './account/account.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { ColorUsernamePipe } from './pipes/color-username.pipe';
+import { AddFormComponent } from './add-form/add-form.component';
+import { ForumNavComponent } from './forum-nav/forum-nav.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +89,9 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     DashSideNavComponent,
     AccountComponent,
     DateFormatPipe,
+    ColorUsernamePipe,
+    AddFormComponent,
+    ForumNavComponent,
   ],
   imports: [
     BrowserModule,

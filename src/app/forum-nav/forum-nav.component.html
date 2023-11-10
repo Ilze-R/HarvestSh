@@ -1,0 +1,51 @@
+<div
+  class="tab-pane forum-wrap"
+  id="forum-tab"
+  role="tabpanel"
+  aria-labelledby="forum"
+>
+  <div class="forum-topic-wrap flex-column">
+    <div class="link-wrap">
+      <a
+        class="btn-link"
+        [ngClass]="{
+          'active-link': sharedService.forumNavigation === 'Gardening',
+          'inactive-link': sharedService.forumNavigation !== 'Gardening'
+        }"
+        (click)="setActiveTab('Gardening')"
+      >
+        Gardening
+      </a>
+      <a
+        class="btn-link"
+        [ngClass]="{
+          'active-link': sharedService.forumNavigation === 'Reciepes',
+          'inactive-link': sharedService.forumNavigation !== 'Reciepes'
+        }"
+        (click)="setActiveTab('Reciepes')"
+      >
+        Recipes
+      </a>
+      <a
+        class="btn-link"
+        [ngClass]="{
+          'active-link': sharedService.forumNavigation === 'Imade',
+          'inactive-link': sharedService.forumNavigation !== 'Imade'
+        }"
+        (click)="setActiveTab('Imade')"
+      >
+        I made this
+      </a>
+      <a
+        class="btn-link"
+        [ngClass]="{
+          'active-link': sharedService.forumNavigation === 'Other',
+          'inactive-link': sharedService.forumNavigation !== 'Other'
+        }"
+        (click)="setActiveTab('Other')"
+      >
+        Other
+      </a>
+    </div>
+  </div>
+</div>

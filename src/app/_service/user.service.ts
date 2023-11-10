@@ -237,6 +237,15 @@ export class UserService {
       .pipe(tap(console.log), catchError(this.handleError));
   };
 
+  createGardeningPostNoPhoto$ = (id: number, gardeningPost: GardeningPost) => {
+    return this.http
+      .post<CustomHttpResponse<Profile & GardeningPost>>(
+        `${this.server}/user/addgardeningpost/${id}`,
+        gardeningPost
+      )
+      .pipe(tap(console.log), catchError(this.handleError));
+  };
+
   createRecipePost$ = (id: number, formData: FormData) => {
     return this.http
       .post<CustomHttpResponse<Profile & RecipePost>>(
@@ -357,11 +366,19 @@ export class UserService {
   };
 
   getGardeningPostComments$ = (id: number) => {
-    return this.http
-      .get<CustomHttpResponse<GardeningComment>>(
-        `${this.server}/user/gardeningpost/comments/${id}`
-      )
-      .pipe(tap(console.log), catchError(this.handleError));
+    return (
+      this.http
+        .get<CustomHttpResponse<GardeningComment[]>>(
+          `${this.server}/user/gardeningpost/comments/${id}`
+        )
+        // .pipe(tap(console.log), catchError(this.handleError));
+        .pipe(
+          map((response) => response.data),
+          tap(console.log),
+          catchError(this.handleError)
+        )
+    );
+    // );
   };
 
   addRecipePostComment$ = (
@@ -379,10 +396,14 @@ export class UserService {
 
   getRecipePostComments$ = (id: number) => {
     return this.http
-      .get<CustomHttpResponse<RecipeComment>>(
+      .get<CustomHttpResponse<RecipeComment[]>>(
         `${this.server}/user/recipepost/comments/${id}`
       )
-      .pipe(tap(console.log), catchError(this.handleError));
+      .pipe(
+        map((response) => response.data),
+        tap(console.log),
+        catchError(this.handleError)
+      );
   };
 
   addIMadePostComment$ = (
@@ -400,10 +421,14 @@ export class UserService {
 
   getIMadePostComments$ = (id: number) => {
     return this.http
-      .get<CustomHttpResponse<IMadeComment>>(
+      .get<CustomHttpResponse<IMadeComment[]>>(
         `${this.server}/user/imadepost/comments/${id}`
       )
-      .pipe(tap(console.log), catchError(this.handleError));
+      .pipe(
+        map((response) => response.data),
+        tap(console.log),
+        catchError(this.handleError)
+      );
   };
 
   addOtherPostComment$ = (
@@ -421,10 +446,14 @@ export class UserService {
 
   getOtherPostComments$ = (id: number) => {
     return this.http
-      .get<CustomHttpResponse<OtherComment>>(
+      .get<CustomHttpResponse<OtherComment[]>>(
         `${this.server}/user/otherpost/comments/${id}`
       )
-      .pipe(tap(console.log), catchError(this.handleError));
+      .pipe(
+        map((response) => response.data),
+        tap(console.log),
+        catchError(this.handleError)
+      );
   };
 
   editGardeningComent$ = (
@@ -602,41 +631,41 @@ export class UserService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  toggleGardeningCommentLike$ = (id: number, userid: number) =>
+  toggleGardeningCommentLike$ = (userId: number, id: number) =>
     <Observable<CustomHttpResponse<GardeningComment>>>(
       this.http
         .patch<CustomHttpResponse<GardeningComment>>(
-          `${this.server}/post/toggle/gardeningcommentlike/${id}/${userid}`,
+          `${this.server}/post/toggle/gardeningcommentlike/${userId}/${id}`,
           {}
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  toggleRecipeCommentLike$ = (id: number, userid: number) =>
+  toggleRecipeCommentLike$ = (userId: number, id: number) =>
     <Observable<CustomHttpResponse<RecipeComment>>>(
       this.http
         .patch<CustomHttpResponse<RecipeComment>>(
-          `${this.server}/post/toggle/recipecommentlike/${id}/${userid}`,
+          `${this.server}/post/toggle/recipecommentlike/${userId}/${id}`,
           {}
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  toggleIMadeCommentLike$ = (id: number, userid: number) =>
+  toggleIMadeCommentLike$ = (userId: number, id: number) =>
     <Observable<CustomHttpResponse<IMadeComment>>>(
       this.http
         .patch<CustomHttpResponse<IMadeComment>>(
-          `${this.server}/post/toggle/imadecommentlike/${id}/${userid}`,
+          `${this.server}/post/toggle/imadecommentlike/${userId}/${id}`,
           {}
         )
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  toggleOtherCommentLike$ = (id: number, userid: number) =>
+  toggleOtherCommentLike$ = (userId: number, id: number) =>
     <Observable<CustomHttpResponse<OtherComment>>>(
       this.http
         .patch<CustomHttpResponse<OtherComment>>(
-          `${this.server}/post/toggle/othercommentlike/${id}/${userid}`,
+          `${this.server}/post/toggle/othercommentlike/${userId}/${id}`,
           {}
         )
         .pipe(tap(console.log), catchError(this.handleError))

@@ -1,36 +1,18 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  // background-color: #e9ebe1;
+  background-color: white;
+  gap: 8em;
   margin: 0;
   .side-nav {
-    background-color: #deebec !important;
+    background-color: white !important;
   }
 }
 
 .gardening-wrap {
   display: flex;
   flex-direction: column;
-  .forum-wrap {
-    .forum-topic-wrap {
-      align-items: center;
-      margin: 0em 2em 2em 2em;
-      display: flex;
-      justify-content: space-evenly;
-      padding-top: 2em;
-      .link-wrap {
-        display: flex;
-        gap: 2em;
-        justify-content: space-around;
-        margin-bottom: 2em;
-        .active-link {
-          color: #ff8b71;
-        }
-        .inactive-link {
-          color: black;
-        }
-      }
-    }
-  }
   .post-img-content-position {
     display: flex;
     gap: 2em;
@@ -51,6 +33,7 @@
     }
     .card-date {
       margin: 0;
+      padding-top: 0.2em;
     }
     .post-text-wrap {
       padding-top: 2.2em;
@@ -64,36 +47,19 @@
   }
   .like-icon-amount {
     display: flex;
-    gap: 0.2em;
-    align-items: stretch;
+    gap: 0.3em;
+    align-items: center;
     margin-top: 0.5em;
+    img {
+      width: 1.7em;
+      height: 1.7em;
+      background-image: url(./gray-like.png);
+      margin: 0;
+    }
     p {
       margin: 0;
       font-size: 12px;
     }
-  }
-  .likes-icon {
-    background-image: url(/harvest-fr/src/app/forum/gardening/like-icon.png);
-    width: 1em;
-    height: 1em;
-    margin: 1em 0 0 0;
-  }
-}
-
-.add-post-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 60em;
-  height: 4em;
-  border: 0.8px solid darkgray;
-  margin: 0 !important;
-  border-radius: 7px;
-  cursor: pointer;
-  background-color: #f1f1f1;
-  svg {
-    align-self: center;
   }
 }
 .gardening-wrap {
@@ -135,30 +101,51 @@
     .comment-form {
       flex-grow: 1;
       .comment-input-wrap {
-        text-align: right;
-        .content-input {
-          height: 7em;
+        position: relative;
+        border-radius: 4px;
+        background-color: #f7f6f8;
+
+        // padding: 10px;
+        .icon-send {
+          background-color: transparent;
+          // width: calc(100% - 5px);
+          // padding-right: 20px;
         }
-        .btn-comment {
-          margin-top: 0.6em;
-          border: solid 0.9px darkgray;
-          letter-spacing: 0.7px;
-          text-transform: uppercase;
-          font-size: 10px;
+        .icon-send:focus {
+          outline: none;
+        }
+        .submit-button {
+          position: absolute;
+          bottom: 2px;
+          right: 2px;
+          background: transparent;
+          border: none;
           cursor: pointer;
-          border-radius: 5px;
-          padding: 5px 10px;
+          padding: 0;
+          .button-content {
+            display: flex;
+            align-items: center;
+            .bi-send {
+              position: absolute;
+              bottom: 5px;
+              right: 0.1px;
+            }
+          }
         }
       }
     }
   }
-  .view-comment {
-    text-decoration: none;
-    color: #65676b;
+  .view-comment-wrap {
+    margin-top: 1em;
+    .view-comment {
+      text-decoration: none;
+      color: #65676b;
+    }
+    .view-comment:hover {
+      text-decoration: underline;
+    }
   }
-  .view-comment:hover {
-    text-decoration: underline;
-  }
+
   .comment-wrap {
     display: flex;
     flex-direction: column;
@@ -166,12 +153,16 @@
     margin-top: 1.5em;
     .comment {
       display: flex;
-      justify-content: space-between;
+      // flex-direction: column;
+      // justify-content: space-between;
+      align-items: center;
+      align-content: center;
       gap: 1em;
       .comment-container {
         display: flex;
         gap: 0.3em;
         flex-grow: 2;
+        margin-top: 0.8em;
         .user-img-icon {
           width: 1.7em !important;
           margin: 0;
@@ -182,41 +173,77 @@
         }
         .comment-content-like-icon-wrap {
           flex-grow: 1;
-          .comment-content-wrap {
+          .comment-content-container {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 0.5em;
-            border-radius: 7px;
-            background-color: #f6f6f7;
-            cursor: default;
-            .username {
-              font-size: 13px;
-              font-weight: 600;
-              margin-bottom: 0.2em;
-              color: rgb(5, 5, 5);
+            flex-direction: row;
+            gap: 0.3em;
+            .comment-content-wrap {
+              display: flex;
+              flex-grow: 1;
+              flex-direction: column;
+              align-items: flex-start;
+              padding: 0.6em;
+              border-radius: 7px;
+              background-color: #f6f6f7;
+              cursor: default;
+              .username {
+                font-size: 13px;
+                font-weight: 600;
+                // margin-bottom: 0.2em;
+                color: rgb(5, 5, 5);
+                margin: 0;
+              }
+              .comment-text {
+                border: none;
+                // padding: 0.3em;
+                word-break: break-all;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
+                white-space: break-spaces;
+                font-size: 15px;
+                font-weight: 400;
+                color: rgb(5, 5, 5);
+                margin: 0;
+              }
             }
-            .comment-input {
-              border: none;
-              overflow-wrap: break-word;
-              font-size: 15px;
-              font-weight: 400;
-              color: rgb(5, 5, 5);
+            .edit-delete-icon {
+              align-self: center;
+              border-radius: 100%;
+              padding: 0.3em;
+              width: 1.5em;
+              height: 1.5em;
+              cursor: pointer;
+              // display: flex;
+              justify-content: center;
+              align-items: center;
+              transition: all 0.2s ease-in-out;
+            }
+            .not-logged-padding {
+              width: 1.5em;
+              height: 1.5em;
             }
           }
+
           .comment-below-interaction {
             display: flex;
-            gap: 2em;
             justify-content: space-between;
+            align-items: baseline;
             .like-span {
               padding: 0 1.5em 0 1em;
+            }
+            .like-span,
+            .reply-span {
               font-size: 12px;
               color: rgb(101, 103, 107);
               font-weight: 700;
               cursor: pointer;
             }
-            .like-span:hover {
+            .like-span:hover,
+            .reply-span:hover {
               text-decoration: underline;
+            }
+            .reply-span {
+              padding: 0 1.5em 0 0;
             }
             .date-span {
               font-size: 12px;
@@ -224,36 +251,68 @@
               color: rgb(101, 103, 107);
             }
             .blue-like-wrap {
-              display: inline;
+              // display: inline;
               display: flex;
+              // align-self: flex-end;
               gap: 0.2em;
-              padding: 0.3em 1em 0 0;
+              padding: 0 1em 0 0;
+              margin-right: 1em;
+              height: 1.2em;
               .blue-like {
-                background-image: url(/harvest-fr/src/app/forum/gardening/blue-like.png);
+                background-image: url(./blue-like.png);
                 max-height: 20px;
                 max-width: 20px;
                 object-fit: cover;
-                margin: 0 !important;
+              }
+            }
+          }
+          .reply-form {
+            flex-grow: 1;
+            margin-top: 1em;
+            padding-right: 1.5em;
+            .reply-input-wrap {
+              position: relative;
+              border-radius: 4px;
+              .icon-send {
+                background-color: transparent;
+              }
+              .icon-send:focus {
+                outline: none;
+              }
+              .btn-reply {
+                position: absolute;
+                bottom: 2px;
+                right: 8px;
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                .button-content {
+                  display: flex;
+                  align-items: center;
+                  .bi-send {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 0.1px;
+                  }
+                }
               }
             }
           }
         }
       }
-      .edit-delete-icon {
-        align-self: center;
-        border-radius: 100%;
-        padding: 0.3em;
-        width: 1.5em;
-        height: 1.5em;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.2s ease-in-out;
-      }
-      .not-logged-padding {
-        width: 1.5em;
-        height: 1.5em;
+    }
+    .reply-wrap {
+      padding: 0 0 0 3em;
+      .view-replies-arrow {
+        padding-top: 0.8em;
+        a {
+          display: flex;
+          gap: 0.5em;
+        }
+        .bi-arrow-return-right {
+          margin-top: 0.2em;
+        }
       }
     }
   }
@@ -297,10 +356,19 @@ textarea::placeholder {
 }
 
 .liked {
-  // background-color: #0000ff;
-  color: red;
+  color: blue !important;
 }
 
 .not-liked {
   background-color: gray;
+}
+
+.edit-circle {
+  align-self: center;
+}
+.colored-username {
+  color: #0000ff;
+}
+.cancel {
+  color: #e8d645 !important;
 }

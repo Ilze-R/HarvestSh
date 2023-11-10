@@ -1,18 +1,17 @@
-<ng-container *ngIf="profileState$ | async as state">
+<!-- <ng-container *ngIf="profileState$ | async as state">
   <app-nav [user]="state?.appData?.data?.user"></app-nav>
-</ng-container>
+</ng-container> -->
 <div class="container">
-  <div class="side-nav">
+  <!-- <div class="side-nav">
     <app-dash-side-nav></app-dash-side-nav>
-  </div>
+  </div> -->
   <div
     class="tab-pane give-wrap"
     id="give-tab"
     role="tabpanel"
     aria-labelledby="give"
   >
-    <button class="btn-give" (click)="newGiveForm()">create</button>
-
+    <app-add-form (click)="newGiveForm()"></app-add-form>
     <h5 class="my-give-title">My gives</h5>
     <div class="col-xm-12 gives-table">
       <table class="table table-hover gives-table">
@@ -28,7 +27,10 @@
         </thead>
         <ng-container *ngIf="givesState$ | async as give">
           <tbody class="table-body">
-            <tr *ngFor="let gives of give?.appData?.data?.give" class="cell-1">
+            <tr
+              *ngFor="let gives of give?.appData?.data?.give"
+              class="cell-1 give-short-info-wrap"
+            >
               <th class="text-center">
                 <img src="{{ gives.image }}" alt="" class="give-image" />
               </th>
@@ -38,7 +40,7 @@
                 [ngStyle]="{
                   color:
                     gives.status === 'available'
-                      ? '#2fa14e'
+                      ? '#7d9576'
                       : gives.status === 'reserved'
                       ? '#e3a619'
                       : gives.status === 'claimed'

@@ -6,8 +6,7 @@
     trim="blur"
     [(ngModel)]="commentText"
     (keyup.enter)="editComment(editForm)"
-    autosize
-    autofocus
+    #commentTextarea
   >
   </textarea>
 </form>

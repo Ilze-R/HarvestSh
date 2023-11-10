@@ -1,0 +1,22 @@
+.forum-wrap {
+  .forum-topic-wrap {
+    align-items: center;
+    margin: 0em 2em 2em 0em;
+    display: flex;
+    padding-top: 2em;
+    .link-wrap {
+      display: flex;
+      gap: 2em;
+      justify-content: space-around;
+      margin-bottom: 2em;
+      .active-link {
+        color: #00b58c;
+        text-decoration: none;
+      }
+      .inactive-link {
+        color: black;
+        text-decoration: none;
+      }
+    }
+  }
+}

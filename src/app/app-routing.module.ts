@@ -25,6 +25,7 @@ import { URecipepostComponent } from './u-recipepost/u-recipepost.component';
 import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
 import { UImadepostComponent } from './u-imadepost/u-imadepost.component';
 import { AccountComponent } from './account/account.component';
+import { DashSideNavComponent } from './dash-side-nav/dash-side-nav.component';
 
 const routes: Routes = [
   {
@@ -44,8 +45,8 @@ const routes: Routes = [
     path: 'give',
     component: GiveComponent,
   },
-  { path: 'get', component: GetComponent },
-  { path: 'account', component: AccountComponent },
+  { path: 'get', component: DashSideNavComponent },
+  { path: 'account', component: DashSideNavComponent },
   {
     path: 'profile',
     component: ProfileComponent,
@@ -82,7 +83,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
   },
   {
-    path: 'forum/gardening',
+    path: 'forum',
     component: GardeningComponent,
     canActivate: [AuthenticationGuard],
   },

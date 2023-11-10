@@ -9,9 +9,9 @@ import {
   startWith,
 } from 'rxjs';
 import { CustomHttpResponse, Profile } from '../_interface/appstates';
-import { Router } from '@angular/router';
 import { DataState } from '../_enum/datastate.enum';
 import { UserService } from '../_service/user.service';
+import { SharedService } from '../_service/shared.service';
 
 @Component({
   selector: 'app-dash-side-nav',
@@ -19,16 +19,31 @@ import { UserService } from '../_service/user.service';
   styleUrls: ['./dash-side-nav.component.scss'],
 })
 export class DashSideNavComponent implements OnInit {
+  userState$: Observable<State<CustomHttpResponse<Profile>>>;
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(null);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   isLoading$ = this.isLoadingSubject.asObservable();
   readonly DataState = DataState;
+  activeTab: string = 'account';
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    public sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
+    this.userState$ = this.userService.profile$().pipe(
+      map((response) => {
+        this.dataSubject.next(response);
+        return { dataState: DataState.LOADED, appData: response };
+      }),
+      startWith({ dataState: DataState.LOADING }),
+      catchError((error: string) => {
+        return of({ dataState: DataState.ERROR, error });
+      })
+    );
   }
 
   private loadData(): void {
@@ -91,5 +106,9 @@ export class DashSideNavComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', image);
     return formData;
+  }
+
+  setActiveTab(tab: string): void {
+    this.activeTab = tab;
   }
 }

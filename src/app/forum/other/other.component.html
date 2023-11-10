@@ -1,10 +1,5 @@
-<ng-container *ngIf="userState$ | async as state">
-  <app-nav [user]="state?.appData?.data?.user"></app-nav>
-</ng-container>
+
 <div class="container">
-  <div class="bg-white d-block d-sm-flex side-nav">
-    <app-dash-side-nav></app-dash-side-nav>
-  </div>
   <div class="gardening-wrap">
     <div
       class="tab-pane forum-wrap"
@@ -12,73 +7,12 @@
       role="tabpanel"
       aria-labelledby="forum"
     >
-      <div class="forum-topic-wrap flex-column">
-        <div class="link-wrap">
-          <a
-            class="btn-link"
-            [routerLink]="['/forum/gardening']"
-            [ngClass]="{
-              'active-link': activeLink === 'Gardening',
-              'inactive-link': activeLink !== 'Gardening'
-            }"
-          >
-            Gardening
-          </a>
-          <a
-            [routerLink]="['/forum/recipes']"
-            class="btn-link"
-            [ngClass]="{
-              'active-link': activeLink === 'Reciepes',
-              'inactive-link': activeLink !== 'Reciepes'
-            }"
-          >
-            Recipes
-          </a>
-          <a
-            [routerLink]="['/forum/imade']"
-            class="btn-link"
-            [ngClass]="{
-              'active-link': activeLink === 'Imade',
-              'inactive-link': activeLink !== 'Imade'
-            }"
-          >
-            I made this
-          </a>
-          <a
-            [routerLink]="['/forum/other']"
-            class="btn-link"
-            [ngClass]="{
-              'active-link': activeLink === 'Other',
-              'inactive-link': activeLink !== 'Other'
-            }"
-          >
-            Other
-          </a>
-        </div>
-      </div>
     </div>
     <ng-container
       *ngIf="otherPostState$ | async as state"
       [ngSwitch]="state.dataState"
     >
-      <div class="add-post-wrap">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="27"
-          height="27"
-          fill="#808080 "
-          class="bi bi-plus-circle"
-          viewBox="0 0 16 16"
-          (click)="newIMadePostForm()"
-        >
-          <path
-            d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-          />
-          <path
-            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-          />
-        </svg>
-      </div>
+      <app-add-form (click)="newOtherPostForm()"></app-add-form>
       <div
         class="card mb-3 gardening-wrap"
         *ngFor="let post of state?.appData?.data?.posts; let i = index"
@@ -107,7 +41,7 @@
             </div>
             <div class="post-text-wrap">
               <p *ngIf="clickedIndex !== i" class="card-text">
-                {{ post?.description | shorten : 200 }}
+                {{ post?.description | shorten : 500 }}
               </p>
               <p *ngIf="clickedIndex === i">{{ post?.description }}</p>
             </div>
@@ -166,28 +100,14 @@
             </div>
           </div>
           <ng-container *ngIf="userState$ | async as state">
-            <!-- <img
-              class="likes-icon"
-              src="./like-icon.png"
-              alt="actual likes"
-              [ngClass]="{ liked: isLikedPost(post.id) }"
-              (click)="updateLike(post.id, state?.appData?.data?.user.id)"
-            /> -->
             <div class="like-icon-amount">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                [style.fill]="isLikedPost(post.id) ? '#0000ff' : 'currentColor'"
-                class="bi bi-hand-thumbs-up"
-                viewBox="0 0 16 16"
+              <img
+                [src]="
+                  isLikedPost(post.id) ? './blue-like.png' : './gray-like.png'
+                "
+                alt="like icon"
                 (click)="updatePostLike(post.id, state?.appData?.data?.user.id)"
-              >
-                <!-- <circle cx="8" cy="9" r="9" fill="#0000ff" /> -->
-                <path
-                  d="M8.864.046C7.908-.193 7.02.53 6.956 1.466c-.072 1.051-.23 2.016-.428 2.59-.125.36-.479 1.013-1.04 1.639-.557.623-1.282 1.178-2.131 1.41C2.685 7.288 2 7.87 2 8.72v4.001c0 .845.682 1.464 1.448 1.545 1.07.114 1.564.415 2.068.723l.048.03c.272.165.578.348.97.484.397.136.861.217 1.466.217h3.5c.937 0 1.599-.477 1.934-1.064a1.86 1.86 0 0 0 .254-.912c0-.152-.023-.312-.077-.464.201-.263.38-.578.488-.901.11-.33.172-.762.004-1.149.069-.13.12-.269.159-.403.077-.27.113-.568.113-.857 0-.288-.036-.585-.113-.856a2.144 2.144 0 0 0-.138-.362 1.9 1.9 0 0 0 .234-1.734c-.206-.592-.682-1.1-1.2-1.272-.847-.282-1.803-.276-2.516-.211a9.84 9.84 0 0 0-.443.05 9.365 9.365 0 0 0-.062-4.509A1.38 1.38 0 0 0 9.125.111L8.864.046zM11.5 14.721H8c-.51 0-.863-.069-1.14-.164-.281-.097-.506-.228-.776-.393l-.04-.024c-.555-.339-1.198-.731-2.49-.868-.333-.036-.554-.29-.554-.55V8.72c0-.254.226-.543.62-.65 1.095-.3 1.977-.996 2.614-1.708.635-.71 1.064-1.475 1.238-1.978.243-.7.407-1.768.482-2.85.025-.362.36-.594.667-.518l.262.066c.16.04.258.143.288.255a8.34 8.34 0 0 1-.145 4.725.5.5 0 0 0 .595.644l.003-.001.014-.003.058-.014a8.908 8.908 0 0 1 1.036-.157c.663-.06 1.457-.054 2.11.164.175.058.45.3.57.65.107.308.087.67-.266 1.022l-.353.353.353.354c.043.043.105.141.154.315.048.167.075.37.075.581 0 .212-.027.414-.075.582-.05.174-.111.272-.154.315l-.353.353.353.354c.047.047.109.177.005.488a2.224 2.224 0 0 1-.505.805l-.353.353.353.354c.006.005.041.05.041.17a.866.866 0 0 1-.121.416c-.165.288-.503.56-1.066.56z"
-                />
-              </svg>
+              />
               <p *ngIf="post.likes > 0 && !isLikedPost(post.id)">
                 {{ post.likes }}
               </p>
@@ -232,13 +152,34 @@
                   id="comment_text"
                   placeholder="Write a comment..."
                 ></textarea>
-                <button class="btn-comment" type="submit" (click)="getDetails(i, post.id)">Comment</button>
+                <button
+                  type="submit"
+                  (click)="getDetails(i, post.id)"
+                  class="submit-button"
+                >
+                  <span class="button-content">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      fill="#0000ff"
+                      class="bi bi-send"
+                      viewBox="0 0 16 16"
+                    >
+                      <path
+                        d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
+                      />
+                    </svg>
+                  </span>
+                </button>
               </div>
             </form>
           </div>
-          <a class="view-comment" (click)="getDetails(i, post.id)"
-            >View comments</a
-          >
+          <div class="view-comment-wrap">
+            <a class="view-comment" (click)="getDetails(i, post.id)"
+              >View comments</a
+            >
+          </div>
           <div
             *ngIf="allCommentsState$ | async as comments"
             [ngSwitch]="comments.dataState"
@@ -247,116 +188,420 @@
             <ng-container *ngIf="clickedIndex === i">
               <div
                 *ngFor="
-                  let comment of comments.appData?.data?.comments;
+                  let commentWithReplies of commentsWithReplies;
                   let j = index
                 "
-                class="comment"
               >
-              <div class="comment-container">
-                <div>
-                  <img
-                    src="{{ comment.user_image_url }}"
-                    alt="user image"
-                    class="user-img-icon"
-                  />
-                </div>
-                <div class="comment-content-like-icon-wrap">
-                  <div class="comment-content-wrap">
-                    <p class="username">{{ comment.username }}</p>
-                    <p *ngIf="currentEditIndex !== j" class="comment-input">
-                      {{ comment.comment_text }}
-                    </p>
-                    <app-comment-form
-                      *ngIf="currentEditIndex === j"
-                      [commentText]="comment.comment_text"
-                      [commentId]="comment.id"
-                      [fromOther]="fromOtherComponent"
-                    ></app-comment-form>
-                  </div>
-                  <div class="comment-below-interaction">
+                <div class="comment">
+                  <div class="comment-container">
+                    <!-- Display the main comment -->
                     <div>
-                      <span
-                        class="like-span"
-                        (click)="
-                          updateCommentLike(
-                            comment.comment_user_id,
-                            comment.id
+                      <img
+                        src="{{ commentWithReplies.comment.user_image_url }}"
+                        alt="user image"
+                        class="user-img-icon"
+                      />
+                    </div>
+                    <div class="comment-content-like-icon-wrap">
+                      <div class="comment-content-container">
+                        <div class="comment-content-wrap">
+                          <p class="username">
+                            {{ commentWithReplies.comment.username }}
+                          </p>
+                          <p
+                            *ngIf="currentEditModeIndex !== j"
+                            class="comment-text"
+                          >
+                            {{ commentWithReplies.comment.comment_text }}
+                          </p>
+                          <app-comment-form
+                            *ngIf="currentEditIndex === j && editMode"
+                            [commentText]="
+                              commentWithReplies.comment.comment_text
+                            "
+                            [commentId]="commentWithReplies.comment.id"
+                            [fromOther]="fromOtherComponent"
+                            [editMode]="editMode$ | async"
+                          ></app-comment-form>
+                        </div>
+                        <div class="edit-circle">
+                          <ng-container
+                            *ngIf="userState$ | async as user"
+                            [ngSwitch]="user.dataState"
+                          >
+                            <div
+                              *ngIf="
+                                user?.appData?.data?.user?.username ===
+                                commentWithReplies.comment.username
+                              "
+                              class="dropdown edit-delete-icon"
+                              matTooltip="Edit or delete"
+                              matTooltipPosition="above"
+                              [matTooltipDisabled]="!toggleActive"
+                            >
+                              <div
+                                id="dropdownMenuButton"
+                                data-bs-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                (click)="disableTooltip()"
+                              >
+                                <span>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    class="bi bi-three-dots"
+                                    viewBox="0 0 16 16"
+                                  >
+                                    <path
+                                      d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                                    /></svg
+                                ></span>
+                              </div>
+                              <div
+                                class="dropdown-menu"
+                                aria-labelledby="dropdownMenuButton"
+                              >
+                                <a
+                                  class="dropdown-item"
+                                  (click)="editComment(j)"
+                                  >Edit
+                                </a>
+                                <a
+                                  class="dropdown-item"
+                                  (click)="
+                                    deleteComment(commentWithReplies.comment.id)
+                                  "
+                                  >Delete</a
+                                >
+                              </div>
+                            </div>
+                            <div
+                              class="not-logged-padding"
+                              *ngIf="
+                                user?.appData?.data?.user?.username !==
+                                commentWithReplies.comment.username
+                              "
+                            ></div>
+                          </ng-container>
+                        </div>
+                      </div>
+                      <div class="comment-below-interaction">
+                        <div>
+                          <span
+                            class="like-span"
+                            (click)="
+                              updateCommentLike(
+                                state?.appData?.data?.user.id,
+                                commentWithReplies.comment.id
+                              )
+                            "
+                            [ngClass]="{
+                              liked: isLikedComment(
+                                commentWithReplies.comment.id
+                              )
+                            }"
+                            >Like</span
+                          >
+
+                          <span class="reply-span" (click)="showReplyArea(j)"
+                            >Reply</span
+                          >
+                          <span class="date-span">{{
+                            commentWithReplies.comment.date | dateFormat
+                          }}</span>
+                          <span
+                            class="like-span cancel"
+                            *ngIf="editMode && currentEditIndex === j"
+                            (click)="cancelCommentEdit()"
+                            >Cancel</span
+                          >
+                        </div>
+                        <div class="blue-like-wrap">
+                          <img
+                            src="./blue-like.png"
+                            alt=""
+                            class="blue-like"
+                            *ngIf="commentWithReplies.comment.likes > 0"
+                          />
+                          <p *ngIf="commentWithReplies.comment.likes > 0">
+                            {{ commentWithReplies.comment.likes }}
+                          </p>
+                        </div>
+                        <!-- Reply form here -->
+                      </div>
+                      <form
+                        class="reply-form"
+                        #replyForm="ngForm"
+                        (ngSubmit)="
+                          addOtherPostCommentReply(
+                            replyForm,
+                            1,
+                            commentWithReplies.comment.id,
+                            true
                           )
                         "
-                        >Like</span
+                        *ngIf="isReply && selectedCommentIndex === j"
                       >
-                      <span class="date-span">{{
-                        comment.date | dateFormat
-                      }}</span>
-                    </div>
-                    <div class="blue-like-wrap">
-                      <img src="./blue-like.png" alt="" class="blue-like" />
-                      <p
-                        *ngIf="
-                          comment.likes > 0 && !isLikedComment(comment.id)
-                        "
-                      >
-                        {{ comment.likes }}
-                      </p>
+                        <div class="reply-input-wrap">
+                          <textarea
+                            class="form-control icon-send"
+                            type="text"
+                            ngModel
+                            name="comment_text"
+                            id="comment_text"
+                            placeholder="Write a reply to {{
+                              commentWithReplies.comment.username
+                            }}"
+                          ></textarea>
+                          <button class="btn-reply" type="submit">
+                            <span class="button-content">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="#0000ff"
+                                class="bi bi-send"
+                                viewBox="0 0 16 16"
+                              >
+                                <path
+                                  d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
+                                />
+                              </svg>
+                            </span>
+                          </button>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
-              </div>
-                <ng-container
-                  *ngIf="userState$ | async as user"
-                  [ngSwitch]="user.dataState"
+                <div
+                  *ngFor="
+                    let reply of commentWithReplies.replies;
+                    let l = index
+                  "
+                  class="reply-wrap"
                 >
-                  <div
-                    *ngIf="
-                      user?.appData?.data?.user?.username === comment.username
-                    "
-                    class="dropdown edit-delete-icon"
-                    matTooltip="Edit or delete"
-                    matTooltipPosition="above"
-                    [matTooltipDisabled]="!toggleActive"
-                  >
-                    <div
-                      id="dropdownMenuButton"
-                      data-bs-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      (click)="disableTooltip()"
-                    >
-                      <span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="16"
-                          height="16"
-                          fill="currentColor"
-                          class="bi bi-three-dots"
-                          viewBox="0 0 16 16"
-                        >
-                          <path
-                            d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
-                          /></svg
-                      ></span>
-                    </div>
-                    <div
-                      class="dropdown-menu"
-                      aria-labelledby="dropdownMenuButton"
-                    >
-                      <a class="dropdown-item" (click)="editComment(j)"
-                        >Edit
-                      </a>
-                      <a
-                        class="dropdown-item"
-                        (click)="deleteComment(comment.id)"
-                        >Delete</a
+                  <div class="view-replies-arrow" *ngIf="l === 0">
+                    <a (click)="goToReplies(commentWithReplies.comment.id)">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        class="bi bi-arrow-return-right"
+                        viewBox="0 0 16 16"
                       >
-                    </div>
+                        <path
+                          fill-rule="evenodd"
+                          d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5z"
+                        />
+                      </svg>
+                      <p *ngIf="commentWithReplies.replies.length > 1">
+                        View all {{ commentWithReplies.replies.length }} replies
+                      </p>
+                      <p *ngIf="commentWithReplies.replies.length === 1">
+                        View 1 reply
+                      </p>
+                    </a>
                   </div>
                   <div
-                    class="not-logged-padding"
+                    class="comment"
                     *ngIf="
-                      user?.appData?.data?.user?.username !== comment.username
+                      viewReplies &&
+                      reply.parent_comment_id === selectedMainCommentId
                     "
-                  ></div>
-                </ng-container>
+                  >
+                    <div class="comment-container">
+                      <div>
+                        <img
+                          src="{{ reply.user_image_url }}"
+                          alt="user image"
+                          class="user-img-icon"
+                        />
+                      </div>
+                      <div class="comment-content-like-icon-wrap">
+                        <div class="comment-content-container">
+                          <div class="comment-content-wrap">
+                            <p class="username">
+                              {{ reply.username }}
+                            </p>
+                            <p
+                              *ngIf="currentEditIndex !== reply.date"
+                              class="comment-text"
+                            >
+                              <span class="colored-username"
+                                >@{{ reply.reply_username }}</span
+                              >
+                              {{ reply.comment_text }}
+                            </p>
+                            <app-comment-form
+                              *ngIf="currentEditIndex === reply.date"
+                              [commentText]="reply.comment_text"
+                              [commentId]="reply.id"
+                              [fromOther]="fromOtherComponent"
+                              [editMode]="editMode$ | async"
+                            ></app-comment-form>
+                          </div>
+                          <div class="edit-circle">
+                            <ng-container
+                              *ngIf="userState$ | async as user"
+                              [ngSwitch]="user.dataState"
+                            >
+                              <div
+                                *ngIf="
+                                  user?.appData?.data?.user?.username ===
+                                  reply.username
+                                "
+                                class="dropdown edit-delete-icon"
+                                matTooltip="Edit or delete"
+                                matTooltipPosition="above"
+                                [matTooltipDisabled]="!toggleActive"
+                              >
+                                <div
+                                  id="dropdownMenuButton"
+                                  data-bs-toggle="dropdown"
+                                  aria-haspopup="true"
+                                  aria-expanded="false"
+                                  (click)="disableTooltip()"
+                                >
+                                  <span>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      fill="currentColor"
+                                      class="bi bi-three-dots"
+                                      viewBox="0 0 16 16"
+                                    >
+                                      <path
+                                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"
+                                      /></svg
+                                  ></span>
+                                </div>
+                                <div
+                                  class="dropdown-menu"
+                                  aria-labelledby="dropdownMenuButton"
+                                >
+                                  <a
+                                    class="dropdown-item"
+                                    (click)="editComment(reply.date)"
+                                    >Edit
+                                  </a>
+                                  <a
+                                    class="dropdown-item"
+                                    (click)="deleteComment(reply.id)"
+                                    >Delete</a
+                                  >
+                                </div>
+                              </div>
+                              <div
+                                class="not-logged-padding"
+                                *ngIf="
+                                  user?.appData?.data?.user?.username !==
+                                  reply.username
+                                "
+                              ></div>
+                            </ng-container>
+                          </div>
+                        </div>
+                        <div class="comment-below-interaction">
+                          <div>
+                            <span
+                              class="like-span"
+                              (click)="
+                                updateCommentLike(
+                                  state?.appData?.data?.user.id,
+                                  reply.id
+                                )
+                              "
+                              [ngClass]="{
+                                liked: isLikedComment(reply.id)
+                              }"
+                              >Like</span
+                            >
+                            <span
+                              class="reply-span"
+                              (click)="showReplyReplyArea(reply.date)"
+                              >Reply</span
+                            >
+                            <span class="date-span">{{
+                              reply.date | dateFormat
+                            }}</span>
+                            <span
+                              class="like-span cancel"
+                              *ngIf="
+                                editMode && currentEditIndex === reply.date
+                              "
+                              (click)="cancelCommentEdit()"
+                              >Cancel</span
+                            >
+                          </div>
+                          <div class="blue-like-wrap">
+                            <img
+                              src="./blue-like.png"
+                              alt=""
+                              class="blue-like"
+                              *ngIf="reply.likes > 0"
+                            />
+                            <p *ngIf="reply.likes > 0">
+                              {{ reply.likes }}
+                            </p>
+                          </div>
+                          <!-- Reply form here -->
+                        </div>
+                        <form
+                          class="reply-form"
+                          #replyForm="ngForm"
+                          (ngSubmit)="
+                            addOtherPostCommentReply(
+                              replyForm,
+                              reply.id,
+                              commentWithReplies.comment.id,
+                              false
+                            )
+                          "
+                          *ngIf="
+                            isReplyReply &&
+                            selectedCommentCommentIndex === reply.date
+                          "
+                        >
+                          <div class="reply-input-wrap">
+                            <textarea
+                              class="form-control icon-send"
+                              type="text"
+                              ngModel
+                              name="comment_text"
+                              id="comment_text"
+                              placeholder="Write a reply to {{
+                                reply.username
+                              }}"
+                            ></textarea>
+                            <button class="btn-reply" type="submit">
+                              <span class="button-content">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="#0000ff"
+                                  class="bi bi-send"
+                                  viewBox="0 0 16 16"
+                                >
+                                  <path
+                                    d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"
+                                  />
+                                </svg>
+                              </span>
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- reply container end -->
               </div>
             </ng-container>
           </div>

@@ -11,25 +11,11 @@
     .my-give-title {
       font-weight: 300;
       margin-bottom: 1.5em;
-    }
-
-    .btn-give {
-      margin-bottom: 3em;
-      letter-spacing: 0.7px;
-      text-transform: uppercase;
-      font-weight: 500;
-      font-size: 0.8em;
-      cursor: pointer;
-      border-radius: 5px;
-      padding: 10px 35px;
-      transition: all 0.8s ease-in;
-      color: #4e4b93;
-      background-color: #fff;
-      border: 0.8px solid #4e4b93;
+      margin-top: 1.5em;
     }
     .gives-table {
-      border-radius: 7px;
-      background-color: #f2f7fa;
+      // border-radius: 7px;
+      // background-color: #f2f7fa;
       .give-image {
         width: 200px;
       }
@@ -44,5 +30,5 @@
   width: 1.5em;
 }
 .side-nav {
-  background-color: #deebec !important;
+  background-color: white !important;
 }
