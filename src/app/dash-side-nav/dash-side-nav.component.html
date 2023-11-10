@@ -111,10 +111,20 @@
         "
       ></app-gardening>
       <app-reciepes
-        *ngIf="sharedService.forumNavigation === 'Reciepes'"
+        *ngIf="
+          activeTab === 'forum' && sharedService.forumNavigation === 'Reciepes'
+        "
       ></app-reciepes>
-      <app-imade *ngIf="sharedService.forumNavigation === 'Imade'"></app-imade>
-      <app-other *ngIf="sharedService.forumNavigation === 'Other'"></app-other>
+      <app-imade
+        *ngIf="
+          activeTab === 'forum' && sharedService.forumNavigation === 'Imade'
+        "
+      ></app-imade>
+      <app-other
+        *ngIf="
+          activeTab === 'forum' && sharedService.forumNavigation === 'Other'
+        "
+      ></app-other>
     </div>
   </div>
 </ng-container>
