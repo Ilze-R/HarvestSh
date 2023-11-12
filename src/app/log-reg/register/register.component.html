@@ -108,39 +108,42 @@
           >Forgot password?</a
         >
       </div>
-      <!-- <button class="btn-have-account" (click)="alreadyAccount()">
-        Already have an account?
-      </button> -->
     </div>
   </div>
   <!-- Success screen -->
   <div *ngIf="state.registerSuccess" class="container">
     <div class="row justify-content-center my-5">
-      <div class="col-md-6" style="margin-top: 50px">
+      <div>
         <div class="card">
           <div class="card-body">
+            <span [routerLink]="['/']" href="#" class="close" (click)="exit()"
+              ><svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="25"
+                height="25"
+                fill="currentColor"
+                class="bi bi-x"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
+                /></svg
+            ></span>
             <div>
-              <h2>
-                <i style="margin-right: 5px" class="bi bi-safe"></i>Harvest
-                Share
-              </h2>
-              <h5 class="card-title mt-4 mb-4">{{ state.message }}</h5>
+              <h6>{{ state.message }}</h6>
               <i
                 class="bi bi-check-circle-fill"
-                style="font-size: 80px; color: green"
+                style="font-size: 16px; color: green"
               ></i>
-              <p class="mt-2" style="font-size: 20px">
+              <p class="mt-2" style="font-size: 16px">
                 Please access your email and confirm your account.
               </p>
             </div>
-            <div class="row mb-4">
-              <div class="col d-flex justify-content-center">
-                <a [routerLink]="['/login']">Account Login</a>
-              </div>
-              <div class="col">
-                <a class="other-account-link" (click)="createAccountForm()">
-                  Create another account
-                </a>
+            <div class="login-link">
+              <div>
+                <a [routerLink]="['/login']" (click)="goToLogin()"
+                  >Account Login</a
+                >
               </div>
             </div>
           </div>

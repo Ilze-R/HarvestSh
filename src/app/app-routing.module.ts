@@ -1,14 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MapDemoComponent } from './map-demo/map-demo.component';
 import { AboutComponent } from './about/about.component';
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { UnauthorizedComponent } from './error-pages/unauthorized/unauthorized.component';
-import { GetComponent } from './give-get/get/get.component';
 import { GiveComponent } from './give-get/give/give.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './log-reg/login/login.component';
-import { RegisterComponent } from './log-reg/register/register.component';
 import { DashboardComponent } from './dash/dashboard/dashboard.component';
 import { AuthenticationGuard } from './_guard/authentication.guard';
 import { VerifyComponent } from './verify/verify.component';
@@ -24,7 +21,6 @@ import { UGardeningpostComponent } from './u-gardeningpost/u-gardeningpost.compo
 import { URecipepostComponent } from './u-recipepost/u-recipepost.component';
 import { UOtherpostComponent } from './u-otherpost/u-otherpost.component';
 import { UImadepostComponent } from './u-imadepost/u-imadepost.component';
-import { AccountComponent } from './account/account.component';
 import { DashSideNavComponent } from './dash-side-nav/dash-side-nav.component';
 
 const routes: Routes = [
