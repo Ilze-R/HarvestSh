@@ -43,4 +43,8 @@ export class NavComponent implements OnInit {
     this.isLoggedIn = false;
     this.sharedService.showLoginComponent = false;
   }
+
+  disableLoginForm(): void {
+    this.sharedService.showLoginComponent = false;
+  }
 }

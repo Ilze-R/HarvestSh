@@ -1,16 +1,7 @@
-<app-nav
-  [class.blur]="
-    sharedService.showLoginComponent || sharedService.showRegisterComponent
-  "
-></app-nav>
-<app-login *ngIf="sharedService.showLoginComponent"></app-login>
-<app-register *ngIf="sharedService.showRegisterComponent"></app-register>
-<div
-  class="about-container"
-  [class.blur]="
-    sharedService.showLoginComponent || sharedService.showRegisterComponent
-  "
->
+<ng-container *ngIf="profileState$ | async as state">
+  <app-nav [user]="state?.appData?.data?.user"></app-nav
+></ng-container>
+<div class="about-container">
   <div class="introduction-text">
     <p class="title">The joy of sharing is our passion</p>
     <p class="content-text">

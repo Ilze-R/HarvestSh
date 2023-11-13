@@ -86,7 +86,7 @@ export class UGardeningpostComponent implements OnInit {
         map((response) => {
           this.isLoadingSubject.next(false);
           this.dataGardenSubject.next(response);
-          this.router.navigate(['/forum/gardening']);
+          this.router.navigate(['/account']);
           return {
             dataState: DataState.LOADED,
             appData: this.dataGardenSubject.value,

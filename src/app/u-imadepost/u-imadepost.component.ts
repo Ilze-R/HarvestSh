@@ -86,7 +86,7 @@ export class UImadepostComponent implements OnInit {
         map((response) => {
           this.isLoadingSubject.next(false);
           this.dataIMadeSubject.next(response);
-          this.router.navigate(['/forum/imade']);
+          this.router.navigate(['/account']);
           return {
             dataState: DataState.LOADED,
             appData: this.dataIMadeSubject.value,
