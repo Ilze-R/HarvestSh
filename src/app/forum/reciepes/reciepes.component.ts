@@ -20,6 +20,7 @@ import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 import { RecipeCommWithReplies } from 'src/app/_interface/recipeCommWithReplies';
+import { PostService } from 'src/app/_service/post.service';
 
 @Component({
   selector: 'app-reciepes',
@@ -75,13 +76,11 @@ export class ReciepesComponent implements OnInit {
   constructor(
     private router: Router,
     public sharedService: SharedService,
+    public postService: PostService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.sharedService.editEvent$.subscribe(() => {
-      this.loadData();
-    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
@@ -102,8 +101,8 @@ export class ReciepesComponent implements OnInit {
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
-    this.recipePostState$ = this.userService
-      .allRecipePosts$(this.currentPage, this.pageSize)
+    this.recipePostState$ = this.postService
+      .allPosts$<RecipePost>('recipe', this.currentPage, this.pageSize)
       .pipe(
         map((response) => {
           this.recipePostSubject.next(response);
@@ -137,7 +136,7 @@ export class ReciepesComponent implements OnInit {
   }
 
   deleteRecipePost(id: number): void {
-    this.userService.deleteRecipePost$(id).subscribe({
+    this.postService.deletePost$<RecipePost>('recipe', id).subscribe({
       next: (response) => {
         this.loadData();
       },
@@ -153,8 +152,13 @@ export class ReciepesComponent implements OnInit {
     const postId = this.responsivePostId;
     const trimmedCommentText = commentForm.value.comment_text.trim();
     commentForm.form.patchValue({ comment_text: trimmedCommentText });
-    this.recipePostComment$ = this.userService
-      .addRecipePostComment$(userId, postId, commentForm.value)
+    this.recipePostComment$ = this.postService
+      .addPostComment$<RecipePost, RecipeComment>(
+        'recipe',
+        userId,
+        postId,
+        commentForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -210,8 +214,13 @@ export class ReciepesComponent implements OnInit {
         }
       });
     }
-    this.recipePostComment$ = this.userService
-      .addRecipePostComment$(userId, postId, replyForm.value)
+    this.recipePostComment$ = this.postService
+      .addPostComment$<RecipePost, RecipeComment>(
+        'recipe',
+        userId,
+        postId,
+        replyForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -269,8 +278,8 @@ export class ReciepesComponent implements OnInit {
       console.log('POSTS response:', response);
     });
     this.clickedIndex = this.clickedIndex === i ? undefined : i;
-    this.allCommentsState$ = this.userService
-      .getRecipePostComments$(postId)
+    this.allCommentsState$ = this.postService
+      .getPostComments$<RecipeComment>('recipe', postId)
       .pipe(
         map((response) => {
           this.allCommentsSubject.next(response);
@@ -288,7 +297,7 @@ export class ReciepesComponent implements OnInit {
   }
 
   updatePostLike(id: number, userid: number) {
-    this.userService.toggleRecipeLike$(id, userid).subscribe({
+    this.postService.toggleLike$<RecipePost>('recipe', id, userid).subscribe({
       next: (response) => {
         console.log(response);
         this.postLiked = !this.postLiked;
@@ -301,16 +310,18 @@ export class ReciepesComponent implements OnInit {
   }
 
   updateCommentLike(id: number, userid: number) {
-    this.userService.toggleRecipeCommentLike$(id, userid).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.commentLiked = !this.commentLiked;
-        this.loadData();
-      },
-      error: (error) => {
-        console.error('Error toggling comment like', error);
-      },
-    });
+    this.postService
+      .toggleCommentLike$<RecipeComment>('recipe', id, userid)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.commentLiked = !this.commentLiked;
+          this.loadData();
+        },
+        error: (error) => {
+          console.error('Error toggling comment like', error);
+        },
+      });
   }
 
   isLikedPost(postId: number): boolean {
@@ -353,7 +364,7 @@ export class ReciepesComponent implements OnInit {
   }
 
   deleteComment(id: number): void {
-    this.userService.deleteRecipeComment$(id).subscribe({
+    this.postService.deleteComment$<RecipeComment>('recipe', id).subscribe({
       next: (response) => {
         this.loadData();
       },

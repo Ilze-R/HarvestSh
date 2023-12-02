@@ -15,6 +15,7 @@ import { State } from '../_interface/state';
 import { SharedService } from '../_service/shared.service';
 import { UserService } from '../_service/user.service';
 import { NgForm } from '@angular/forms';
+import { PostService } from '../_service/post.service';
 
 @Component({
   selector: 'app-u-otherpost',
@@ -42,11 +43,12 @@ export class UOtherpostComponent implements OnInit {
   constructor(
     private userService: UserService,
     public sharedService: SharedService,
+    public postService: PostService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.newOtherPostState$ = this.userService.newOtherPost$().pipe(
+    this.newOtherPostState$ = this.postService.newPost$<OtherPost>().pipe(
       map((response) => {
         this.dataOtherSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
@@ -80,8 +82,12 @@ export class UOtherpostComponent implements OnInit {
     formData.append('title', postForm.value.title);
     formData.append('img_url', this.image_url);
     formData.append('description', postForm.value.description);
-    this.newOtherPostState$ = this.userService
-      .createOtherPost$(this.dataOtherSubject.value.data.user.id, formData)
+    this.newOtherPostState$ = this.postService
+      .createPost$<OtherPost>(
+        this.dataOtherSubject.value.data.user.id,
+        formData,
+        'addotherpost/image'
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);

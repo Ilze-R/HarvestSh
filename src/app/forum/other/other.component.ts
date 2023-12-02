@@ -20,6 +20,7 @@ import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 import { OtherCommentWithReplies } from 'src/app/_interface/otherCommWithReplies';
+import { PostService } from 'src/app/_service/post.service';
 
 @Component({
   selector: 'app-other',
@@ -73,13 +74,11 @@ export class OtherComponent implements OnInit {
   constructor(
     private router: Router,
     public sharedService: SharedService,
+    public postService: PostService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.sharedService.editEvent$.subscribe(() => {
-      this.loadData();
-    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
@@ -100,8 +99,8 @@ export class OtherComponent implements OnInit {
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
-    this.otherPostState$ = this.userService
-      .allOtherPosts$(this.currentPage, this.pageSize)
+    this.otherPostState$ = this.postService
+      .allPosts$<OtherPost>('other', this.currentPage, this.pageSize)
       .pipe(
         map((response) => {
           this.otherPostSubject.next(response);
@@ -135,7 +134,7 @@ export class OtherComponent implements OnInit {
   }
 
   deleteOtherPost(id: number): void {
-    this.userService.deleteOtherPost$(id).subscribe({
+    this.postService.deletePost$<OtherPost>('other', id).subscribe({
       next: (response) => {
         this.loadData();
       },
@@ -151,8 +150,13 @@ export class OtherComponent implements OnInit {
     const postId = this.responsivePostId;
     const trimmedCommentText = commentForm.value.comment_text.trim();
     commentForm.form.patchValue({ comment_text: trimmedCommentText });
-    this.otherPostComment$ = this.userService
-      .addOtherPostComment$(userId, postId, commentForm.value)
+    this.otherPostComment$ = this.postService
+      .addPostComment$<OtherPost, OtherComment>(
+        'other',
+        userId,
+        postId,
+        commentForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -208,8 +212,13 @@ export class OtherComponent implements OnInit {
         }
       });
     }
-    this.otherPostComment$ = this.userService
-      .addOtherPostComment$(userId, postId, replyForm.value)
+    this.otherPostComment$ = this.postService
+      .addPostComment$<OtherPost, OtherComment>(
+        'other',
+        userId,
+        postId,
+        replyForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -267,8 +276,8 @@ export class OtherComponent implements OnInit {
       console.log('POSTS response:', response);
     });
     this.clickedIndex = this.clickedIndex === i ? undefined : i;
-    this.allCommentsState$ = this.userService
-      .getOtherPostComments$(postId)
+    this.allCommentsState$ = this.postService
+      .getPostComments$<OtherComment>('other', postId)
       .pipe(
         map((response) => {
           this.allCommentsSubject.next(response);
@@ -286,7 +295,7 @@ export class OtherComponent implements OnInit {
   }
 
   updatePostLike(id: number, userid: number) {
-    this.userService.toggleOtherLike$(id, userid).subscribe({
+    this.postService.toggleLike$<OtherPost>('other', id, userid).subscribe({
       next: (response) => {
         console.log(response);
         this.postLiked = !this.postLiked;
@@ -299,16 +308,18 @@ export class OtherComponent implements OnInit {
   }
 
   updateCommentLike(id: number, userid: number) {
-    this.userService.toggleOtherCommentLike$(id, userid).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.commentLiked = !this.commentLiked;
-        this.loadData();
-      },
-      error: (error) => {
-        console.error('Error toggling comment like', error);
-      },
-    });
+    this.postService
+      .toggleCommentLike$<OtherComment>('other', id, userid)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.commentLiked = !this.commentLiked;
+          this.loadData();
+        },
+        error: (error) => {
+          console.error('Error toggling comment like', error);
+        },
+      });
   }
 
   isLikedPost(postId: number): boolean {
@@ -351,7 +362,7 @@ export class OtherComponent implements OnInit {
   }
 
   deleteComment(id: number): void {
-    this.userService.deleteOtherComment$(id).subscribe({
+    this.postService.deleteComment$<OtherComment>('other', id).subscribe({
       next: (response) => {
         this.loadData();
       },

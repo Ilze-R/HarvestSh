@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
 import { SharedService } from '../_service/shared.service';
 import { UserService } from '../_service/user.service';
 import { NgForm } from '@angular/forms';
+import { PostService } from '../_service/post.service';
 
 @Component({
   selector: 'app-u-imadepost',
@@ -42,11 +43,12 @@ export class UImadepostComponent implements OnInit {
   constructor(
     private userService: UserService,
     public sharedService: SharedService,
+    public postService: PostService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.newIMadePostState$ = this.userService.newIMadePost$().pipe(
+    this.newIMadePostState$ = this.postService.newPost$<IMadePost>().pipe(
       map((response) => {
         this.dataIMadeSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
@@ -80,8 +82,12 @@ export class UImadepostComponent implements OnInit {
     formData.append('title', postForm.value.title);
     formData.append('img_url', this.image_url);
     formData.append('description', postForm.value.description);
-    this.newIMadePostState$ = this.userService
-      .createIMadePost$(this.dataIMadeSubject.value.data.user.id, formData)
+    this.newIMadePostState$ = this.postService
+      .createPost$<IMadePost>(
+        this.dataIMadeSubject.value.data.user.id,
+        formData,
+        'addimadepost/image'
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);

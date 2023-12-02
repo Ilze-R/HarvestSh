@@ -12,13 +12,7 @@ export class SharedService {
   showUGiveComonent: boolean = false;
   commentHasBeenEdited: boolean = false;
   forumNavigation: string = 'Gardening';
-
-  private editEventSubject = new Subject<void>();
-  editEvent$ = this.editEventSubject.asObservable();
-
-  triggerEditEvent() {
-    this.editEventSubject.next();
-  }
+  doEdit: boolean = false;
 
   setActiveTab(tab: string): void {
     this.forumNavigation = tab;

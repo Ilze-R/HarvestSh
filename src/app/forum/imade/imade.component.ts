@@ -20,6 +20,7 @@ import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 import { IMadeCommWithReplies } from 'src/app/_interface/iMadeCommWithReplies';
+import { PostService } from 'src/app/_service/post.service';
 
 @Component({
   selector: 'app-imade',
@@ -73,13 +74,11 @@ export class ImadeComponent implements OnInit {
   constructor(
     private router: Router,
     public sharedService: SharedService,
+    public postService: PostService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.sharedService.editEvent$.subscribe(() => {
-      this.loadData();
-    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
@@ -100,8 +99,8 @@ export class ImadeComponent implements OnInit {
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
-    this.imadePostState$ = this.userService
-      .allIMadePosts$(this.currentPage, this.pageSize)
+    this.imadePostState$ = this.postService
+      .allPosts$<IMadePost>('imade', this.currentPage, this.pageSize)
       .pipe(
         map((response) => {
           this.imadePostSubject.next(response);
@@ -135,7 +134,7 @@ export class ImadeComponent implements OnInit {
   }
 
   deleteIMadePost(id: number): void {
-    this.userService.deleteRecipePost$(id).subscribe({
+    this.postService.deletePost$<IMadePost>('imade', id).subscribe({
       next: (response) => {
         this.loadData();
       },
@@ -151,8 +150,13 @@ export class ImadeComponent implements OnInit {
     const postId = this.responsivePostId;
     const trimmedCommentText = commentForm.value.comment_text.trim();
     commentForm.form.patchValue({ comment_text: trimmedCommentText });
-    this.imadePostComment$ = this.userService
-      .addIMadePostComment$(userId, postId, commentForm.value)
+    this.imadePostComment$ = this.postService
+      .addPostComment$<IMadePost, IMadeComment>(
+        'imade',
+        userId,
+        postId,
+        commentForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -208,8 +212,13 @@ export class ImadeComponent implements OnInit {
         }
       });
     }
-    this.imadePostComment$ = this.userService
-      .addIMadePostComment$(userId, postId, replyForm.value)
+    this.imadePostComment$ = this.postService
+      .addPostComment$<IMadePost, IMadeComment>(
+        'imade',
+        userId,
+        postId,
+        replyForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -267,8 +276,8 @@ export class ImadeComponent implements OnInit {
       console.log('POSTS response:', response);
     });
     this.clickedIndex = this.clickedIndex === i ? undefined : i;
-    this.allCommentsState$ = this.userService
-      .getIMadePostComments$(postId)
+    this.allCommentsState$ = this.postService
+      .getPostComments$<IMadeComment>('imade', postId)
       .pipe(
         map((response) => {
           this.allCommentsSubject.next(response);
@@ -286,7 +295,7 @@ export class ImadeComponent implements OnInit {
   }
 
   updatePostLike(id: number, userid: number) {
-    this.userService.toggleIMadeLike$(id, userid).subscribe({
+    this.postService.toggleLike$<IMadePost>('imade', id, userid).subscribe({
       next: (response) => {
         console.log(response);
         this.postLiked = !this.postLiked;
@@ -299,7 +308,7 @@ export class ImadeComponent implements OnInit {
   }
 
   updateCommentLike(id: number, userid: number) {
-    this.userService.toggleIMadeCommentLike$(id, userid).subscribe({
+    this.postService.toggleCommentLike$<IMadeComment>('imade', id, userid).subscribe({
       next: (response) => {
         console.log(response);
         this.commentLiked = !this.commentLiked;
@@ -351,7 +360,7 @@ export class ImadeComponent implements OnInit {
   }
 
   deleteComment(id: number): void {
-    this.userService.deleteIMadeComment$(id).subscribe({
+    this.postService.deleteComment$<IMadeComment>('imade', id).subscribe({
       next: (response) => {
         this.loadData();
       },

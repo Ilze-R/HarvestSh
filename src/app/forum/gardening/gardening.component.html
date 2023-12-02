@@ -1,4 +1,3 @@
-
 <div class="container">
   <div class="gardening-wrap">
     <div
@@ -7,8 +6,7 @@
       role="tabpanel"
       aria-labelledby="forum"
     >
-      <div class="forum-topic-wrap flex-column">
-      </div>
+      <div class="forum-topic-wrap flex-column"></div>
     </div>
     <ng-container
       *ngIf="gardeningPostState$ | async as state"
@@ -219,7 +217,9 @@
                             {{ commentWithReplies.comment.comment_text }}
                           </p>
                           <app-comment-form
-                            *ngIf="currentEditIndex === j && editMode"
+                            *ngIf="
+                              currentEditIndex === j && sharedService.doEdit
+                            "
                             [commentText]="
                               commentWithReplies.comment.comment_text
                             "
@@ -318,7 +318,11 @@
                           }}</span>
                           <span
                             class="like-span cancel"
-                            *ngIf="editMode && currentEditIndex === j"
+                            *ngIf="
+                              editMode &&
+                              currentEditIndex === j &&
+                              sharedService.doEdit
+                            "
                             (click)="cancelCommentEdit()"
                             >Cancel</span
                           >
@@ -451,7 +455,10 @@
                               {{ reply.comment_text }}
                             </p>
                             <app-comment-form
-                              *ngIf="currentEditIndex === reply.date"
+                              *ngIf="
+                                currentEditIndex === reply.date &&
+                                sharedService.doEdit
+                              "
                               [commentText]="reply.comment_text"
                               [commentId]="reply.id"
                               [fromGarden]="fromGardeningComponent"

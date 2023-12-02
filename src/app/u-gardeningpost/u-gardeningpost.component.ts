@@ -15,6 +15,7 @@ import { UserService } from '../_service/user.service';
 import { GardeningPost } from '../_interface/gardeningost';
 import { NgForm } from '@angular/forms';
 import { SharedService } from '../_service/shared.service';
+import { PostService } from '../_service/post.service';
 
 @Component({
   selector: 'app-u-gardeningpost',
@@ -42,20 +43,23 @@ export class UGardeningpostComponent implements OnInit {
   constructor(
     private userService: UserService,
     public sharedService: SharedService,
+    public postService: PostService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.newGardeningPostState$ = this.userService.newGardeningPost$().pipe(
-      map((response) => {
-        this.dataGardenSubject.next(response);
-        return { dataState: DataState.LOADED, appData: response };
-      }),
-      startWith({ dataState: DataState.LOADING }),
-      catchError((error: string) => {
-        return of({ dataState: DataState.ERROR, error });
-      })
-    );
+    this.newGardeningPostState$ = this.postService
+      .newPost$<GardeningPost>()
+      .pipe(
+        map((response) => {
+          this.dataGardenSubject.next(response);
+          return { dataState: DataState.LOADED, appData: response };
+        }),
+        startWith({ dataState: DataState.LOADING }),
+        catchError((error: string) => {
+          return of({ dataState: DataState.ERROR, error });
+        })
+      );
     this.profileState$ = this.userService.profile$().pipe(
       map((response) => {
         console.log(response);
@@ -80,8 +84,12 @@ export class UGardeningpostComponent implements OnInit {
     formData.append('title', postForm.value.title);
     formData.append('img_url', this.image_url);
     formData.append('description', postForm.value.description);
-    this.newGardeningPostState$ = this.userService
-      .createGardeningPost$(this.dataGardenSubject.value.data.user.id, formData)
+    this.newGardeningPostState$ = this.postService
+      .createPost$<GardeningPost>(
+        this.dataGardenSubject.value.data.user.id,
+        formData,
+        'addgardeningpost/image'
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);

@@ -15,6 +15,7 @@ import { SharedService } from '../_service/shared.service';
 import { UserService } from '../_service/user.service';
 import { DataState } from '../_enum/datastate.enum';
 import { NgForm } from '@angular/forms';
+import { PostService } from '../_service/post.service';
 
 @Component({
   selector: 'app-u-recipepost',
@@ -42,11 +43,12 @@ export class URecipepostComponent implements OnInit {
   constructor(
     private userService: UserService,
     public sharedService: SharedService,
+    public postService: PostService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.newRecipePostState$ = this.userService.newRecipePost$().pipe(
+    this.newRecipePostState$ = this.postService.newPost$<RecipePost>().pipe(
       map((response) => {
         this.dataRecipeSubject.next(response);
         return { dataState: DataState.LOADED, appData: response };
@@ -80,8 +82,12 @@ export class URecipepostComponent implements OnInit {
     formData.append('title', postForm.value.title);
     formData.append('img_url', this.image_url);
     formData.append('description', postForm.value.description);
-    this.newRecipePostState$ = this.userService
-      .createRecipePost$(this.dataRecipeSubject.value.data.user.id, formData)
+    this.newRecipePostState$ = this.postService
+      .createPost$<RecipePost>(
+        this.dataRecipeSubject.value.data.user.id,
+        formData,
+        'addrecipepost/image'
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);

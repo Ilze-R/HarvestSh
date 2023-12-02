@@ -20,6 +20,7 @@ import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 import { Tooltip } from 'node_modules/bootstrap/dist/js/bootstrap.esm.min.js';
 import { GardeningCommentWithReplies } from 'src/app/_interface/commentWithReplies';
+import { PostService } from 'src/app/_service/post.service';
 
 @Component({
   selector: 'app-gardening',
@@ -77,13 +78,11 @@ export class GardeningComponent implements OnInit {
   constructor(
     private router: Router,
     public sharedService: SharedService,
+    public postService: PostService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.sharedService.editEvent$.subscribe(() => {
-      this.loadData();
-    });
     this.loadData();
     this.userState$ = this.userService.profile$().pipe(
       map((response) => {
@@ -104,8 +103,8 @@ export class GardeningComponent implements OnInit {
   }
 
   private loadData(page: number = 1, pageSize: number = 10): void {
-    this.gardeningPostState$ = this.userService
-      .allGardeningPosts$(this.currentPage, this.pageSize)
+    this.gardeningPostState$ = this.postService
+      .allPosts$<GardeningPost>('gardening', this.currentPage, this.pageSize)
       .pipe(
         map((response) => {
           this.gardeningPostSubject.next(response);
@@ -141,7 +140,7 @@ export class GardeningComponent implements OnInit {
   }
 
   deleteGardeningPost(id: number): void {
-    this.userService.deleteGardeningPost$(id).subscribe({
+    this.postService.deletePost$<GardeningPost>('gardening', id).subscribe({
       next: (response) => {
         this.loadData();
       },
@@ -157,8 +156,13 @@ export class GardeningComponent implements OnInit {
     const postId = this.responsivePostId;
     const trimmedCommentText = commentForm.value.comment_text.trim();
     commentForm.form.patchValue({ comment_text: trimmedCommentText });
-    this.gardeningPostComment$ = this.userService
-      .addGardeningPostComment$(userId, postId, commentForm.value)
+    this.gardeningPostComment$ = this.postService
+      .addPostComment$<GardeningPost, GardeningComment>(
+        'gardening',
+        userId,
+        postId,
+        commentForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -214,8 +218,13 @@ export class GardeningComponent implements OnInit {
         }
       });
     }
-    this.gardeningPostComment$ = this.userService
-      .addGardeningPostComment$(userId, postId, replyForm.value)
+    this.gardeningPostComment$ = this.postService
+      .addPostComment$<GardeningPost, GardeningComment>(
+        'gardening',
+        userId,
+        postId,
+        replyForm.value
+      )
       .pipe(
         map((response) => {
           this.isLoadingSubject.next(false);
@@ -273,8 +282,8 @@ export class GardeningComponent implements OnInit {
       console.log('POSTS response:', response);
     });
     this.clickedIndex = this.clickedIndex === i ? undefined : i;
-    this.allCommentsState$ = this.userService
-      .getGardeningPostComments$(postId)
+    this.allCommentsState$ = this.postService
+      .getPostComments$<GardeningComment>('gardening', postId)
       .pipe(
         map((response) => {
           this.allCommentsSubject.next(response);
@@ -293,29 +302,33 @@ export class GardeningComponent implements OnInit {
   }
 
   updatePostLike(id: number, userid: number) {
-    this.userService.toggleGardeningLike$(id, userid).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.postLiked = !this.postLiked;
-        this.loadData();
-      },
-      error: (error) => {
-        console.error('Error toggling post like', error);
-      },
-    });
+    this.postService
+      .toggleLike$<GardeningPost>('gardening', id, userid)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.postLiked = !this.postLiked;
+          this.loadData();
+        },
+        error: (error) => {
+          console.error('Error toggling post like', error);
+        },
+      });
   }
 
   updateCommentLike(userId: number, id: number) {
-    this.userService.toggleGardeningCommentLike$(userId, id).subscribe({
-      next: (response) => {
-        console.log(response);
-        this.commentLiked = !this.commentLiked;
-        this.loadData();
-      },
-      error: (error) => {
-        console.error('Error toggling comment like', error);
-      },
-    });
+    this.postService
+      .toggleCommentLike$<GardeningComment>('gardening', userId, id)
+      .subscribe({
+        next: (response) => {
+          console.log(response);
+          this.commentLiked = !this.commentLiked;
+          this.loadData();
+        },
+        error: (error) => {
+          console.error('Error toggling comment like', error);
+        },
+      });
   }
 
   isLikedPost(postId: number): boolean {
@@ -355,17 +368,20 @@ export class GardeningComponent implements OnInit {
     this.editMode = true;
     this.editMode$.next(false);
     this.currentEditModeIndex = index;
+    this.sharedService.doEdit = true;
   }
 
   deleteComment(id: number): void {
-    this.userService.deleteGardeningComment$(id).subscribe({
-      next: (response) => {
-        this.loadData();
-      },
-      error: (error) => {
-        console.error('Error editing comment', error);
-      },
-    });
+    this.postService
+      .deleteComment$<GardeningComment>('gardening', id)
+      .subscribe({
+        next: (response) => {
+          this.loadData();
+        },
+        error: (error) => {
+          console.error('Error editing comment', error);
+        },
+      });
   }
 
   cancelCommentEdit(): void {

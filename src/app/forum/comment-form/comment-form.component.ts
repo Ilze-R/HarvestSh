@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { PostService } from 'src/app/_service/post.service';
 import { SharedService } from 'src/app/_service/shared.service';
 import { UserService } from 'src/app/_service/user.service';
 
@@ -31,6 +31,7 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
 
   constructor(
     private userService: UserService,
+    private postService: PostService,
     public sharedService: SharedService,
     private cdr: ChangeDetectorRef
   ) {
@@ -47,13 +48,13 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
     let editFunction;
 
     if (this.fromGarden) {
-      editFunction = this.userService.editGardeningComent$;
+      editFunction = this.postService.editGardeningComent$;
     } else if (this.fromIMade) {
-      editFunction = this.userService.editIMadeComent$;
+      editFunction = this.postService.editIMadeComent$;
     } else if (this.fromOther) {
-      editFunction = this.userService.editOtherComent$;
+      editFunction = this.postService.editOtherComent$;
     } else if (this.fromRecipes) {
-      editFunction = this.userService.editRecipesComent$;
+      editFunction = this.postService.editRecipesComent$;
     } else {
       console.error('Unknown comment source');
       return;
@@ -62,10 +63,8 @@ export class CommentFormComponent implements OnInit, AfterViewInit {
       comment_text: editForm.value.comment_text.trim(),
     }).subscribe({
       next: (response) => {
-        this.sharedService.triggerEditEvent();
-        console.log('Comment edited successfully', response);
-        this.editMode = false;
         this.cdr.detectChanges();
+        this.sharedService.doEdit = false;
       },
       error: (error) => {
         console.error('Error editing comment', error);
